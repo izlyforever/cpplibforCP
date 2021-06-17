@@ -1,0 +1,6 @@
+#include "poly.hpp"
+#include "polyS.hpp"
+#include "polyFFT.hpp"
+#include "polyMTT.hpp"
+#include "polyNTT.hpp"
+#include "polyOrigin.hpp"
