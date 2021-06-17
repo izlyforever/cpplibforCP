@@ -26,7 +26,7 @@ There are three classes: `MInt`, `ModInt`, `ModLL`. Only `MInt` is a class templ
 ### methods
 
 - Elementary arithmetics: `+, -, *, /, +=, -=, *=, /=`
-- C-style operator: `++, --, <<, <<=`(There is no `>>` since $((a + M) >> x) \neq (a >> x)$ in general)
+- C-style operator: `++, --, <<, <<=`(There is no `>>` since $((a + M) \text{>>} x) \neq (a \text{>>} x)$ in general)
 - `raw` for constant-factor speedup.
 - `pow`, `>>, <<` are friend methods. 
 - `inv` is not based on `pow`, since $M$ is not assume to be prime number.
