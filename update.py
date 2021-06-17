@@ -8,9 +8,9 @@ else:
 os.system('git push origin main')
 
 
-# clear git history:
+# clear git history(uncomment select all copy):
 
-# sudo rm -rf .git 
+# rm -rf .git 
 # git init
 # git add -A 
 # git commit -m "init" 
