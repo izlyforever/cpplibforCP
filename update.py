@@ -13,7 +13,7 @@ os.system('git push origin main')
 # rm -rf .git 
 # git init
 # git add -A 
-# git commit -m "init" 
+# git commit -m "reinit" 
 # git remote add origin git@github.com:izlyforever/cpplibforCP.git
 # git branch -M main
 # git push -f -u origin main
