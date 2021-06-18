@@ -15,7 +15,7 @@
 
 ## mixed.hpp
 
-- GospersHack: n choose k, brute-force
+- GospersHack: n choose k, brute-force(you should implement it to meet for needs)
 - $n$-th Fibonacci number
 - floorSum: $\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
 - sumNum: $\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$

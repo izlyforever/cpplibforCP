@@ -1,11 +1,11 @@
 #pragma once
 #include <bits/stdc++.h>
 
-// 小写字母建 Trie，其它字符同理修改 charToInt 函数即可
+// Trie build by lowercase characters(change charToInt for other charset)
 class Trie {
 	using Node = std::array<int, 26>;
 	std::vector<Node> nxt;
-	// 0 表示没有，1 表示有且没被访问过，2 表示有且被访问过
+	// 0: no point, 1: has point unvisited, 2: has point visited 
 	std::vector<int> tag;
 	void addNode(int fa, int c) {
 		nxt[fa][c] = nxt.size();
@@ -36,9 +36,9 @@ public:
 		return 1;
 	}
 };
-// 模板例题：https://www.luogu.com.cn/problem/P2580
+// https://www.luogu.com.cn/problem/P2580
 
-// 01 Trie 求异或最大值
+// 01 Trie find maximal xor sum
 class Trie01 {
 	using Node = std::array<int, 2>;
 	std::vector<Node> ch;
@@ -77,16 +77,16 @@ public:
 		return r;
 	}
 };
-// 典型例题：https://www.luogu.com.cn/problem/P4551
+// https://www.luogu.com.cn/problem/P4551
 
-// 01-Trie (Fusion Tree) 求异或和（支持修改，全局加 1，暂不支持合并）这里求异或和，可以从最低位往最高位建树节省空间。
+// 01-Trie (Fusion Tree) xor sum(support modifty, add 1 to all)
 class FusionTree {
 	using Node = std::array<int, 4>;
 	std::vector<Node> ch;
 	#define lsonFT ch[p][0]
 	#define rsonFT ch[p][1]
-	// ch[p][2] 表示以 p 为根的子树的大小
-	// ch[p][3] 表示以 p 为根的子树的异或值
+	// ch[p][2] = size of subtree rooted by p
+	// ch[p][3] = xor sum of subtree rooted by p
 	void addNode(int p, int c) {
 		ch[p][c] = ch.size();
 		ch.emplace_back(Node());
@@ -96,7 +96,7 @@ class FusionTree {
 		if (lsonFT) ch[p][3] ^= (ch[lsonFT][3] << 1);
 		if (rsonFT) ch[p][3] ^= (ch[rsonFT][3] << 1) | (ch[rsonFT][2] & 1);
 	}
-	// 注意这里 ch[lson][2] = ch[p][2] - ch[rsonFT] 是延迟更新的。
+	// note ch[lson][2] = ch[p][2] - ch[rsonFT] is a lazy tag
 	void insert(int p, int x) {
 		++ch[p][2];
 		if (!x) return;
@@ -113,7 +113,6 @@ class FusionTree {
 	void addAll(int p) {
 		if (!ch[p][2]) return;
 		if (rsonFT) addAll(rsonFT);
-		// 为了进位，先补 0，补 0 的时候记得更新 ch[lsonFT][2]（它延迟更新了）
 		if (!lsonFT) addNode(p, 0);
 		ch[lsonFT][2] = ch[p][2] - (rsonFT ? ch[rsonFT][2] : 0);
 		std::swap(lsonFT, rsonFT);
@@ -134,9 +133,8 @@ public:
 		return ch[0][3];
 	}
 };
-// 例题：https://www.luogu.com.cn/problem/P6018
+// https://www.luogu.com.cn/problem/P6018
 
-// 前缀函数 O(n) 算法
 std::vector<int> prefixFunction(std::string s) {
 	int n = s.size();
 	std::vector<int> p(n);
@@ -149,7 +147,7 @@ std::vector<int> prefixFunction(std::string s) {
 	return p;
 }
 
-// 基于前缀函数的 KMP 算法，返回所有匹配在 t 的首位置
+// KMP based on prefixFunction. return all match postion in t
 std::vector<int> kmp(std::string s, std::string t) {
 	std::vector<int> ans;
 	int n = s.size(), m = t.size();
@@ -162,7 +160,7 @@ std::vector<int> kmp(std::string s, std::string t) {
 	return ans;
 }
 
-// 返回 长度为 i 的前缀出现的次数
+// ans[i] = count(s[0, ..., i] occur in s)
 std::vector<int> countPrefix(std::string s) {
 	auto p = prefixFunction(s);
 	int n = s.size();
@@ -172,7 +170,7 @@ std::vector<int> countPrefix(std::string s) {
 	for (int i = 0; i <= n; ++i) ++ans[i];
 	return ans;
 }
-// 返回 s 长度为 i 的前缀在 t 中出现的次数
+// / ans[i] = count(s[0, ..., i] occur in t)
 std::vector<int> countPrefix(std::string s, std::string t) {
 	auto p = prefixFunction(s);
 	int n = s.size(), m = t.size();
@@ -186,9 +184,9 @@ std::vector<int> countPrefix(std::string s, std::string t) {
 	for (int i = n; i > 0; --i) ans[p[i - 1]] += ans[i];
 	return ans;
 }
-// 例题：https://codeforces.com/problemset/problem/432/D
+// https://codeforces.com/problemset/problem/432/D
 
-// $z[i]$ 表示 s 和 $s[i, n - 1]$ 的最长公共前缀，约定 $z[0] = 0$
+// z[i] = longest common prefix of s and s[i,...,n - 1], z[0] = 0.
 std::vector<int> zFunction(std::string s) {
 	int n = s.size();
 	std::vector<int> z(n);
@@ -208,7 +206,7 @@ std::vector<int> zFunction(std::string s) {
 	return z;
 }
 
-// 基于 Z 函数的 KMP 算法，返回所有匹配在 t 的首位置
+// KMP based on zFunction. return all match postion in t
 std::vector<int> kmpZ(std::string s, std::string t) {
 	std::vector<int> ans;
 	int n = s.size(), m = t.size();
@@ -263,7 +261,7 @@ public:
 				if (int &q = nxt[p][c]; q != 0) {
 					fail[q] = nxt[fail[p]][c];
 					Q.push(q);
-					// 用作模式匹配时计数的优化
+					// match count optim
 					last[q] = cnt[fail[q]] ? fail[q] : last[fail[q]];
 				} else {
 					q = nxt[fail[p]][c];
@@ -271,7 +269,7 @@ public:
 			}
 		}
 	}
-	// 具体写法见题目要求
+	// case-by-case analysis
 	int query(std::string s) {
 		int p = 0, r = 0;
 		auto add = [&](int & x) {
@@ -290,10 +288,10 @@ public:
 		return r;
 	}
 };
-// 模板例题：https://www.luogu.com.cn/problem/P3808
+// https://www.luogu.com.cn/problem/P3808
 
-// O(N) 复杂度计算后缀数组的 SA-IS 算法
-// 请确保最后一个元素为 0，且 a 中其它元素都是正整数，且最大值较小。
+// suffix array: SA-IS in O(N)
+// assume a.back() = 0 and other elements are small postiove integral
 std::vector<int> SAIS(std::vector<int> a) {
 	enum TYPE {L, S};
 	int n = a.size() - 1, mx = *std::max_element(a.begin(), a.end()) + 1;
@@ -305,13 +303,13 @@ std::vector<int> SAIS(std::vector<int> a) {
 		lbucket[i] = bucket[i - 1];
 		sbucket[i] = bucket[i] - 1;
 	}
-	// 确定 L, S 类型以及 * 型的位置
+	// Determine the type of L, S and the position of type *
 	std::vector<TYPE> type(n + 1);
 	type[n] = S;
 	for (int i = n - 1; i >= 0; --i) {
 		type[i] = (a[i] < a[i + 1] ? S : (a[i] > a[i + 1] ? L : type[i + 1]));
 	}
-	// 诱导排序(从 * 型诱导到 L 型、从 L 型诱导到 S 型)
+	// induce sort(from type * induces type L, from type L induce type S)
 	auto inducedSort = [&]() {
 		for (int i = 0; i <= n; ++i) {
 			if (SA[i] > 0 && type[SA[i] - 1] == L) {
@@ -327,7 +325,7 @@ std::vector<int> SAIS(std::vector<int> a) {
 			}
 		}
 	};
-	// 首先根据诱导排序给出 LMS-prefix 的排序
+	// sort LMS-prefix according to induce sort
 	std::vector<int> pos;
 	for (int i = 1; i <= n; ++i) {
 		if (type[i] == S && type[i - 1] == L) {
@@ -336,7 +334,7 @@ std::vector<int> SAIS(std::vector<int> a) {
 	}
 	for (auto x : pos) SA[sbucket[a[x]]--] = x;
 	inducedSort();
-	// 根据 LMS-prefix 的排序给出 LMS-substring 的命名，即得到 S1
+	// Give a name of LMS-substring(thus is S1) according to the order of LMS-prefix
 	auto isLMSchar = [&](int i) {
 		return i > 0 && type[i] == S && type[i - 1] == L;
 	};
@@ -347,10 +345,10 @@ std::vector<int> SAIS(std::vector<int> a) {
 		} while (!isLMSchar(x) && !isLMSchar(y));
 		return a[x] == a[y];
 	};
-	// 注意到因为 LMS-prefix 排序会导致仅有相邻的 LMS-substring 才可能相等
+	// Note: two LMS-substrings are the same only if they are adjacent since we have sort LMS-prefix
 	std::vector<int> name(n + 1, -1);
 	int lx = -1, cnt = 0;
-	bool flag = true; // 表示无相同的 LMS-substring
+	bool flag = true; // means no same LMS-substring
 	for (auto x : SA) if (isLMSchar(x)) {
 		if (lx >= 0 && !equalSubstring(lx, x)) ++cnt;
 		if (lx >= 0 && cnt == name[lx]) flag = false;
@@ -366,14 +364,14 @@ std::vector<int> SAIS(std::vector<int> a) {
 		return SA1;
 	};
 	auto SA1 = flag ? getSA1() : SAIS(S1);
-	// 再次诱导排序，根据 S1 的排序得到 SA
+	// induce sort SA again according to the order of S1
 	lbucket[0] = sbucket[0] = 0;
 	for (int i = 1; i < mx; ++i) {
 		lbucket[i] = bucket[i - 1];
 		sbucket[i] = bucket[i] - 1;
 	}
 	std::fill(SA.begin(), SA.end(), -1);
-	// 这里是逆序扫描 SA1，因为 SA 中 S 型桶是倒序的
+	// scan SA1 in reverse order sicne S type is reorder in SA
 	for (int i = SA1.size() - 1; i >= 0; --i) {
 		SA[sbucket[a[pos[SA1[i]]]]--] = pos[SA1[i]];
 	}
@@ -382,7 +380,7 @@ std::vector<int> SAIS(std::vector<int> a) {
 }
 
 std::vector<int> SAIS(const std::string &s) {
-	// s 的字符集为小写字，则可使用下面函数。
+	// If charset of s is lowercase letter, using th following f
 	// auto f = [](char x) -> int { return int(x - 'a') + 1;};
 	auto f = [](char x) -> int { return int(x) + 1;};
 	std::vector<int> a;
@@ -392,7 +390,6 @@ std::vector<int> SAIS(const std::string &s) {
 	return std::vector<int>(sa.begin() + 1, sa.end());
 }
 
-// 最小表示法
 template<typename T>
 int minPresent(std::vector<T>& a) {
 	int k = 0, i = 0, j = 1, n = a.size();
@@ -426,11 +423,11 @@ std::vector<std::string> duval(const std::string &s) {
 	}
 	return r;
 }
-// 模板例题: https://www.luogu.com.cn/problem/P6114
+// https://www.luogu.com.cn/problem/P6114
 
-// 仅仅处理奇数长回文串，这个实现像极了 Z-函数
+// s(i - ans[i], i + ans[i])  is longest Palindrome
 std::vector<int> Manacher(std::string s) {
-	int n = s.size();
+	int n = s.size(); // assume n is odd
 	std::vector<int> d(n);
 	for (int i = 0, l = 0, r = -1; i < n; ++i) {
 		int k = i > r ? 1 : std::min(d[l + r - i], r - i);
@@ -443,4 +440,4 @@ std::vector<int> Manacher(std::string s) {
 	}
 	return d;
 }
-// 通过中间加相同特殊符号统一成仅需考虑奇数长回文串
+// add a special char to deal with the case of even length

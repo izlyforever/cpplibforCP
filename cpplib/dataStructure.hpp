@@ -2,8 +2,8 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
-// a 单调递增，且最大值小于 mx。a 变成下一个字典序大于自身的序列
-bool next(std::vector<int> &a, int mx) {
+// a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$
+bool nextBinom(std::vector<int> &a, int mx) {
 	int n = a.size(), i = 1;
 	while (i <= n && a[n - i] == mx - i) ++i;
 	if (i > n) return false;
@@ -13,30 +13,32 @@ bool next(std::vector<int> &a, int mx) {
 	}
 	return true;
 }
-// next 应用：暴力枚举，个数为 binom{mx}{n}
-void bruteForce(int n, int mx) {
+
+// total number binom{mx}{n}
+void bruteForceBinom(int n, int mx) {
 	std::vector<int> a(n);
 	std::iota(a.begin(), a.end(), 0);
 	do {
+		// do something
 		for (auto x : a) std::cout << x << " ";
 		std::cout << "\n";
-	} while (next(a, mx));
+	} while (nextBinom(a, mx));
 }
 
-// 纠错码 O(n m + k^k n)，目前不知道怎么优化到 O(n m + k^k \sqrt{nm})
+// Error Correction Code: O(n m + k^k n)
 class ECC {
-	std::vector<std::vector<int>> a;	// 原始数据 n 个 m 维向量
-	int k;								// 容许的最大不同个数
-	std::vector<std::vector<int>> bad;	// 与 r 不同的个数
+	std::vector<std::vector<int>> a;	// origin data: n rows, m cols.
+	int k;								// Maximum number of differences allowed
+	std::vector<std::vector<int>> bad;	// difference with current answer
 	int n, m, mxId;
 	void updateMxId(int i) {
 		if (bad[i].size() > bad[mxId].size()) mxId = i;
 	}
-	bool dfs(int c) {  // 当前 r 剩余可改变的次数
+	bool dfs(int c) {  // remain time that current answer can change
 		auto bd = bad[mxId];
 		if ((int)bd.size() <= k) return true;
 		if ((int)bd.size() - k > c) return false;
-		// 注意到此时 bd 是 O(k) 的而不是 O(m) 的
+		// Note that bd is O(k) instead of O(m)
 		std::vector<int> f(bd.size() - k);
 		iota(f.begin(), f.end(), 0);
 		int tMxId = mxId;
@@ -71,12 +73,11 @@ class ECC {
 				r[bd[x]] = tmp.front();
 				tmp.pop();
 			}
-		} while (next(f, bd.size()));
+		} while (nextBinom(f, bd.size()));
 		return false;
 	}
-
-   public:
-	std::vector<int> r;	 // m 维向量，表示当前答案
+public:
+	std::vector<int> r;	 // m cols vector, current answer
 	ECC(std::vector<std::vector<int>> _a) : a(_a), r(a[0]) {
 		n = a.size(); m = r.size();
 		bad.resize(n);
@@ -93,7 +94,7 @@ class ECC {
 	bool solve() { return dfs(k); }
 };
 
-// 返回的是离散化之后的数组值对应的原始值
+// Returns the original value corresponding to the array value after discretization
 template <typename T>
 std::vector<T> discrete(std::vector<T> &a) {
 	auto b = a;
@@ -108,10 +109,10 @@ std::vector<T> discrete(std::vector<T> &a) {
 	return r;
 }
 
-// 并查集 Disjoint Set Union
+// Disjoint Set Union
 class DSU {
 	std::vector<int> p;
-   public:
+public:
 	DSU(int n) : p(n) { iota(p.begin(), p.end(), 0); }
 	int find(int x) {
 		return x == p[x] ? x : p[x] = find(p[x]);
@@ -124,7 +125,8 @@ class DSU {
 	}
 };
 
-// 最小值树状数组（单点更新，从 最左边 到某个位置的最小值）
+
+// Bit Tree Mininal version
 struct BitreeMin {
 	std::vector<int> s;
 	BitreeMin() {}
@@ -137,7 +139,7 @@ struct BitreeMin {
 			id += lowbit(id);
 		}
 	}
-	// 计算区间 [1, id] 的最小值
+	// cal minial value in [1, id]
 	int min(int id) {
 		int r = INT_MAX;
 		while (id) {
@@ -148,7 +150,6 @@ struct BitreeMin {
 	}
 };
 
-// 常规树状数组（编号从 1 开始，单点更新，区间求和，提供搜索）
 struct Bitree {
 	std::vector<LL> s;
 	Bitree() {}
@@ -183,7 +184,7 @@ struct Bitree {
 	}
 };
 
-// 加强版树状数组（编号从 1 开始，区间更新，区间求和）
+
 class BitreePlus {
 	int n;
 	// c[i] = a[i] - a[i - 1], b_i = (i - 1) * c_i
@@ -217,9 +218,9 @@ public:
 	}
 };
 
-// 线段树一般分两个版本，求和（包括异或和）版 以及 最值版。
-// 最值版需要用吉老师线段树记录最值和次值以及最值的个数，例题：https://codeforces.com/gym/102992/problem/J
-// 求和版比较简单，模板例题：https://www.luogu.com.cn/problem/P3372。以下为线段树框架，例子为计算求和
+// There are two versions: sum and min/max
+// min/max version slightly hard: you should record min/max, and second min/max value: https://codeforces.com/gym/102992/problem/J 
+// sum version is simple, the class blow is an example
 class SegmentTree {
 	int n;
 	std::vector<LL> sm, tag;
@@ -247,7 +248,7 @@ class SegmentTree {
 		if (R > m) rangeAdd(L, R, x, m, r, p << 1 | 1);
 		pull(p);
 	}
-	// 以下内容根据需要修改
+	// you should implement it to meet for needs
 	LL query(int L, int R, int l, int r, int p) {
 		if (L <= l && R >= r) return sm[p];
 		push(l, r, p);
@@ -281,10 +282,10 @@ public:
 	void add(int L, int R, LL v) { rangeAdd(--L, R, v, 0, n, 1); }
 	LL query(int L, int R) { return query(--L, R, 0, n, 1); }
 };
+// https://www.luogu.com.cn/problem/P3372
 
-// 可持续化线段树，学习资料：https://zhuanlan.zhihu.com/p/250565583
+// Persistent Segment Tree, reference: https://zhuanlan.zhihu.com/p/250565583
 class PstSegTree {
-	// 此版本 val
 	struct Node {
 		int l, r;
 		LL val;
@@ -294,7 +295,7 @@ class PstSegTree {
 	}
 public:
 	int n;
-	std::vector<int> root;	// 保存版本号
+	std::vector<int> root;	// version number
 	std::vector<Node> tree;
 	int newNode() {
 		int sz = tree.size();
@@ -315,7 +316,7 @@ public:
 		};
 		build(0, n, root.back());
 	}
-	// 单点更新，p 位当前版本，q 为新版本
+	// single point update, p is current version, q is new version
 	void update(int pos, int val, int l, int r, int p, int q) {
 		tree[q] = tree[p];
 		if (r - l == 1) {
@@ -329,7 +330,7 @@ public:
 			pushUp(q);
 		}
 	}
-	// 区间求和，p 位当前版本，q 为新版本
+	// segment query, p is current version, q is new version
 	LL query(int L, int R, int l, int r, int p) {
 		if (L <= l && R >= r) return tree[p].val;
 		int m = (l + r) / 2;
@@ -339,9 +340,9 @@ public:
 		return ans;
 	}
 };
-// 模板例题：https://www.luogu.com.cn/problem/P3919
+// https://www.luogu.com.cn/problem/P3919
 
-// 树状数组套权值线段树求动态区间第 k 小（可强制在线，非离散化）
+// Bitree inside a Persistent Segment Tree to get dynamic k-th smallest number(online)
 class BitPstSegTree {
 	static inline constexpr int N = 1e9 + 2;
 	struct Node {
@@ -389,10 +390,9 @@ class BitPstSegTree {
 		return sz;
 	}
 	inline int lowbit(int x) { return x & -x; }
-
-   public:
+public:
 	BitPstSegTree(const std::vector<int> &x) : n(x.size()) {
-		// 0 号节点是所有叶子节点的儿子
+		// 0 is son of all leave nodes
 		for (int i = 0; i <= n; ++i) newNode();
 		a.insert(a.end(), x.begin(), x.end());
 		for (int i = 1; i <= n; ++i) {
@@ -413,10 +413,10 @@ class BitPstSegTree {
 		return query(k, 0, N, p, q);
 	}
 };
-// 模板例题：https://www.luogu.com.cn/problem/P2617
+// https://www.luogu.com.cn/problem/P2617
 
-// 最长（严格）递增子序列
-int LIS(std::vector<int> &a) {	// length of longest increasing subsquence
+// length of longest increasing subsquence
+int LIS(std::vector<int> &a) {
 	std::vector<int> b;
 	for (auto x : a) {
 		if (auto it = std::lower_bound(b.begin(), b.end(), x); it == b.end()) {
@@ -426,7 +426,8 @@ int LIS(std::vector<int> &a) {	// length of longest increasing subsquence
 	}
 	return b.size();
 }
-int LNDS(std::vector<int> &a) {	 // length of longest increasing subsquence
+// length of longest non-decreasing subsquence
+int LNDS(std::vector<int> &a) {
 	std::vector<int> b;
 	for (auto x : a) {
 		if (auto it = std::upper_bound(b.begin(), b.end(), x); it == b.end()) {
@@ -436,7 +437,8 @@ int LNDS(std::vector<int> &a) {	 // length of longest increasing subsquence
 	}
 	return b.size();
 }
-auto LISP(std::vector<int> &a) {  // longest increasing subsquence
+// longest increasing subsquence
+auto LISP(std::vector<int> &a) {
 	std::vector<int> b, pb, pa(a.size());
 	std::iota(pa.begin(), pa.end(), 0);
 	for (int i = 0, na = a.size(); i < na; ++i) {
@@ -461,26 +463,22 @@ auto LISP(std::vector<int> &a) {  // longest increasing subsquence
 	}
 	return c;
 }
-// lower_bound(first,end,val) 表示在单增 [frist,end) 中首次大于等于 val 的位置
-// upper_bound(first,end,val) 表示在单增 [frist,end) 中首次大于 val 的位置
 
-// 单调队列
-// 求每个长度为 m 的区间最大值的编号
+// monicDeque: index of every max element of SubInterval of length m
 std::vector<int> monicDequeMax(std::vector<int> &a, int m) {
 	std::vector<int> r;
 	std::deque<int> Q;
 	for (int i = 0, na = a.size(); i < na; ++i) {
 		if (!Q.empty() && i - Q.front() >= m) Q.pop_front();
-		// 如果求最小值，大于号改成小于号即可
+		// change > to < if you want monicDequeMin
 		while (!Q.empty() && a[i] > a[Q.back()]) Q.pop_back();
 		Q.push_back(i);
-		// 如果需要返回值，就在下面加入 a[Q.front()]
 		if (i >= m - 1) r.emplace_back(Q.front());
 	}
 	return r;
 }
 
-// 单调栈 f(i) 代表数列中第 i 个元素之后第一个大于 a_i 的下标
+// f is index of a such that $a_{f_0} < a_{f_1} < a_{f_m}$
 std::vector<int> monicStack(const std::vector<int> &a) {
 	int n = a.size();
 	std::vector<int> f(n);
@@ -494,9 +492,9 @@ std::vector<int> monicStack(const std::vector<int> &a) {
 	}
 	return f;
 }
-// 模板例题：https://www.luogu.com.cn/problem/P5788
+// https://www.luogu.com.cn/problem/P5788
 
-// 笛卡尔树
+// Cartesian Tree
 struct cNode {
 	int id, val, par, ch[2];
 	void init(int _id, int _val, int _par) {
@@ -514,9 +512,9 @@ int cartesian_build(std::vector<cNode> &tree, int n) {
 	}
 	return tree[0].ch[1];
 }
-// 模板例题：https://codeforces.com/contest/1490/problem/D
+// https://codeforces.com/contest/1490/problem/D
 
-// 三维偏序之陈丹琪分治
+// CDQ divided and conquer for partial order of dimension 3
 struct cdqNode {
 	int x, y, z, id, w;
 	bool operator<(const cdqNode &A) const {
@@ -524,12 +522,11 @@ struct cdqNode {
 		return x < A.x;
 	}
 };
-// ans[i] 表示 小于或等于 a[i] 的元素个数
+// ans[i] is the number of element less or equal to a[i]
 std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
-	// 先按照 y 排序，免得后面代码写的太麻烦
+	// sort by y
 	std::vector<int> ans(a.size());
 	std::sort(a.begin(), a.end());
-	// 去重操作
 	int last = 0;
 	for (int i = 1, na = a.size(); i < na; ++i) {
 		if (a[i].x != a[i - 1].x || a[i].y != a[i - 1].y ||
@@ -573,12 +570,12 @@ std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
 	divide(0, a.size());
 	return ans;
 }
-// 模板例题：https://www.luogu.com.cn/problem/P3810
+// https://www.luogu.com.cn/problem/P3810
 
-// 第二分块绝对值版（在线算法）
+// Second Block abs version(online)
 class BlockAbs {
-	int l, r; // l, r 表示当前值域 fa, sz 的区间 [l, r]
-	int f, d; // x \in [l, r] 它真实的值是 f x - d, f = 1, -1
+	int l, r; // fa, sz \in [l, r]
+	int f, d; // x \in [l, r] has real value f x - d, where f = 1, -1
 	std::vector<int> fa;
 	int find(int x) {
 		return x == fa[x] ? x : fa[x] = find(fa[x]);
@@ -612,12 +609,12 @@ public:
 		return find(x) * f - d;
 	}
 };
-// 模板例题：https://codeforces.com/gym/103104/problem/K
+// https://codeforces.com/gym/103104/problem/K
 
-// 第二分块差值版（在线算法，离线可优化空间）
+// Second Block minus version(online, space optim can be done if offline)
 class BlockMinus {
 	std::vector<int> fa, sz, a;
-	int l, delta, mx; // 真实值为 x - delta
+	int l, delta, mx; // real value x - delta
 	int find(int x) {
 		return x == fa[x] ? x : fa[x] = find(fa[x]);
 	}
@@ -660,7 +657,6 @@ class BlockMinus {
 		return sz[x];
 	}
 public:
-	// 这里不写构造函数比较好
 	void init(const std::vector<int> &_a, int _l, int _r) {
 		l = _l, delta = 0;
 		a = {_a.begin() + _l, _a.begin() + _r};
@@ -678,4 +674,4 @@ public:
 		return queryPart(ql - l, qr - l, x);
 	}
 };
-// 模板例题：https://codeforces.com/contest/896/problem/E
+// https://codeforces.com/contest/896/problem/E

@@ -39,7 +39,7 @@
 
 ## [geometry](geometry.md)
 
-## [dateStructure](dateStructure.md)
+## [dataStructure](dataStructure.md)
 
 ## [graph](graph.md)
 
