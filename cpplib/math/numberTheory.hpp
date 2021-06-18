@@ -556,3 +556,5 @@ int sqrtModp(int a, int p) { // 0 <= a < p < INT_MAX
 	return x;
 }
 // https://www.luogu.com.cn/problem/P5491
+
+// sqrtModp may be put into MInt and ModInt in the future as fuction sqrt
