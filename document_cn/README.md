@@ -13,7 +13,7 @@
 	</script>
 </head>
 
-以 [英文文档](../document_en) 为主
+以 [英文文档](../document_en) 为主，这里就放一个大致目录和一些核心内容的说明（英文说太麻烦）
 
 # 文档
 
@@ -39,28 +39,30 @@
 ### 基础模块：primary.hpp
 
 - 模快速幂
+- 向上取整和向下取整
 - int128 读写（快读，int, long long 也可以使用）
-- 线性模预处理逆元
-- 二进制快速 gcd
-- 拓展 gcd
-- 快速暴力 $n$ 个集合中选 $k$ 个，二进制为 1 的表示选择
-- 模二项式系数
-- 模 Lucas 定理
-- 模 Stirling 数
+- 二进制快速 gcd，拓展 gcd
 - 中国剩余定理 CRT
-- 模 Lagrange 插值
+- 常规二项式系数和模二项式系数（单例）
+- Lagrange 插值
 - 模自然数方幂和 $O(k)$ 算法
-- FMT（快速 Mobius 变换，叫这个名字是因为跟数论函数的 Mobius 变换形式上一致）
+- 模 $N \times N$ 矩阵乘法类（缓存优化）
 - MEX（集合中不出现的最小的自然数）
+- 快速排序（没带随机选择，别用）
+- 预处理最小素因子
+- BerlekampMassey（用来找最短递推公式）
 
-### 各种环：ring.hpp
+### mod.hpp
 
-- 环 $\mathbb{z}[sqrt{N}]: a + b sqrt{N}$ 用于递推公式求解或 Pell 方程求解
-- 静态模 int MInt（模板实现）
-- 动态模 int ModInt
-- 动态模 LL ModLL (静态模 LL 几乎不会见到)
-- FFT 快速 Fourier 快速
-- NTT 快速数论变换（注意 FFT 和 NTT 的形式高度一致，其实可以写成类的，可以统一写，但是更麻烦就算了）
+- MInt: 这个是类模板
+- ModInt
+- ModLL
+
+### FFT.hpp
+
+### NTT.hpp
+
+### FMT.hpp(快速 Mobius 变换，叫这个名字是因为跟数论函数的 Mobius 变换形式上一致)
 
 ### 初等数论：numberTheory.hpp
 
@@ -79,15 +81,31 @@
 - Pollard-Pho 大整数最大最小素因子分解
 - 模素数取 log（BabyStepGaintStep）
 - 模素数开根号 $O(log^2 p)$
-- 模素数开根号 $O(log p)$ 的 Cipolla 算法？
+- 模素数开根号 $O(log p)$ 的 Cipolla 算法
 - 模偶素数幂开根号？
 - 模奇素数幂开根号？
 - 模任意数开根号（先因式分解，看作模素数方开根号，再 CRT 整合）？
 
+### BigInt ？
+
+### 杂类
+
+- 快速暴力 $n$ 个集合中选 $k$ 个，二进制为 1 的表示选择
+- Fibonacci 数列
+- floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
+- sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
+- decInc: 每次可选择 n 减一 或 m 加一，使得 m 是 n 的倍数的最小次数
+- Gauss 消元法浮点数版
+- 模 Gauss 消元法
+- 线性规划之单纯形算法
+- 任意模数多项式乘法 $O(n^{\log_2 3})$ 的 Karatsuba 算法（包括并行版）
+- 线性规划
+- FirstInRange：求最小的 $x$ 使得 $l \leq a x \mod m \leq r$。类似 exgcd 的处理：求最小非负整数 $x$ 使得 $l \leq ax - m y \leq r$ 等价于 $l \leq (az - m)y - a(yz - x) \leq r$，注意到我们要始终保持 $a < m$，因此当 $2a > m$ 时需要特判一下。转化成 $m - r \leq (m - a) x - m(x - y - 1) \leq m - l$
+
+
 ### 多项式（[多项式全家桶](https://www.luogu.com.cn/training/3015#problems) 已全部 AC）
 
-- 无运算的多项式底层基类：PolyBase（standard 在取余时，特别重要不可省略）
-- 仅包含乘法的四大多项式底层基类分别为：PolyBaseNTT, PolyBaseMFT3, PolyBaseMFT4, PolyBaseFFT
+- 仅包含乘法的四大多项式底层基类分别为：PolyBaseNTT, PolyBaseMFT3(弃用，被后面两个淘汰了), PolyBaseMFT4, PolyBaseFFT
 - PolyBaseNTT：基于固定的 NTT-friendly（原根一般为 3）模数快速数论变化（看具体题目，一般为 998244353）
 - PolyBaseMFT3：基于三个固定的 NTT-friendly 且原根为 3 的三模数（469762049, 998244353, 1004535809），利用 crt 求解任意模数多项式乘法（已被淘汰，请勿使用）
 - PolyBaseMFT4：基于四个固定的 NTT-friendly 且原根为 3 的四模数（595591169, 645922817, 897581057, 998244353），利用 crt 求解任意模数多项式乘法
@@ -99,21 +117,21 @@
 - 多项式静态函数：Lagrange 插值：先分治求 $g(x) = \prod(x - x_i)$，再求 $g'(x)$ 在 $x$ 处的多点求值，再分治即可。
 - 求阶乘 $n! \mod p$：基于多点求值 $O(\sqrt{n} \log^2 n)$ 求 $\sqrt{n}$ 个点之后暴力
 - 求阶乘 $n! \mod p$：min_25 用点求点 $O(\sqrt{n} \log n)$ 求 $\sqrt{n}$ 个点之后暴力
-- Berlekamp-Massey 算法求最短递推关系，[更多应用](https://taodaling.github.io/blog/2020/06/24/Berlekamp-Massey%E7%AE%97%E6%B3%95/)：注意求 det 一般不对，听说还能成为打表黑科技
 
-> 注意模板类中友元函数参数一定要至少包含一个模板变量（否则就会报函数重定义的错误），还有就是要区分友元函数和静态函数！
+> 无运算的多项式底层基类：PolyBase（standard 在取余时，特别重要不可省略）
+
+#### 使用准则
+
+- 多项式项数 $N < 4 \cdot 10^6$
+- $M$ 要是超了 int，那就只能用 ModLL 版本 4 模数 Poly
+- 否则，要是 $M$ 不固定就用使用 ModInt 的 FFT 版 Poly
+- 否则，当 $M$ 为固定的 NTT-friendly 素数时，使用 NTT 版 Poly
+- 否则，使用 MInt 的 FFT 版 Poly
 
 #### 极简版多项式模板（polyS）
 
 由于多项式模板一直扩展，动则 1000+ 行，实在有点搞，所以就搞了一个极简版的。
 
-#### 使用准则
-
-- 多项式项数 $N < 10^6$
-- 当 $M$ 为固定的 NTT-friendly 素数时，使用 NTT 版 Poly
-- 否则，仅 $M$ 为固定的时，使用 MInt 的 FFT 版 Poly
-- 否则，且 $M$ 不超过 Int 时，使用 ModInt 的 FFT 版 Poly
-- 最后，我们使用 ModLL 版本 4 模数 Poly
 
 ### 几何
 
@@ -123,19 +141,6 @@
 - k 维偏序之 bitset 暴力优化 $O(\frac{k n^2}{w})$
 - 四边形优化 DP
 
-### 杂类
-
-- floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
-- sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
-- decInc: 每次可选择 n 减一 或 m 加一，使得 m 是 n 的倍数的最小次数
-- 模 $N \times N$ 矩阵乘法类（缓存优化）
-- Gauss 消元法浮点数版
-- 模 Gauss 消元法
-- 线性规划之单纯形算法
-- - 任意模数多项式乘法 $O(n^{\log_2 3})$ 的 Karatsuba 算法（包括并行版）
-- 线性规划
-- 之前考虑 MFT 有点问题的写法放在杂类里（很快但使用范围小）
-- FirstInRange：求最小的 $x$ 使得 $l \leq a x \mod m \leq r$。类似 exgcd 的处理：求最小非负整数 $x$ 使得 $l \leq ax - m y \leq r$ 等价于 $l \leq (az - m)y - a(yz - x) \leq r$，注意到我们要始终保持 $a < m$，因此当 $2a > m$ 时需要特判一下。转化成 $m - r \leq (m - a) x - m(x - y - 1) \leq m - l$
 
 ## 图论
 

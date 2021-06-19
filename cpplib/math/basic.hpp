@@ -2,15 +2,6 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
-template<typename T>
-T floor(T a, T n) { // n > 0
-	return a < 0 ? (a - n + 1) / n : a / n;
-}
-template<typename T>
-T ceil(T a, T n) { // n > 0
-	return a < 0 ? a / n : (a + n - 1) / n;
-}
-
 int powMod(int x, int n, int p) {
 	int r = 1;
 	while (n) {
@@ -18,6 +9,15 @@ int powMod(int x, int n, int p) {
 		n >>= 1; x = 1LL * x * x % p;
 	}
 	return r;
+}
+
+template<typename T>
+T floor(T a, T n) { // n > 0
+	return a < 0 ? (a - n + 1) / n : a / n;
+}
+template<typename T>
+T ceil(T a, T n) { // n > 0
+	return a < 0 ? a / n : (a + n - 1) / n;
 }
 
 // never mixed it with cin and cout

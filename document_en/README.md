@@ -36,8 +36,7 @@
 - [numberTheory](numberTheory.md)
 - [poly](poly.md)
 - [mixed](mixed.md)
-
-## [geometry](geometry.md)
+- [geometry](geometry.md)
 
 ## [dataStructure](dataStructure.md)
 

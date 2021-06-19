@@ -86,8 +86,8 @@ It contains `dft` and `idft` in template classs `NTT`.
 
 ## basic.hpp
 
-- $\text{floor}(a, n) = \lfloor \frac{a}{n} \rfloor$, $\text{ceil}(a, n) = \lceil \frac{a}{n} \rceil$
 - $\text{powMod}(a, n, p) = a^n \mod p$ 
+- $\text{floor}(a, n) = \lfloor \frac{a}{n} \rfloor$, $\text{ceil}(a, n) = \lceil \frac{a}{n} \rceil$
 - int128: input and output
 - gcd, exGcd
 - crt2, crt

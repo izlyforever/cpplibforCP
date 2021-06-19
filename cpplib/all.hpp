@@ -1,5 +1,4 @@
 #include "math.hpp"
-#include "geometry.hpp"
 #include "dataStructure.hpp"
 #include "graph.hpp"
 #include "string.hpp"
