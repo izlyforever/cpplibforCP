@@ -489,38 +489,37 @@ LL gpf(LL n, LL mxf = 1) {
 } // namespace PollardRho
 
 
-// find smallest non-negetive $x$ s.t. $a^x = b \mod p$, or $-1$
+// find smallest non-negetive $x$ s.t. $a^x = b \mod p$, or $-1$(assume $0^0 = 1$)
 int babyStepGiantStep(int a, int b, int p) {
 	a %= p; b %= p;
-	if (a == 0) return b ? -1 : 1;
-	if (b == 1) return 0;
+	if (p == 1 || b == 1) return 0;
 	int cnt = 0, t = 1;
 	for (int g = std::gcd(a, p); g != 1; g = std::gcd(a, p)) {
 		if (b % g) return -1;
-		p /= g, b /= g, t = 1LL * t * (a / g) % p;
-		++cnt;
+		p /= g; ++cnt;
+		b /= g; t = 1LL * t * (a / g) % p;
 		if (b == t) return cnt;
 	}
 	std::map<int, int> mp;
-	int m = std::sqrt(p + 0.1) + 1;
+	int m = ceil(std::sqrt(p));
 	int base = b;
 	for (int i = 0; i != m; ++i) {
 		mp[base] = i;
 		base = 1LL * base * a % p;
 	}
 	base = powMod(a, m, p);
-	for (int i = 1; i <= m + 1; ++i) {
-		t = 1ll * t * base % p;
-		if (mp.count(t)) return (1LL * i * m - mp[t] + cnt) % p;
+	for (int i = 1; i <= m; ++i) {
+		t = 1LL * t * base % p;
+		if (mp.count(t)) return (1LL * i * m - mp[t]) % p + cnt;
 	}
 	return -1;
 }
-// https://www.luogu.com.cn/problem/P3846
+// https://www.luogu.com.cn/problem/P4195
 
 // find $x$ s.t. $x^2 = a \mod p$, or $-1$ in $O(\log^2 p)$ Tonelli-Shanks
 int sqrtModpS(int a, int p) { // 0 <= a < p < INT_MAX
 	if (a == 0 || p == 2) return a;
-	auto pow = [p](int x, int n) {
+	auto power = [p](int x, int n) {
 		int r = 1;
 		while (n) {
 			if (n&1) r = 1LL * r * x % p;
@@ -529,15 +528,15 @@ int sqrtModpS(int a, int p) { // 0 <= a < p < INT_MAX
 		return r;
 	};
 	int q = (p - 1) / 2;
-	if (pow(a, q) != 1) return -1;
-	if (q & 1) return pow(a, (q + 1) / 2);
+	if (power(a, q) != 1) return -1;
+	if (q & 1) return power(a, (q + 1) / 2);
 	int b; // find a non-quadratic residue
 	std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
-	while (pow(b = rnd() % (p - 1) + 1, q) == 1);
-	int c = __builtin_ctzll(q);
+	while (power(b = rnd() % (p - 1) + 1, q) == 1);
+	int c = __builtin_ctz(q);
 	q >>= c; // p - 1 = q << (c + 1)
-	b = pow(b, q);
-	int x = pow(a, (q + 1) / 2), t = pow(a, q);
+	b = power(b, q);
+	int x = power(a, (q + 1) / 2), t = power(a, q);
 	// Keep x^2 = a t, t^{2^c} = 1, b^{2^c} = -1
 	while (t != 1) {
 		// return smallest r s.t. u^{2^r} = -1
@@ -546,7 +545,7 @@ int sqrtModpS(int a, int p) { // 0 <= a < p < INT_MAX
 			while ((u = 1LL * u * u % p) != 1) ++r;
 			return r;
 		}(t);
-		int d = pow(b, 1LL << (c - cc - 1)); // d^{2^{cc + 1}} = -1
+		int d = power(b, 1 << (c - cc - 1)); // d^{2^{cc + 1}} = -1
 		// update reason: (xd)^2 = a t d^2, (t d^2)^{2^{cc}} = 1, (d^2)^{2^cc} = -1
 		x = 1LL * x * d % p;
 		b = 1LL * d * d % p;
@@ -555,19 +554,20 @@ int sqrtModpS(int a, int p) { // 0 <= a < p < INT_MAX
 	}
 	return x;
 }
+
 struct pseudoComplex {
 	int x, y;
 	static inline int p, m;
-	static void setMod(int _p, int _m) { p = _p, m = _p;}
+	static void setMod(int _p, int _m) { p = _p, m = _m;}
 	pseudoComplex(int _x = 0, int _y = 0) : x(_x), y(_y) {};
-	pseudoComplex operator*(const pseudoComplex& A) {
-		return pseudoComplex((1LL * x * A.x + 1LL * y * A.y % p * m % p), (1LL * x * A.y + y * A.x) % p);
+	pseudoComplex operator*(const pseudoComplex& A) const {
+		return pseudoComplex((1LL * x * A.x + 1LL * y * A.y % p * m) % p, (1LL * x * A.y + 1LL * y * A.x) % p);
 	}
 };
 // find $x$ s.t. $x^2 = a \mod p$, or $-1$ in $O(\log p)$ Cipolla
 int sqrtModp(int a, int p) {
 	if (a == 0 || p == 2) return a;
-	auto pow = [p](int x, int n) {
+	auto power = [p](int x, int n) {
 		int r = 1;
 		while (n) {
 			if (n&1) r = 1LL * r * x % p;
@@ -576,15 +576,15 @@ int sqrtModp(int a, int p) {
 		return r;
 	};
 	int q = (p - 1) / 2;
-	if (pow(a, q) != 1) return -1;
-	if (q & 1) return pow(a, (q + 1) / 2);
+	if (power(a, q) != 1) return -1;
+	if (q & 1) return power(a, (q + 1) / 2);
 	std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
 	int b, m; // find a non-quadratic residue
 	do {
 		b = rnd() % p;
 		m = (1LL * b * b - a) % p;
 		if (m < 0) m += p;
-	} while (pow(m, q) == 1);
+	} while (power(m, q) == 1);
 	int n = (p + 1) / 2;
 	pseudoComplex::setMod(p, m);
 	pseudoComplex R(1, 0), A(b, 1);
