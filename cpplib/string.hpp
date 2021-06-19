@@ -379,6 +379,7 @@ std::vector<int> SAIS(std::vector<int> a) {
 	return SA;
 }
 
+// the lexicographical smallest suffix is s[ans[0],...]
 std::vector<int> SAIS(const std::string &s) {
 	// If charset of s is lowercase letter, using th following f
 	// auto f = [](char x) -> int { return int(x - 'a') + 1;};
@@ -389,6 +390,7 @@ std::vector<int> SAIS(const std::string &s) {
 	auto sa = SAIS(a);
 	return std::vector<int>(sa.begin() + 1, sa.end());
 }
+// https://www.luogu.com.cn/problem/P3809
 
 template<typename T>
 int minPresent(std::vector<T>& a) {

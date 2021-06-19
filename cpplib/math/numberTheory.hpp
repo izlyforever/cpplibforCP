@@ -423,7 +423,7 @@ std::vector<int> primitiveRootAll(int n, const std::vector<int> &sp) {
 
 // Probabilistic Method: Miller-Rabin prime test and PollardRho big number Decomposition
 namespace PollardRho {
-std::mt19937_64 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
+std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 LL powModll(LL x, LL n, LL p) {
 	LL r = 1;
 	while (n) {
@@ -452,13 +452,13 @@ bool rabin(LL n) {
 	int t = __builtin_ctzll(m);
 	m >>= t;
 	for (int cnt = 0; cnt < TIMES; ++cnt) {
-		LL a = rnd() % (n - 1) + 1;
+		LL a = rnd64() % (n - 1) + 1;
 		if (witness(a, n, m, t)) return false;
 	}
 	return true;
 }
 LL pollardrho(LL n) {
-	LL x = 0, y = 0, z = 1, i = 1, k = 2, c = rnd() % (n - 1) + 1;
+	LL x = 0, y = 0, z = 1, i = 1, k = 2, c = rnd64() % (n - 1) + 1;
 	while (true) {
 		x = (__int128(x) * x + c) % n;
 		z = __int128(y - x + n) * z % n;
@@ -491,8 +491,8 @@ LL gpf(LL n, LL mxf = 1) {
 
 // find smallest non-negetive $x$ s.t. $a^x = b \mod p$, or $-1$
 int babyStepGiantStep(int a, int b, int p) {
-	a %= p, b %= p;
-	if (a == 0) return b % p ? -1 : 1;
+	a %= p; b %= p;
+	if (a == 0) return b ? -1 : 1;
 	if (b == 1) return 0;
 	int cnt = 0, t = 1;
 	for (int g = std::gcd(a, p); g != 1; g = std::gcd(a, p)) {
@@ -517,8 +517,8 @@ int babyStepGiantStep(int a, int b, int p) {
 }
 // https://www.luogu.com.cn/problem/P3846
 
-// find $x$ s.t. $x^2 = a \mod p$, or $-1$ in $O(\log^2 p)$
-int sqrtModp(int a, int p) { // 0 <= a < p < INT_MAX
+// find $x$ s.t. $x^2 = a \mod p$, or $-1$ in $O(\log^2 p)$ Tonelli-Shanks
+int sqrtModpS(int a, int p) { // 0 <= a < p < INT_MAX
 	if (a == 0 || p == 2) return a;
 	auto pow = [p](int x, int n) {
 		int r = 1;
@@ -555,6 +555,43 @@ int sqrtModp(int a, int p) { // 0 <= a < p < INT_MAX
 	}
 	return x;
 }
+struct pseudoComplex {
+	int x, y;
+	static inline int p, m;
+	static void setMod(int _p, int _m) { p = _p, m = _p;}
+	pseudoComplex(int _x = 0, int _y = 0) : x(_x), y(_y) {};
+	pseudoComplex operator*(const pseudoComplex& A) {
+		return pseudoComplex((1LL * x * A.x + 1LL * y * A.y % p * m % p), (1LL * x * A.y + y * A.x) % p);
+	}
+};
+// find $x$ s.t. $x^2 = a \mod p$, or $-1$ in $O(\log p)$ Cipolla
+int sqrtModp(int a, int p) {
+	if (a == 0 || p == 2) return a;
+	auto pow = [p](int x, int n) {
+		int r = 1;
+		while (n) {
+			if (n&1) r = 1LL * r * x % p;
+			n >>= 1; x = 1LL * x * x % p;
+		}
+		return r;
+	};
+	int q = (p - 1) / 2;
+	if (pow(a, q) != 1) return -1;
+	if (q & 1) return pow(a, (q + 1) / 2);
+	std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
+	int b, m; // find a non-quadratic residue
+	do {
+		b = rnd() % p;
+		m = (1LL * b * b - a) % p;
+		if (m < 0) m += p;
+	} while (pow(m, q) == 1);
+	int n = (p + 1) / 2;
+	pseudoComplex::setMod(p, m);
+	pseudoComplex R(1, 0), A(b, 1);
+	while (n) {
+		if (n & 1) R = R * A;
+		n >>= 1;   A = A * A;
+	}
+	return R.x;
+}
 // https://www.luogu.com.cn/problem/P5491
-
-// sqrtModp may be put into MInt and ModInt in the future as fuction sqrt
