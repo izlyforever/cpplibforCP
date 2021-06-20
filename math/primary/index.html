@@ -11,21 +11,21 @@
         <meta name="author" content="izlyforever">
       
       
-        <link rel="canonical" href="https://izlyforever.github.io/cpplibforCP/numberTheory/">
+        <link rel="canonical" href="https://izlyforever.github.io/cpplibforCP/math/primary/">
       
-      <link rel="icon" href="../img/izlyforever.png">
+      <link rel="icon" href="../../img/izlyforever.png">
       <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.8">
     
     
       
-        <title>numberTheory - izlyforever</title>
+        <title>primary.hpp - izlyforever</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ca7ac06f.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ca7ac06f.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.f1a3b89f.min.css">
         
       
     
@@ -61,7 +61,7 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
       <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#numbertheoryhpp" class="md-skip">
+        <a href="#primaryhpp" class="md-skip">
           Skip to content
         </a>
       
@@ -82,9 +82,9 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="izlyforever" class="md-header__button md-logo" aria-label="izlyforever" data-md-component="logo">
+    <a href="../.." title="izlyforever" class="md-header__button md-logo" aria-label="izlyforever" data-md-component="logo">
       
-  <img src="../img/favicon.ico" alt="logo">
+  <img src="../../img/favicon.ico" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              numberTheory
+              primary.hpp
             
           </span>
         </div>
@@ -188,7 +188,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         Home
       </a>
     </li>
@@ -198,15 +198,13 @@
         
   
   
-    
-  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../primary/" class="md-tabs__link md-tabs__link--active">
+      <a href="../../primary.md" class="md-tabs__link">
         Math
       </a>
     </li>
@@ -219,7 +217,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../dataStructure/" class="md-tabs__link">
+    <a href="../../dataStructure/" class="md-tabs__link">
       Data Structure
     </a>
   </li>
@@ -231,7 +229,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../graph/" class="md-tabs__link">
+    <a href="../../graph/" class="md-tabs__link">
       Graph Theory
     </a>
   </li>
@@ -243,7 +241,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../string/" class="md-tabs__link">
+    <a href="../../string/" class="md-tabs__link">
       String
     </a>
   </li>
@@ -255,7 +253,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../cn/" class="md-tabs__link">
+    <a href="../../cn/" class="md-tabs__link">
       CN
     </a>
   </li>
@@ -281,9 +279,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="izlyforever" class="md-nav__button md-logo" aria-label="izlyforever" data-md-component="logo">
+    <a href="../.." title="izlyforever" class="md-nav__button md-logo" aria-label="izlyforever" data-md-component="logo">
       
-  <img src="../img/favicon.ico" alt="logo">
+  <img src="../../img/favicon.ico" alt="logo">
 
     </a>
     izlyforever
@@ -333,7 +331,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -352,14 +350,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" data-md-state="indeterminate" type="checkbox" id="__nav_2" checked>
       
       <label class="md-nav__link" for="__nav_2">
         Math
@@ -377,7 +373,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../primary/" class="md-nav__link">
+      <a href="../../primary.md" class="md-nav__link">
         primary
       </a>
     </li>
@@ -387,91 +383,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          numberTheory
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../numberTheory.md" class="md-nav__link">
         numberTheory
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prime" class="md-nav__link">
-    Prime
-  </a>
-  
-    <nav class="md-nav" aria-label="Prime">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#euler-and-mobious" class="md-nav__link">
-    Euler and Mobious
-  </a>
-  
-    <nav class="md-nav" aria-label="Euler and Mobious">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example_1" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#others" class="md-nav__link">
-    others
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -481,7 +397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../poly/" class="md-nav__link">
+      <a href="../../poly.md" class="md-nav__link">
         poly
       </a>
     </li>
@@ -493,7 +409,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mixed/" class="md-nav__link">
+      <a href="../../mixed.md" class="md-nav__link">
         mixed
       </a>
     </li>
@@ -505,7 +421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../geometry/" class="md-nav__link">
+      <a href="../../geometry.md" class="md-nav__link">
         geometry
       </a>
     </li>
@@ -526,7 +442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dataStructure/" class="md-nav__link">
+      <a href="../../dataStructure/" class="md-nav__link">
         Data Structure
       </a>
     </li>
@@ -541,7 +457,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../graph/" class="md-nav__link">
+      <a href="../../graph/" class="md-nav__link">
         Graph Theory
       </a>
     </li>
@@ -556,7 +472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../string/" class="md-nav__link">
+      <a href="../../string/" class="md-nav__link">
         String
       </a>
     </li>
@@ -571,7 +487,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cn/" class="md-nav__link">
+      <a href="../../cn/" class="md-nav__link">
         CN
       </a>
     </li>
@@ -604,12 +520,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prime" class="md-nav__link">
-    Prime
+  <a href="#modhpp" class="md-nav__link">
+    mod.hpp
   </a>
   
-    <nav class="md-nav" aria-label="Prime">
+    <nav class="md-nav" aria-label="mod.hpp">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    methods
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
@@ -624,28 +547,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#euler-and-mobious" class="md-nav__link">
-    Euler and Mobious
+  <a href="#ffthpp" class="md-nav__link">
+    fft.hpp
   </a>
-  
-    <nav class="md-nav" aria-label="Euler and Mobious">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example_1" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#others" class="md-nav__link">
-    others
+  <a href="#ntthpp" class="md-nav__link">
+    ntt.hpp
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fmthpp" class="md-nav__link">
+    fmt.hpp
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basichpp" class="md-nav__link">
+    basic.hpp
   </a>
   
 </li>
@@ -662,107 +586,97 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/izlyforever/cpplibforCP/edit/master/docs/numberTheory.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/izlyforever/cpplibforCP/edit/master/docs/math/primary.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="numbertheoryhpp">numberTheory.hpp<a class="headerlink" href="#numbertheoryhpp" title="Permanent link">&para;</a></h1>
+                <h1 id="primaryhpp">primary.hpp<a class="headerlink" href="#primaryhpp" title="Permanent link">&para;</a></h1>
+<p><code>primary.hpp</code> is the foundation of <code>math.hpp</code></p>
+<h2 id="modhpp">mod.hpp<a class="headerlink" href="#modhpp" title="Permanent link">&para;</a></h2>
+<p>There are three classes: <code>MInt</code>, <code>ModInt</code>, <code>ModLL</code>. Only <code>MInt</code> is a class template and <code>template&lt;typename valT&gt;</code>(occur in other place) will be one of them.</p>
 <blockquote>
-<p>please use <code>g++ -o main main.cpp -std=c++17 -O2</code> to complier examples below.</p>
+<p>You must init them a mod before use them.</p>
 </blockquote>
-<h2 id="prime">Prime<a class="headerlink" href="#prime" title="Permanent link">&para;</a></h2>
-<p>It is a singleton which has member <code>isP, p, pi</code>, and method: <code>primePi</code> and <code>nthPrime</code></p>
-<p>
-<script type="math/tex; mode=display">
-\psi(x,s) = \sum_{n \leq x} |\gcd(n,m_s) == 1| = \sum_{d \mid m_s} u(d)\lfloor \frac{x}{d} \rfloor
-</script>
-</p>
-<p>where <script type="math/tex">m_s = p_1 \cdots p_s</script>
-</p>
-<p>The key point is: if <script type="math/tex">s \geq \pi(\sqrt{x})</script>, then </p>
-<p>
-<script type="math/tex; mode=display">
-\psi(x,s) = \pi(x) - s + 1
-</script>
-</p>
-<blockquote>
-<p>See <a href="https://www.cnblogs.com/izlyforever/p/computationOfPiX.html">cnblog</a> or <a href="https://chachabai.github.io/computationOfPiX/countPrime.zip">origin paper package</a> for detail.</p>
-</blockquote>
+<h3 id="methods">methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Elementary arithmetics: <code>+, -, *, /, +=, -=, *=, /=</code></li>
+<li>C-style operator: <code>++, --, &lt;&lt;, &lt;&lt;=</code>(There is no <code>&gt;&gt;</code> since <script type="math/tex">((a + M) \text{>>} x) \neq (a \text{>>} x)</script> in general)</li>
+<li><code>raw</code> for constant-factor speedup.</li>
+<li><code>pow</code>, <code>&gt;&gt;, &lt;&lt;</code> are friend methods. </li>
+<li><code>inv</code> is not based on <code>pow</code>, since <script type="math/tex">M</script> is not assume to be prime number.</li>
+</ul>
 <h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp"></span>
-<span class="cp">#define clog(x) std::clog &lt;&lt; (#x) &lt;&lt; &quot; is &quot; &lt;&lt; (x) &lt;&lt; &#39;\n&#39;;</span>
-<span class="k">using</span> <span class="n">LL</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
-<span class="cp">#include</span> <span class="cpf">&quot;cpplib/math/numberTheory.hpp&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;cpplib/math/mod.hpp&quot;</span><span class="cp"></span>
+
+<span class="k">constexpr</span> <span class="kt">int</span> <span class="n">M</span> <span class="o">=</span> <span class="mi">998244353</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">mod</span> <span class="o">=</span> <span class="n">MInt</span><span class="o">&lt;</span><span class="n">M</span><span class="o">&gt;</span><span class="p">;</span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 	<span class="c1">//freopen(&quot;in&quot;, &quot;r&quot;, stdin);</span>
 	<span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-	<span class="k">auto</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">clock</span><span class="p">();</span>
-	<span class="k">auto</span> <span class="o">&amp;</span><span class="n">prime</span> <span class="o">=</span> <span class="n">Prime</span><span class="o">::</span><span class="n">Instance</span><span class="p">();</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">clog</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Init time used: &quot;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ms&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>	
-	
-	<span class="n">LL</span> <span class="n">n</span> <span class="o">=</span> <span class="n">prime</span><span class="p">.</span><span class="n">primePi</span><span class="p">(</span><span class="mf">123456789012L</span><span class="n">L</span><span class="p">);</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">n</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span> <span class="o">&gt;&gt;</span> <span class="n">b</span><span class="p">;</span>
 
-	<span class="n">LL</span> <span class="n">x</span> <span class="o">=</span> <span class="n">prime</span><span class="p">.</span><span class="n">nthPrime</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+	<span class="n">mod</span> <span class="n">a1</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">b1</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">b1</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
 
-	<span class="c1">// It must the same as n</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">prime</span><span class="p">.</span><span class="n">primePi</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
-	
-	<span class="n">std</span><span class="o">::</span><span class="n">clog</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Total time used: &quot;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ms&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+	<span class="n">ModInt</span><span class="o">::</span><span class="n">setMod</span><span class="p">(</span><span class="n">M</span><span class="p">);</span>
+	<span class="n">ModInt</span> <span class="n">a2</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">b2</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a2</span> <span class="o">-</span> <span class="n">b2</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+
+	<span class="n">ModLL</span><span class="o">::</span><span class="n">setMod</span><span class="p">(</span><span class="n">M</span><span class="p">);</span>
+	<span class="n">ModInt</span> <span class="n">a3</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">b3</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a3</span> <span class="o">*</span> <span class="n">b3</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a3</span> <span class="o">/</span> <span class="n">b3</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
 	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="euler-and-mobious">Euler and Mobious<a class="headerlink" href="#euler-and-mobious" title="Permanent link">&para;</a></h2>
-<p>Euler's Totient function and Mobious function. The have many in common.</p>
-<p>The key points are: </p>
-<p>
-<script type="math/tex; mode=display">
-\sum_{i = 1}^n \text{sumPhi}(\lfloor \frac{n}{i} \rfloor) = \frac{n(n + 1)}{2}, \quad \sum_{i = 1}^n \text{sumMu}(\lfloor \frac{n}{i} \rfloor) = 1
-</script>
-</p>
-<p>and then <code>numberTheoryBlock</code> tech is used to give a <script type="math/tex">O(n^{\frac{2}{3}})</script> implement.</p>
-<h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp"></span>
-<span class="cp">#define clog(x) std::clog &lt;&lt; (#x) &lt;&lt; &quot; is &quot; &lt;&lt; (x) &lt;&lt; &#39;\n&#39;;</span>
-<span class="k">using</span> <span class="n">LL</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
-<span class="cp">#include</span> <span class="cpf">&quot;cpplib/math/numberTheory.hpp&quot;</span><span class="cp"></span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="c1">//freopen(&quot;in&quot;, &quot;r&quot;, stdin);</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="k">nullptr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
-	<span class="k">auto</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">clock</span><span class="p">();</span>
-	<span class="k">auto</span> <span class="o">&amp;</span><span class="n">euler</span> <span class="o">=</span> <span class="n">Euler</span><span class="o">::</span><span class="n">Instance</span><span class="p">();</span>
-	<span class="k">auto</span> <span class="o">&amp;</span><span class="n">mobious</span> <span class="o">=</span> <span class="n">Mobious</span><span class="o">::</span><span class="n">Instance</span><span class="p">();</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">clog</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Init time used: &quot;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ms&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>	
-	
-	<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mf">1e9</span> <span class="o">+</span> <span class="mi">7</span><span class="p">;</span>
-	<span class="n">clog</span><span class="p">(</span><span class="n">euler</span><span class="p">.</span><span class="n">getPhi</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
-	<span class="n">clog</span><span class="p">(</span><span class="n">euler</span><span class="p">.</span><span class="n">getSumPhi</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
-
-	<span class="n">clog</span><span class="p">(</span><span class="n">mobious</span><span class="p">.</span><span class="n">getMu</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
-	<span class="n">clog</span><span class="p">(</span><span class="n">mobious</span><span class="p">.</span><span class="n">getSumMu</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
-	<span class="n">clog</span><span class="p">(</span><span class="n">mobious</span><span class="p">.</span><span class="n">getAbsSum</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
-
-	<span class="n">std</span><span class="o">::</span><span class="n">clog</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Total time used: &quot;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;ms&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="others">others<a class="headerlink" href="#others" title="Permanent link">&para;</a></h2>
+<h2 id="ffthpp">fft.hpp<a class="headerlink" href="#ffthpp" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>fast Fourier transform</p>
+</blockquote>
+<p>It contains <code>dft</code> and <code>idft</code> in namespace <code>FFT</code>.</p>
+<blockquote>
+<p>The size of <script type="math/tex">a</script> is a pow of <script type="math/tex">2</script> before you use <code>dft(a)</code> or <code>idft(a)</code></p>
+</blockquote>
+<h2 id="ntthpp">ntt.hpp<a class="headerlink" href="#ntthpp" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>number theory transform</p>
+</blockquote>
+<p>It contains <code>dft</code> and <code>idft</code> in template classs <code>NTT</code>.</p>
+<blockquote>
+<p>The template <script type="math/tex">M</script> should be NTT-friendly, and size of <script type="math/tex">a</script> is a pow of <script type="math/tex">2</script> less that <script type="math/tex">10^6</script> before you use <code>dft(a)</code> or <code>idft(a)</code></p>
+</blockquote>
+<h2 id="fmthpp">fmt.hpp<a class="headerlink" href="#fmthpp" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>fast Mobious transform</p>
+</blockquote>
+<h2 id="basichpp">basic.hpp<a class="headerlink" href="#basichpp" title="Permanent link">&para;</a></h2>
 <ul>
-<li>npf: init numbers of (multi) prime factors less than N in <script type="math/tex">O(N)</script>
+<li>
+<script type="math/tex">\text{powMod}(a, n, p) = a^n \mod p</script>
 </li>
-<li>factor: list of different prime factors of n</li>
-<li>Factor: list of prime factors of n</li>
-<li>primitiveRoot: smallest primitive root or 0</li>
-<li>primitiveRootAll: list of all primitive roots or empty</li>
-<li>PollardRho: Probabilistic Method: Miller-Rabin prime test and PollardRho big number Decomposition</li>
-<li>babyStepGiantStep: find smallest non-negetive <script type="math/tex">x</script> s.t. <script type="math/tex">a^x = b \mod p</script>, or <script type="math/tex">-1</script>
+<li>
+<script type="math/tex">\text{floor}(a, n) = \lfloor \frac{a}{n} \rfloor</script>, <script type="math/tex">\text{ceil}(a, n) = \lceil \frac{a}{n} \rceil</script>
 </li>
-<li>sqrtModp: find <script type="math/tex">x</script> s.t. <script type="math/tex">x^2 = a \mod p</script>, or <script type="math/tex">-1</script> in <script type="math/tex">O(\log^2 p)</script>
+<li>int128: input and output</li>
+<li>gcd, exGcd</li>
+<li>crt2, crt</li>
+<li>Binom, BinomModp</li>
+<li>Lagrange</li>
+<li>
+<script type="math/tex">\displaystyle \text{powSum}(n, k) = \sum_{i = 0}^n i^k</script>
 </li>
+<li>matrix multiplication(class template): you may use <code>Matrix&lt;MInt&lt;998244353&gt;&gt;</code> to defined a matrix</li>
+<li>quickSort (don't use it)</li>
+<li>
+<script type="math/tex">\text{MEX.solve}(x) = MEX_{a_i \in S} (a_i \oplus x)</script>
+</li>
+<li>spf: smallest prime factor(foundmental important)</li>
+<li>trans: transform <code>vector&lt;int&gt;</code> to <code>vector&lt;valT&gt;</code></li>
+<li>BerlekampMassey: find shortest recursive relational formula</li>
 </ul>
                 
               
@@ -824,10 +738,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.expand", "search.suggest", "search.highlight"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand", "search.suggest", "search.highlight"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.76f349be.min.js"></script>
+      <script src="../../assets/javascripts/bundle.76f349be.min.js"></script>
       
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
       
