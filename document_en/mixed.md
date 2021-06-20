@@ -13,7 +13,7 @@
 	</script>
 </head>
 
-## mixed.hpp
+# mixed.hpp
 
 - GospersHack: n choose k, brute-force(you should implement it to meet for needs)
 - $n$-th Fibonacci number
@@ -28,3 +28,24 @@
 - KaratsubaParallel: parallel version of Karatsuba(you may need `-lpthread` to complier)
 - quadrangleItvDp: Segment DP optim: $O(n^3)$ to $O(n^2)$
 - quadrangleRollDp: roll DP optim $O(n^3)$ to $O(n^2)$
+
+
+## Gauss
+
+``` C++
+#include <bits/stdc++.h>
+#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
+using LL = long long;
+#include "../cpplib/math/mixed.hpp"
+
+int main() {
+	//freopen("in", "r", stdin);
+	std::cin.tie(nullptr)->sync_with_stdio(false);	
+
+	std::vector<std::vector<double>> A{{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}};
+	std::vector<double> b{1.0, 2.0, 3.0};
+	for (auto x : Gauss(A, b)) std::cout << x << '\n';
+	
+	return 0;
+}
+```
