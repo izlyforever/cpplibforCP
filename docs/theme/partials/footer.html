@@ -1,0 +1,26 @@
+{#-
+	Disable previous / next page
+-#}
+{% import "partials/language.html" as lang with context %}
+<footer class="md-footer">
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        {% if config.copyright %}
+          <div class="md-footer-copyright__highlight">
+            {{ config.copyright }}
+          </div>
+        {% endif %}
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material
+        </a>
+        for 
+        <a href="https://www.mkdocs.org/" target="_blank" rel="noopener">
+          MkDocs
+        </a>
+      </div>
+      {% include "partials/social.html" %}
+    </div>
+  </div>
+</footer>

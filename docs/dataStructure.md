@@ -1,18 +1,3 @@
-<head>
-	<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-		  tex2jax: {
-			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-			inlineMath: [['$','$']],
-			processEscapes: true
-		  }
-		});
-	</script>
-	<script type="text/javascript" async
-	  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
-	</script>
-</head>
-
 # dataStructure.hpp
 
 Data Structures are ideals or models, It is hard to write once, used everywhere, for example, `Segment Tree, Disjoint set union, Mo's algorithm`, monicDeque, monicStack. We will provide some Frames (you should implement it to meet for needs) 

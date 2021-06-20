@@ -1,18 +1,3 @@
-<head>
-	<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-		  tex2jax: {
-			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-			inlineMath: [['$','$']],
-			processEscapes: true
-		  }
-		});
-	</script>
-	<script type="text/javascript" async
-	  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
-	</script>
-</head>
-
 # polyALL.hpp
 
 > The size: $N$ should be less than $10^6$ or $2^{22} \doteq 4 \cdot 10^6$ at least.

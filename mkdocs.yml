@@ -1,0 +1,111 @@
+# Personal info
+site_name: izlyforever
+site_author: 'izlyforever'
+site_url: 'https://izlyforever.github.io/cpplibforCP'
+
+repo_name: izlyforever/cpplibforCP
+repo_url: https://github.com/izlyforever/cpplibforCP
+
+copyright: Copyright © 2021 izlyforever
+
+# Contents
+nav:
+  - Home:
+    - Introduction: index.md
+  - Math:
+    - primary: primary.md
+    - numberTheory: numberTheory.md
+    - poly: poly.md
+    - mixed: mixed.md
+    - geometry: geometry.md
+  - Data Structure: dataStructure.md
+  - Graph Theory: graph.md
+  - String: string.md
+  - CN: cn.md
+
+theme:
+  name: material
+  language: en
+  custom_dir: docs/theme
+  highlightjs: true
+  icon:
+    repo: fontawesome/brands/git-alt
+  logo: img/favicon.ico
+  favicon: img/izlyforever.png
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+    - scheme: slate
+      primary: deep purple
+      accent: blue
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/izlyforever
+    - icon: fontawesome/solid/rss
+      link: /feed_rss_updated.xml
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - meta
+  - mdx_math:
+      enable_dollar_delimiter: True
+  # - pymdownx.arithmatex
+  # - pymdownx.arithmatex:
+      # generic: true
+  - pymdownx.caret
+  - pymdownx.tabbed
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      preserve_tabs: true
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.fence_mathjax_format
+  - pymdownx.inlinehilite:
+      custom_inline:
+        - name: math
+          class: arithmatex
+          format: !!python/name:pymdownx.arithmatex.inline_mathjax_format
+  - codehilite:
+      guess_lang: false
+      linenums: true
+  - toc:
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+#  - pymdownx.emoji:
+#      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+#  - pymdownx.magiclink
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+
+extra_css:
+  - https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css
+
+plugins:
+  - search
+  - rss
