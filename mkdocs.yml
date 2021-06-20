@@ -13,11 +13,11 @@ nav:
   - Home:
     - Introduction: index.md
   - Math:
-    - primary: primary.md
-    - numberTheory: numberTheory.md
-    - poly: poly.md
-    - mixed: mixed.md
-    - geometry: geometry.md
+    - primary: math/primary.md
+    - numberTheory: math/numberTheory.md
+    - poly: math/poly.md
+    - mixed: math/mixed.md
+    - geometry: math/geometry.md
   - Data Structure: dataStructure.md
   - Graph Theory: graph.md
   - String: string.md
