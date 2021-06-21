@@ -190,6 +190,7 @@ class Euler {
 	}
 public:
 	LL getPhi(LL n) {
+		if (n < phi.size()) return phi[n];
 		if (1LL * p.back() * p.back() > n) return getPhiS(n);
 		LL r = n;
 		for (int i = 1; 1LL * p[i] * p[i] <= n; ++i) if (n % p[i] == 0) {
@@ -255,13 +256,13 @@ class Mobious {
 		}
 		for (int i = 2; i < N; i += 4) mu[i] = -mu[i >> 1];
 	}
-	
 	Mobious() : mu(N), sumMu(N) {
 		initMu();
 		for (int i = 1; i < N; ++i) sumMu[i] = sumMu[i - 1] + mu[i];
 	}
 public:
 	int getMu(LL n) {
+		if (n < mu.size()) return mu[n];
 		if (1LL * p.back() * p.back() > n) return getMuS(n);
 		int r = 1;
 		for (int i = 1; 1LL * p[i] * p[i] <= n; ++i) if (n % p[i] == 0) {

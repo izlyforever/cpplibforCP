@@ -722,3 +722,31 @@ int circle3count(const std::vector<std::pair<int, int>> &edge, int n) {
 	return ans;
 }
 // https://www.luogu.com.cn/problem/P1989
+
+
+// $O(m \sqrt{m})$
+LL circle4count(const std::vector<std::pair<int, int>> &edge, int n) {
+	std::vector<int> d(n), c(n, -1), id(n);
+	for (auto [u, v] : edge) ++d[u], ++d[v];
+	std::iota(id.begin(), id.end(), 0);
+	std::sort(id.begin(), id.end(), [&](int i, int j) {
+		return d[i] < d[j] || (d[i] == d[j] && i < j);
+	});
+	std::vector<std::vector<int>> e(n);
+	for (auto [u, v] : edge) {
+		e[u].emplace_back(v);
+		e[v].emplace_back(u);
+	}
+	// x -> y -> z and x -> w -> z
+	LL ans = 0;
+	for (int i = 0; i < n; ++i) {
+		for (auto u : e[i]) if (id[i] < id[u]) {
+			for (auto v : e[u]) if (id[i] < id[v]) ans += c[v]++;
+		}
+		for (auto u : e[i]) if (id[i] < id[u]) {
+			for (auto v : e[u]) if (id[i] < id[v]) c[v] = 0;
+		}
+	}
+	return ans;
+}
+// https://www.luogu.com.cn/blog/221955/san-yuan-huan-si-yuan-huan-ji-shuo
