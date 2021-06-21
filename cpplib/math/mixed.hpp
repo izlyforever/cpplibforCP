@@ -459,3 +459,48 @@ std::vector<std::vector<T>> quadrangleRollDp(std::vector<std::vector<T>> w, int 
 	return f;
 }
 // https://www.luogu.com.cn/problem/P4767
+
+namespace PalindromeNumber {
+    std::vector<LL> ten{1};
+    void init() {
+        for (int i = 0; i < 18; ++i) ten.emplace_back(ten.back() * 10);
+    }
+    int len(LL n) {
+        return std::upper_bound(ten.begin(), ten.end(), n) - ten.begin();
+    }
+    LL revBit(LL n) {
+        LL r = 0;
+        while (n) {
+            r = r * 10 + n % 10;
+            n /= 10;
+        }
+        return r;
+    }
+    LL nthPalindrome(int k) {
+        int i = 1;
+        while (1) {
+            if (k <= 9 * ten[i - 1]) {
+                LL ans = ten[i - 1] + k - 1;
+                return ten[i - 1] * ans + revBit(ans / 10);
+            }
+            k -= 9 * ten[i - 1];
+            if (k <= 9 * ten[i - 1]) {
+                LL ans = ten[i - 1] + k - 1;
+                return ten[i] * ans + revBit(ans);
+            }
+            k -= 9 * ten[i - 1];
+            ++i;
+        }
+    }
+    int Palindrome(LL n) { // numbers of Palindrome < n
+        int x = len(n), x2 = x / 2, ans = 0;
+        LL tmp = n / ten[x2];
+        LL now = tmp * ten[x2] + revBit(x & 1 ? tmp / 10 : tmp);
+        if (now >= n) --ans;
+        return ans += tmp + ten[x2] - 1;
+    }
+    LL solve(LL n, int k) {
+        return nthPalindrome(k + Palindrome(n));
+    }
+} // namespace PalindromeNumber
+// https://ac.nowcoder.com/acm/contest/11191/C

@@ -119,6 +119,110 @@
 
 由于多项式模板一直扩展，动则 1000+ 行，实在有点搞，所以就搞了一个极简版的。
 
+####  4 次 FFT 原理
+
+我们本来要求 $A \dot B$，然后我们把它拆成 $A = A_1 + 2^{d} A_2, B = B_1 + 2^d B_2$，那么 
+$$
+AB = A_1 B_1 + (A_1 B_2 + A_2 B_1) 2^d + A_2 B_2 2^{2d}
+$$
+
+于是我们只需计算 $(A_1 + i A_2)(B_1 + i B_2)$ 和 $(A_1 + i A_2)(B_1 - i B_2)$ 即可，但是注意到 $dft((B_1 + i B_2))[j] = \overline{dft((B_1 + i B_2))[n - j]}$ 所以本来需要 5 次 FFT，现在只需要 4 次即可。
+
+> 其实本质上，我们可以只做 3.5 次 FFT，因为 2 次 dft 我们可以得到 $A_1, A_2, B_1, B_2$ 的 dft 值，然后我们最后只需 3 次实数版 idft 即可（算作 1.5 次）！所以总的来说是 3.5 次。但是实现的时候也没办法搞 0.5 次，可惜。
+
+#### min_25 用点求点原理（其实可以用下降幂更简洁的处理）
+
+学习资料：[zzqsblog](https://www.cnblogs.com/zzqsblog/p/8408691.html), [bztMinamoto](https://www.cnblogs.com/bztMinamoto/p/10661226.html)
+
+我们令 $s = \sqrt{n}$ 然后 $\displaystyle g_{s}(x) = \sum_{i = 1}^{s}(x + i)$，我们想要得到 $g_s(0), g_s(s), \cdots g_s((s - 1)s)$ 的值。然后 $n! = \prod_{i = 0}^{s - 1} g_s(i s) \cdot \prod_{i = s^2 + 1}^n i$
+
+现在假设我们已经得到了
+
+$$
+g_d(0), g_d(s), \cdots g_d(d s)
+$$
+
+> 一个 $d$ 次多项式由它在 $d + 1$ 个不同点的取值唯一决定（多于 d + 1 个点也可以）
+
+1. 我们如何求
+
+$$
+g_{d + 1}(0), g_{d + 1}(s), \cdots g_{d + 1}((d + 1) s)
+$$
+
+注意到 $g_{d + 1}(x) = g_{d}(x) \cdot (x + d + 1)$ 即可 $O(d)$ 计算出 前 $d + 1$ 个，最后一个直接暴力计算即可。
+
+2. 我们如何求
+
+$$
+g_{2d}(0), g_{2d}(s), \cdots g_{2d}(2d s)
+$$
+
+同样我们注意到 $g_{2d}(x) = g_{d}(x) \cdot g_d(x + d)$ 如果我们设 $h(i) = g_d(i s)$，（那么很关键的一点 $g_d(is + d) = g((d / s + i) s = h(d / s + i)$，卧槽， $d / s$ 在模 p 意义下得到就可以了，而且肯定大于 d，否则矛盾！）那么问题就转化成如何根据一个 $d$ 次多项式的值：$h(0), h(1), \cdots, h(d)$ 求
+
+$$
+h(d + 0), \cdots h(d + d)
+$$
+
+以及 
+
+$$
+h(d / s + 0), \cdots h(d / s + d)
+$$
+
+我们不妨对于任意的给定的 $k > d$，先求出
+
+$$
+h(k + 0), h(k + 1), \cdots h(k + d) 
+$$
+
+注意到根据 Lagrange 插值多项式
+
+$$
+\begin{aligned}
+h(x) &= \sum_{i = 0}^{d} h(i) \prod_{j = 0, j \neq i}^{d} \frac{x - j}{i - j} \\ 
+&= \sum_{i = 0}^d (-1)^{d - i} h(i) \binom{x}{i} \binom{x - i - 1}{d - i} \\
+&=  \left(\prod_{i = x - d}^x i \right) \sum_{i = 0}^d \frac{h(i)}{i!(d - i)!(-1)^{d - i}} \cdot \frac{1}{(x - i)}
+\end{aligned}
+$$
+
+注意到这里的卷积跟我们普通的卷积不一致，左边长度为 $d + 1$ 的多项式乘以右边长度为 $2d + 1$ 的多项式，然后次数为 $d, \cdots 2d$ 这 $d + 1$ 位是有效的。
+
+1. 不能写成除以阶乘的形式，因为 x 有可能很大。
+2. 为了保证 $d/s < 2 d$，我们需要使用 Wilson 定理即 $(p - 1)! = -1$
+
+#### 分治 FFT
+
+已知 $f_i = \sum_{j=1}^i f_{i-j} g_j$ 和 $f_0$ 求 $f$
+
+这个显然可以分治来做，其实用生成函数推理可知 $f = \frac{f_0}{1 - g}$
+
+#### 下降幂与点值
+
+设 n 次多项式 $f(x) = \sum_{i = 0}^n b_i x^{\underline{i}}$，则
+
+$$
+\frac{f(m)}{m!} = \sum_{i = 0}^m b_i \frac{1}{(m - i)!} \qquad 0 \leq m \leq n
+$$
+
+因此 $EGF(f) = b e^x$，反过来也一样  $b = EGF(f) e^{-x}$（注意这里可以简单的多点求值，可以求更多的点）
+
+> 下降幂与连续点值有 $O(n \log n)$ 的转化。而普通多项式跟连续点值却没有，可以认为普通多项式要的连续其实是类似 FFT 那样的连续。但是注意到以连续点求连续点有 $O(n \log n)$ 的做法
+
+
+#### [Lagrange 反演](https://users.math.msu.edu/users/magyarp/Math880/Lagrange.pdf)
+
+若 $f(x), g(x) \in F[[x]]$ 且 $f(g(x) = x$，则
+
+$$
+[x^n] g(x) = \frac{1}{n} [x^{-1}] \frac{1}{f(x)^n}
+$$
+
+特别地，若 $f(x) = \frac{x}{\phi(x)}$，则
+
+$$
+[x^n] g(x) = \frac{1}{n} [x^{n-1}] \phi(x)^n
+$$
 
 ### 几何
 
@@ -150,6 +254,14 @@
 - 有向图 S-T 最大流的最高标号预流推进算法（HLPP） $O(n^2 \sqrt{m})$ 算法
 - 无向图全局最小割 StoerWagner 算法
 - 最小费用最大流（势能 Dijkstra）
+- 三元环计数
+
+
+### 三元环计数上界 $O(m \sqrt{m})$
+
+首先定向之后，每条边的出度不会超过 $\sqrt{m}$（秒啊），这是因为
+- 原来不超过的必然不超过
+- 原来超过的只会连度大于等于它的，这个个数不会超过 $\sqrt{m}$
 
 
 ## 字符串

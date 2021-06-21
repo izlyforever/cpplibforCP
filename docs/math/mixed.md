@@ -13,3 +13,4 @@
 - KaratsubaParallel: parallel version of Karatsuba(you may need `-lpthread` to complier)
 - quadrangleItvDp: Segment DP optim: $O(n^3)$ to $O(n^2)$
 - quadrangleRollDp: roll DP optim $O(n^3)$ to $O(n^2)$
+- PalindromeNumber: nthPalindrome = ${1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, \cdots}$

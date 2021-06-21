@@ -1,5 +1,7 @@
 # graph.hpp
 
+Notation: $n$(numbers of vertex), $m$(numbers of edges)
+
 ## Tree
 
 - DfsTour
@@ -30,3 +32,8 @@
 - HLPP: S-T max-Flow $O(n^2 \sqrt{m})$
 - Stoer-Wagner: Global minimum cut of undirected graph($O(n^3)$ implement)
 - Flow: minimum cost maximum flow
+
+
+## Mixed
+
+- circle3count: count $(a, b), (b, c), (c, a)$ in undirected graph

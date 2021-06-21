@@ -698,3 +698,27 @@ public:
 	}
 };
 // https://www.luogu.com.cn/problem/P3381
+
+// $O(m \sqrt{m})$, we will get TLE if the answer greater than INT_MAX
+int circle3count(const std::vector<std::pair<int, int>> &edge, int n) {
+	std::vector<int> d(n), vis(n, -1);
+	for (auto [u, v] : edge) ++d[u], ++d[v];
+	std::vector<std::vector<int>> e(n);
+	// Giving Orienting to Edge
+	for (auto [u, v] : edge) {
+		if (d[u] < d[v] || (d[u] == d[v] && u < v)) {
+			e[u].emplace_back(v);
+		} else {
+			e[v].emplace_back(u);
+		}
+	}
+	int ans = 0;
+	for (int i = 0; i < n; ++i) {
+		for (auto u : e[i]) vis[u] = i;
+		for (auto u : e[i]) {
+			for (auto v : e[u]) if (vis[v] == i) ++ans;
+		}
+	}
+	return ans;
+}
+// https://www.luogu.com.cn/problem/P1989
