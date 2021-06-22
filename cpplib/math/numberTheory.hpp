@@ -80,6 +80,7 @@ class Prime {
 		return true;
 	}
 public:
+	int operator[](int i) { return p[i];}
 	LL primephi(LL x, int s) {
 		if (s <= M) return (x / phi[s].size()) * phi[s].back() + phi[s][x % phi[s].size()];
 		if (x / p[s] <= p[s]) return primePi(x) - s + 1;
@@ -189,6 +190,7 @@ class Euler {
 		for (int i = 1; i < N; ++i) sumPhi[i] = sumPhi[i - 1] + phi[i];
 	}
 public:
+	int operator[](int i) { return phi[i];}
 	LL getPhi(LL n) {
 		if (n < phi.size()) return phi[n];
 		if (1LL * p.back() * p.back() > n) return getPhiS(n);
@@ -261,6 +263,7 @@ class Mobious {
 		for (int i = 1; i < N; ++i) sumMu[i] = sumMu[i - 1] + mu[i];
 	}
 public:
+	int operator[](int i) { return mu[i];}
 	int getMu(LL n) {
 		if (n < mu.size()) return mu[n];
 		if (1LL * p.back() * p.back() > n) return getMuS(n);
@@ -596,3 +599,100 @@ int sqrtModp(int a, int p) {
 	return R.x;
 }
 // https://www.luogu.com.cn/problem/P5491
+
+// return all pair $(i, j, lcm(i, j)$  with lcm(i, j) <= n, $O(n \log^2 n)$
+std::vector<std::tuple<int, int, int>> lcmPair(int n) {
+	std::vector<std::pair<int, int>> ed;
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; j < i && i * j <= n; ++j) if (std::__gcd(i, j) == 1) {
+			ed.emplace_back(j, i);
+		}
+	}
+	std::vector<int> deg(n + 1);
+	std::vector<std::tuple<int, int, int>> edge;
+	auto addedge = [&](int i, int j, int d) {
+		++deg[i];
+		++deg[j];
+		edge.emplace_back(i, j, d);
+	};
+	for (auto [u, v] : ed) {
+		int uv = u * v;
+		for (int i = u, j = v, d = uv; d <= n; i += u, j += v, d += uv) {
+			addedge(i, j, d);
+		}
+	}
+	return edge;
+}
+
+
+template<typename T>
+class DirichletProduct {
+	static inline auto &prime = Prime::Instance();
+	static inline int n = 1e5 + 2; // assume they have the same lenth
+public:
+	std::vector<T> a;
+	static void setLen(int _n) { n = _n;}
+	DirichletProduct() : a(n + 1) {}
+	DirichletProduct(const std::vector<T> &_a) : a(_a) {}
+	// $O(n \log n)$: $c[k] = \sum_{i j = k} a[i] b[j]$
+	DirichletProduct operator*(const DirichletProduct& A) const {
+		std::vector<T> c(n + 1);
+		for (int i = 1; i <= n; ++i) {
+			for (int j = 1; i * j <= n; ++j) {
+				c[i * j] += a[i] * A.a[j];
+			}
+		}
+		return DirichletProduct(c);
+	}
+	DirichletProduct& operator*=(const DirichletProduct& A) {
+		return *this = (*this) * A;
+	}
+	// $O(n \log \log n)$
+	void mobious() {   // new_a[n] = \sum_{d | n} old_a[d]
+		for (int i = 1; prime[i] <= n; ++i) {
+			for (int j = 1; j * prime[i] <= n; ++j) {
+				a[j * prime[i]] += a[j];
+			}
+		}
+	}
+	// $O(n \log \log n)$
+	void mobiousInv() { // old_a[n] = \sum_{d | n} new_a[d]
+		for (int i = prime.primePi(n); i; --i) {
+			for (int j = n / prime[i]; j; --j) {
+				a[j * prime[i]] -= a[j];
+			}
+		}
+	}
+	// O(n \log n) $c[i] = \sum_{j} a[i j] b[j]$
+	DirichletProduct mulT(const DirichletProduct& A) {
+		std::vector<T> c(n + 1);
+		for (int i = 1; i <= n; ++i) {
+			for (int j = 1; i * j <= n; ++j) {
+				c[i] += a[i * j] * A.a[j];
+			}
+		}
+		return DirichletProduct(c);
+	}
+	// $O(n \log \log n)$
+	void mobiousT() {   // new_a[d] = \sum_{d | n} old_a[n]
+		for (int i = 1; prime[i] <= n; ++i) {
+			for (int j = 1; j * prime[i] <= n; ++j) {
+				a[j] += a[j * prime[i]];
+			}
+		}
+	}
+	// $O(n \log \log n)$
+	void mobiousInvT() { // old_a[d] = \sum_{d | n} new_a[n]
+		for (int i = 1; prime[i] <= n; ++i) {
+			for (int j = n / prime[i]; j; --j) {
+				a[j] -= a[j * prime[i]];
+			}
+		}
+	}
+	friend std::ostream& operator<<(std::ostream &out, const DirichletProduct &A) {
+		for (auto x : A.a) out << x << ' ';
+		// out << '\n';
+		return out;
+	}
+};
+// reference(many mistakes): https://www.cnblogs.com/ivorysi/p/8889154.html
