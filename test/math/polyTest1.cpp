@@ -1,7 +1,8 @@
+// docs/test/math/polyTest1.cpp
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
-#include "../cpplib/math.hpp"
+#include "../../cpplib/math.hpp"
 
 // https://www.spoj.com/problems/FACTMODP/en/
 int main() {

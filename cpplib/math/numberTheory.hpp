@@ -9,7 +9,7 @@ class Prime {
 	bool isp[N]{};
 	std::vector<int> p{0, 2}, pi;
 	// $O(N \log \log N)$ but faster when N < 1e9
-	std::vector<int> initPrime() {
+	void initPrime() {
 		isp[2] = true;
 		for (int i = 3; i < N; i += 2) isp[i] = true;
 		int sq = int(std::sqrt(N + 0.1)) | 1;
@@ -18,7 +18,6 @@ class Prime {
 			for (int j = i * i; j < N; j += i << 1) isp[j] = false;
 		}
 		for (int i = sq + 2; i < N; i += 2) if (isp[i]) p.emplace_back(i);
-		return p;
 	}
 	// $O(N)$ but slower when N < 1e9
 	std::vector<int> initPrimeS() {
@@ -221,7 +220,7 @@ public:
 };
 // https://www.luogu.com.cn/problem/P4213
 
-class Mobious {
+class Mobius{
 	static inline constexpr int N = 5e6 + 2;
 	std::vector<int> mu, sumMu, p{0, 2};
 	std::unordered_map<int, int> mpMu;
@@ -258,12 +257,12 @@ class Mobious {
 		}
 		for (int i = 2; i < N; i += 4) mu[i] = -mu[i >> 1];
 	}
-	Mobious() : mu(N), sumMu(N) {
+	Mobius() : mu(N), sumMu(N) {
 		initMu();
 		for (int i = 1; i < N; ++i) sumMu[i] = sumMu[i - 1] + mu[i];
 	}
 public:
-	int operator[](int i) { return mu[i];}
+	int operator[](int i) { return mu[i];} // assmue i < N
 	int getMu(LL n) {
 		if (n < mu.size()) return mu[n];
 		if (1LL * p.back() * p.back() > n) return getMuS(n);
@@ -293,9 +292,9 @@ public:
 		}
 		return mpMu[n] = r;
 	}
-	Mobious(const Mobious&) = delete;
-	static Mobious& Instance() {
-		static Mobious instance;
+	Mobius(const Mobius&) = delete;
+	static Mobius& Instance() {
+		static Mobius instance;
 		return instance;
 	}
 };
@@ -624,75 +623,76 @@ std::vector<std::tuple<int, int, int>> lcmPair(int n) {
 	return edge;
 }
 
-
+// $O(n \log n)$
 template<typename T>
-class DirichletProduct {
-	static inline auto &prime = Prime::Instance();
-	static inline int n = 1e5 + 2; // assume they have the same lenth
-public:
-	std::vector<T> a;
-	static void setLen(int _n) { n = _n;}
-	DirichletProduct() : a(n + 1) {}
-	DirichletProduct(const std::vector<T> &_a) : a(_a) {}
-	// $O(n \log n)$: $c[k] = \sum_{i j = k} a[i] b[j]$
-	DirichletProduct operator*(const DirichletProduct& A) const {
-		std::vector<T> c(n + 1);
-		for (int i = 1; i <= n; ++i) {
-			for (int j = 1; i * j <= n; ++j) {
-				c[i * j] += a[i] * A.a[j];
-			}
-		}
-		return DirichletProduct(c);
-	}
-	DirichletProduct& operator*=(const DirichletProduct& A) {
-		return *this = (*this) * A;
-	}
-	// $O(n \log \log n)$
-	void mobious() {   // new_a[n] = \sum_{d | n} old_a[d]
-		for (int i = 1; prime[i] <= n; ++i) {
-			for (int j = 1; j * prime[i] <= n; ++j) {
-				a[j * prime[i]] += a[j];
-			}
+std::vector<T> DirichletProduct(const std::vector<T> &a, const std::vector<T> &b, int n) {
+	std::vector<T> c(n + 1);
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; i * j <= n; ++j) {
+			c[i * j] += a[i] * b[j];
 		}
 	}
-	// $O(n \log \log n)$
-	void mobiousInv() { // old_a[n] = \sum_{d | n} new_a[d]
-		for (int i = prime.primePi(n); i; --i) {
-			for (int j = n / prime[i]; j; --j) {
-				a[j * prime[i]] -= a[j];
-			}
+	return c;
+}
+// $O(n \log \log n)$, $new_a[n] = \sum_{d | n} old_a[d]$
+template<typename T>
+void mobiousTran(std::vector<T> &a, int n) {   
+	auto &p = Prime::Instance();
+	for (int i = 1; p[i] <= n; ++i) {
+		for (int j = 1; j * p[i] <= n; ++j) {
+			a[j * p[i]] += a[j];
 		}
 	}
-	// O(n \log n) $c[i] = \sum_{j} a[i j] b[j]$
-	DirichletProduct mulT(const DirichletProduct& A) {
-		std::vector<T> c(n + 1);
-		for (int i = 1; i <= n; ++i) {
-			for (int j = 1; i * j <= n; ++j) {
-				c[i] += a[i * j] * A.a[j];
-			}
-		}
-		return DirichletProduct(c);
-	}
-	// $O(n \log \log n)$
-	void mobiousT() {   // new_a[d] = \sum_{d | n} old_a[n]
-		for (int i = 1; prime[i] <= n; ++i) {
-			for (int j = 1; j * prime[i] <= n; ++j) {
-				a[j] += a[j * prime[i]];
-			}
+}
+// $O(n \log \log n)$, $old_a[n] = \sum_{d | n} new_a[d]$
+template<typename T>
+void mobiousTranInv(std::vector<T> &a, int n) {
+	auto &p = Prime::Instance();
+	for (int i = p.primePi(n); i; --i) {
+		for (int j = n / p[i]; j; --j) {
+			a[j * p[i]] -= a[j];
 		}
 	}
-	// $O(n \log \log n)$
-	void mobiousInvT() { // old_a[d] = \sum_{d | n} new_a[n]
-		for (int i = 1; prime[i] <= n; ++i) {
-			for (int j = n / prime[i]; j; --j) {
-				a[j] -= a[j * prime[i]];
-			}
+}
+// It is perfect simple and fast in $O(n \log n)$ 
+template<typename T>
+void mobiousTranInvS(std::vector<T> &a, int n) {
+	for (int i = 1; i <= n; ++i) {
+		for (int j = i * 2; j <= n; j += i) {
+			a[j] -= a[i];
 		}
 	}
-	friend std::ostream& operator<<(std::ostream &out, const DirichletProduct &A) {
-		for (auto x : A.a) out << x << ' ';
-		// out << '\n';
-		return out;
+}
+// $O(n \log n)$
+template<typename T>
+std::vector<T> DirichletRevProduct(const std::vector<T> &a, const std::vector<T> &b, int n) {
+	std::vector<T> c(n + 1);
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; i * j <= n; ++j) {
+			c[i] += a[i * j] * b[j];
+		}
 	}
-};
-// reference(many mistakes): https://www.cnblogs.com/ivorysi/p/8889154.html
+	return c;
+}
+// $O(n \log \log n)$, $new_a[d] = \sum_{d | n} old_a[n]$
+template<typename T>
+void mobiousRevTran(std::vector<T> &a, int n) {
+	auto &p = Prime::Instance();
+	for (int i = 1; p[i] <= n; ++i) {
+		for (int j = n / p[i]; j; --j) {
+			a[j] += a[j * p[i]];
+		}
+	}
+}
+// $O(n \log \log n)$, $old_a[d] = \sum_{d | n} new_a[n]$
+template<typename T>
+void mobiousRevTranInv(std::vector<T> &a, int n) {
+	auto &p = Prime::Instance();
+	for (int i = 1; p[i] <= n; ++i) {
+		for (int j = 1; j * p[i] <= n; ++j) {
+			a[j] -= a[j * p[i]];
+		}
+	}
+}
+// reference: https://www.cnblogs.com/ivorysi/p/8889154.html 
+// application: https://www.cnblogs.com/ImagineC/p/10557379.html

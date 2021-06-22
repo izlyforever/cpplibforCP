@@ -66,7 +66,7 @@ It contains `dft` and `idft` in template classs `NTT`.
 
 ## fmt.hpp
 
-> fast Mobious transform
+> fast Mobius transform
 
 
 ## basic.hpp

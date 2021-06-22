@@ -1,27 +1,13 @@
-<head>
-	<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-		  tex2jax: {
-			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-			inlineMath: [['$','$']],
-			processEscapes: true
-		  }
-		});
-	</script>
-	<script type="text/javascript" async
-	  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
-	</script>
-</head>
-
 # Welcome your tests
 
 ## Example 
 
 You may add test here for example: 
 
-add file `test/math/polyTest1.cpp` to solve $n! \mod p$ in [SPOJ](https://www.spoj.com/problems/FACTMODP/en/)
+add file `docs/test/math/polyTest1.cpp` to solve $n! \mod p$ in [SPOJ](https://www.spoj.com/problems/FACTMODP/en/)
 
 ``` C++
+// docs/test/math/polyTest1.cpp
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;

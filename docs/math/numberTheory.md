@@ -50,9 +50,9 @@ int main() {
 }
 ```
 
-## Euler and Mobious
+## Euler and Mobius 
 
-Euler's Totient function and Mobious function. The have many in common.
+Euler's Totient function and Mobius function. The have many in common.
 
 The key points are: 
 
@@ -75,16 +75,16 @@ int main() {
 	std::cin.tie(nullptr)->sync_with_stdio(false);
 	auto start = std::clock();
 	auto &euler = Euler::Instance();
-	auto &mobious = Mobious::Instance();
+	auto &Mobius = Mobius::Instance();
 	std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;	
 	
 	int n = 1e9 + 7;
 	clog(euler.getPhi(n));
 	clog(euler.getSumPhi(n));
 
-	clog(mobious.getMu(n));
-	clog(mobious.getSumMu(n));
-	clog(mobious.getAbsSum(n));
+	clog(Mobius.getMu(n));
+	clog(Mobius.getSumMu(n));
+	clog(Mobius.getAbsSum(n));
 
 	std::clog << "Total time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
 	return 0;
@@ -102,52 +102,53 @@ int main() {
 - babyStepGiantStep: find smallest non-negetive $x$ s.t. $a^x = b \mod p$, or $-1$
 - sqrtModp: find $x$ s.t. $x^2 = a \mod p$, or $-1$ in $O(\log^2 p)$
 - lcmPair: return all pair $(i, j, lcm(i, j)$  with lcm(i, j) <= n, $O(n \log^2 n)$
-- DirichletProduct: Dirichlet Product and fast Mobious transform.
+- DirichletProduct: Dirichlet Product and fast Mobius transform.
 
 
 ### DirichletProduct Test
 
 ``` C++
+// docs/test/math/DirichletTest1.cpp
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
-#include "../cpplib/math/numberTheory.hpp"
+#include "../../cpplib/math/numberTheory.hpp"
+using UL = unsigned long long;
+std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 
 int main() {
 	//freopen("in", "r", stdin);
 	std::cin.tie(nullptr)->sync_with_stdio(false);
-	std::vector<int> a{0, 1, 10, 100, 1000, 10000, 100000};
-	std::vector<int> b{0, 1, 1, 1, 1, 1, 1};
-	std::vector<int> c{0, 1, -1, -1, 0, -1, 1}; // mu
+	int n = 1e5;
+	std::vector<UL> a(n + 1), e(n + 1, 1), mu(n + 1);
+	e[0] = 0;
+	mu[1] = 1;
+	for (int i = 1; i <= n; ++i) {
+		for (int j = i * 2; j <= n; j += i) {
+			mu[j] -= mu[i];
+		}
+	}
+	for (int i = 1; i <= n; ++i) a[i] = rnd64();
+	auto b = a;
 
-	DirichletProduct<int>::setLen(int(a.size() - 1));
-	DirichletProduct A(a), B(b), C(c);
-	auto D = A;
-	std::cout << "Fast mobious Test: \n";
-	std::cout << A * B << '\n';
-	A.mobious();
-	std::cout << A << '\n';
-	A.mobiousInv();
+	auto c = DirichletProduct(a, e, n);
+	mobiousTran(a, n);
+	for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
 
-	std::cout << "\nFast mobious invserse Test: \n";
-	std::cout << D * C << '\n';
-	D.mobiousInv();
-	std::cout << D << '\n';	
+	c = DirichletProduct(c, mu, n);
+	mobiousTranInv(a, n);
+	for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
+	for (int i = 0; i <= n; ++i) assert(a[i] == b[i]);
 
-	std::cout << "\nFast transpose mobious Test: \n";
-	D = A;
-	std::cout << A.mulT(B) << '\n';
-	A.mobiousT();
-	std::cout << A << '\n';
-	A.mobiousInvT();
 
-	std::cout << "\nFast transpose mobious invserse Test: \n";
-	std::cout << D.mulT(C) << '\n'; // overflow for int occur
-	D.mobiousInvT();
-	std::cout << D << '\n';	
-	
-	std::cout << "\nSee origin A: \n";
-	std::cout << A;
+	c = DirichletRevProduct(a, e, n);
+	mobiousRevTran(a, n);
+	for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
+
+	c = DirichletRevProduct(c, mu, n);
+	mobiousRevTranInv(a, n);
+	for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
+	for (int i = 0; i <= n; ++i) assert(a[i] == b[i]);
 	
 	return 0;
 }
