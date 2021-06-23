@@ -22,4 +22,3 @@
 - Think twice, code once
 - Talk is cheap, show me the code
 - More is different
-- To be continue...
