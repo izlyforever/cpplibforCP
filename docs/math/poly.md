@@ -1,6 +1,6 @@
 # polyALL.hpp
 
-> The size: $N$ should be less than $10^6$ or $2^{22} \doteq 4 \cdot 10^6$ at least.
+> The size: $N$ should be less than $2^{22} \simeq 4 \cdot 10^6$, since module used in NTT are only multiples of $2^{23}$.
 
 `poly.hpp` support almost every algorithm involved polynomial and **the module number $M$ can be any prime number**.
 
