@@ -12,7 +12,7 @@ class ModInt {
 	}
 public:
 	template <typename T>
- 	explicit operator T() const { 
+ 	operator T() const { 
 		return static_cast<T>(n);
 	}
 	static void setMod(int m) {
@@ -91,6 +91,9 @@ public:
 	bool operator==(const ModInt &A) const {
 		return n == A.n;
 	}
+	bool operator!=(const ModInt &A) const {
+		return n != A.n;
+	}
 	ModInt inv() const {
 		return inv(n);
 	}
@@ -124,7 +127,7 @@ class ModLL {
 	}
 public:
 	template <typename T>
- 	explicit operator T() const { 
+ 	operator T() const { 
 		return static_cast<T>(n);
 	}
 	static void setMod(LL m) {
@@ -206,6 +209,9 @@ public:
 	bool operator==(const ModLL &A) const {
 		return n == A.n;
 	}
+	bool operator!=(const ModLL &A) const {
+		return n != A.n;
+	}
 	ModLL inv() const {
 		return inv(n);
 	}
@@ -241,7 +247,7 @@ class MInt {
 	}
 public:
 	template <typename T>
- 	explicit operator T() const { 
+ 	operator T() const { 
 		return static_cast<T>(n);
 	}
 	static void setMod(int m) {
@@ -319,6 +325,9 @@ public:
 	}
 	bool operator==(const MInt &A) const {
 		return n == A.n;
+	}
+	bool operator!=(const MInt &A) const {
+		return n != A.n;
 	}
 	MInt inv() const {
 		return inv(n);

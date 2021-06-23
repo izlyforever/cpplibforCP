@@ -67,7 +67,7 @@ class PolyS : public std::vector<int> {
 		standard();
 	}
 public:
-	static inline const int M = 998244353, g = 3, inv2 = (M + 1) / 2;
+	static inline const int M = 998244353, g = 3;
 	PolyS() {}
 	PolyS(const std::vector<int> &a) : std::vector<int>{a} { standard();}
 	PolyS(const int &x) : std::vector<int>{x} { standard();}
@@ -207,6 +207,7 @@ public:
 	}
 	// assume a[0] = 1;
 	PolyS sqrt(int n) const {
+		const static int inv2 = (M + 1) / 2;
 		PolyS x(1);
 		int k = 1;
 		while (k < n) {

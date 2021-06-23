@@ -472,7 +472,7 @@ protected:
 public:
 	std::vector<valT> a;
 	PolyBase() {}
-	PolyBase(valT x) { if (x != 0) a = {x};}
+	PolyBase(valT x) { if (x != valT(0)) a = {x};}
 	PolyBase(const std::vector<valT> &_a) : a(_a) { standard();}
 	int size() const { return a.size();}
 	valT &operator[](int id) { return a[id];}
