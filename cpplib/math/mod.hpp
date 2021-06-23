@@ -11,6 +11,10 @@ class ModInt {
 		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
 	}
 public:
+	template <typename T>
+ 	explicit operator T() const { 
+		return static_cast<T>(n);
+	}
 	static void setMod(int m) {
 		M = m;
 	}
@@ -40,9 +44,6 @@ public:
 	ModInt& operator--() {
 		if (--n == -1) n += M;
 		return *this;
-	}
-	operator int() const {
-		return n;
 	}
 	ModInt& operator+=(const ModInt &A) {
 		n += A.n;
@@ -122,6 +123,10 @@ class ModLL {
 		return x == 1 ? x : __int128(M - M / x) * inv(M % x) % M;
 	}
 public:
+	template <typename T>
+ 	explicit operator T() const { 
+		return static_cast<T>(n);
+	}
 	static void setMod(LL m) {
 		M = m;
 	}
@@ -154,9 +159,6 @@ public:
 	ModLL& operator--() {
 		if (--n == -1) n += M;
 		return *this;
-	}
-	operator LL() const {
-		return n;
 	}
 	ModLL& operator+=(const ModLL &A) {
 		n += A.n;
@@ -238,6 +240,10 @@ class MInt {
 		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
 	}
 public:
+	template <typename T>
+ 	explicit operator T() const { 
+		return static_cast<T>(n);
+	}
 	static void setMod(int m) {
 		M = m;
 	}
@@ -256,9 +262,6 @@ public:
 	}
 	MInt(const LL &x) : n(x % M) {
 		if (n < 0) n += M;
-	}
-	operator int() const {
-		return n;
 	}
 	MInt operator-() const {
 		return n == 0 ? *this : raw(M - n);
