@@ -22,12 +22,12 @@ $$
 
 > See [cnblog](https://www.cnblogs.com/izlyforever/p/computationOfPiX.html) or [origin paper package](https://chachabai.github.io/computationOfPiX/countPrime.zip) for detail.
 
-__Constraints__
+**Constraints**
 
 - primePi(n): $n < N^2$ 
 - nthPrime(n): $n < (\frac{N}{\ln n})^2$
 
-__Complexity__
+**Complexity**
 
 - primePi(n): $O(n^{\frac{2}{3}})$
 - nthPrime(n): $O(n^{\frac{2}{3}} \log^2 n)$
@@ -113,11 +113,11 @@ std::pair<std::vector<int>, std::vector<int>> npf(int N)
 
 init numbers of (multi) prime factors less than $N$
 
-__Complexity__
+**Complexity**
 
 - $O(N)$
 
-__Example__
+**Example**
 
 - $a[4] = 1, b[4] = 2$
 - $a[21] = 2, b[21] = 2$
@@ -134,11 +134,11 @@ std::vector<std::pair<int, int>> Factor(int n, const std::vector<int> &sp)
 
 factor  $n$ into prime number
 
-__Complexity__
+**Complexity**
 
 - $O(\log n)$
 
-__Example__
+**Example**
 
 - $\text{factor}(60, sp) = \{2, 3, 5\}$
 - $\text{Factor}(60, sp) = \{\{2, 2\}, \{3, 1\}, \{5, 1\}\}$
@@ -155,7 +155,7 @@ return smallest primitive root or 0 if not exist.
 
 $n$ have primitive root if and only if $n = 2, 4, p^n, 2 p^n$ where $p > 2$ is prime number.
 
-__Complexity__
+**Complexity**
 
 - $O(\log n)$
 
@@ -173,7 +173,7 @@ std::vector<int> primitiveRootAll(int n, const std::vector<int> &sp)
 
 return list of all primitive roots or empty if not exist
 
-__Complexity__
+**Complexity**
 
 - $O(n)$
 
@@ -185,7 +185,7 @@ __Complexity__
 
 ## PollardRho
 
-Pollard-rho algorithm is a probabilistic method for __big number decomposition__, which is based on __big prime test__ probabilistic method: Miller-Rabin
+Pollard-rho algorithm is a probabilistic method for **big number decomposition**, which is based on **big prime test** probabilistic method: Miller-Rabin
 
 ``` cpp
 bool PollardRho::rabin(LL n)
@@ -193,7 +193,7 @@ LL PollardRho::spf(LL n)
 LL PollardRho::gpf(LL n, LL mxf = 1)
 ```
 
-__Complexity__
+**Complexity**
 
 - $O(n^{\frac{1}{4}} \log n)$
 
@@ -203,11 +203,11 @@ __Complexity__
 
 find smallest non-negative $x$ s.t. $a^x = b \mod p$, or $-1$
 
-__Constraints__
+**Constraints**
 
 - $p$ is prime 
 
-__Complexity__
+**Complexity**
 
 - $O(\sqrt{p} \log p)$
 
@@ -219,11 +219,11 @@ __Complexity__
 int sqrtModp(int a, int p) 
 ```
 
-__Constraints__
+**Constraints**
 
 - $p$ is prime 
 
-__Complexity__
+**Complexity**
 
 - $O(\log p)$
 
@@ -237,7 +237,7 @@ std::vector<std::tuple<int, int, int>> lcmPair(int n)
 
 return all pair $(i, j, \text{lcm}(i, j)$  with $\text{lcm}(i, j) \leq n$ 
 
-__Complexity__
+**Complexity**
 
 - $O(n \log^2 n)$
 
@@ -253,7 +253,7 @@ $$
 - $g \equiv 1$, then $f \star g$  is call Mobius transform, 
 - $g \equiv \mu$, then  $f \star g$  is call Mobius inverse transform,  where $\mu$ is mobius function
 
-__Complexity__
+**Complexity**
 
 - DirichletProduct: $O(n \log n)$
 - Mobius transform: $O(n \log \log n)$

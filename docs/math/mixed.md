@@ -10,7 +10,7 @@ brute-force all case: $n$ choose $k$, 1 stand for choosen
 
 > you should implement it to meet to feed your needs
 
-__Complexity__
+**Complexity**
 
 - $O(\binom{n}{k})$
 
@@ -24,7 +24,7 @@ int Fib(int n, int M)
 
 return $n$-th Fibonacci number mod $M$.
 
-__Complexity__
+**Complexity**
 
 - $O(\log n)$
 
@@ -38,7 +38,7 @@ LL floorSum(int n, int m, int a, int b)
 
 $\displaystyle \text{floorSum}(n, m, a, b) = \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
 
-__Complexity__
+**Complexity**
 
 - $O(\log m)$
 
@@ -52,7 +52,7 @@ int sumNum(const std::vector<int> &c, int m, int M)
 
 $\displaystyle \text{sumNum}(c, m, M) = \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)} \mod M$
 
-__Complexity__
+**Complexity**
 
 - $O(m)$
 
@@ -66,11 +66,11 @@ int decInc(int n, int m)
 
 count min time: every time `--n` or `++m` s.t. $n \mid m$
 
-__Complexity__
+**Complexity**
 
 - $O(\sqrt{m})$
 
-__Example__
+**Example**
 
 - $\text{decInc}(3, 3) = 0$
 - $\text{decInc}(5, 3) = 2$
@@ -86,12 +86,12 @@ int FirstInRange(int a, int m, int l, int r)
 
 finds min $x$ s.t. $l \leq a x \mod m \leq r$ (or -1 if it does not exist)
 
-__Constraints__
+**Constraints**
 
 - $0 \leq l \leq r < m$
 - $0 \leq a < M$
 
-__Complexity__
+**Complexity**
 
 - $O(\log m)$
 
@@ -105,7 +105,7 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
 
 Gauss-Jordan Elimination $Ax = b$, float version, Inspire by [spookywooky](https://codeforces.com/profile/spookywooky)
 
-__Complexity__
+**Complexity**
 
 - $O(n^3)$
 
@@ -119,7 +119,7 @@ std::vector<valT> GaussModp(std::vector<std::vector<valT>> A, std::vector<valT> 
 
 Gauss-Jordan Elimination $Ax = b$, mod version
 
-__Complexity__
+**Complexity**
 
 - $O(n^3)$
 
@@ -145,7 +145,7 @@ VL Karatsuba(VL a, VL b, LL p)
 
 Polynomial multiplication with arbitrary modulus 
 
-__Complexity__
+**Complexity**
 
 - $O(n^{\log_2 3})$
 
@@ -163,7 +163,7 @@ $f_{l, r} = \min_{l \leq k < r} f_{l, k} + f_{k + 1, r} + w(l, r) \qquad (1 \leq
 
 It is a common tech for Segment DP optim: $O(n^3)$ to $O(n^2)$
 
-__Complexity__
+**Complexity**
 
 - $O(n^2)$
 
@@ -179,7 +179,7 @@ $f_{i, j} = \min_{k < j} f_{i - 1, k} + w(k + 1, j) \quad (1 \leq i \leq n, 1 \l
 
 It is a common tech for oll DP optim: $O(n^3)$ to $O(n^2)$
 
-__Complexity__
+**Complexity**
 
 - $O(n m)$
 
@@ -195,15 +195,15 @@ LL nthPalindrome(int k)
 
 return $k$-th Palindrome Number.
 
-__Constraints__
+**Constraints**
 
 - $k < 10^9$
 
-__Complexity__
+**Complexity**
 
 - $O(\log k)$
 
-__Example__
+**Example**
 
 - $\text{nthPalindrome}(1) = 1$
 - $\text{nthPalindrome}(10) = 11$
@@ -217,15 +217,15 @@ int Palindrome(LL n)
 
 return numbers of Palindrome less that $n$
 
-__Constraints__
+**Constraints**
 
 - $n < 10^{18}$
 
-__Complexity__
+**Complexity**
 
 - $O(\log n)$
 
-__Example__
+**Example**
 
 - $\text{Palindrome}(1) = 0$
 - $\text{Palindrome}(111) = 19$

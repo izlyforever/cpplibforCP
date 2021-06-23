@@ -2,7 +2,7 @@
 
 > The size: $N$ should be less than $10^6$ or $2^{22} \doteq 4 \cdot 10^6$ at least.
 
-`poly.hpp` support almost every algorithm involved polynomial and __the module number $M$ can be any prime number__.
+`poly.hpp` support almost every algorithm involved polynomial and **the module number $M$ can be any prime number**.
 
 ## how to choose 
 
@@ -28,7 +28,7 @@ However $M$ should be bigger than the size $N$ since some function need to assmu
 Two ways to support it.
 
 - FFT based: you should check if the precision sufficient
-- NTT based: use 3 or 4 or more NTT-friendly modules, are then use __Chinese remainder theorem__
+- NTT based: use 3 or 4 or more NTT-friendly modules, are then use **Chinese remainder theorem**
 
 we choose `M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353` in PolyMFT using following sageMath code:
 
@@ -60,7 +60,7 @@ for i in sorted(ans):
 - prefixPowSum: $1^i + 2^i + \cdots + (n - 1)^i,  0 < i < k$
 - sumFraction: $\sum_{i = 0}^{n - 1} a_i / (1 - b_i x)$
 
-__As an application, we compute $n!$ $O(\sqrt{n} \log^2 n)$ and $O(\sqrt{n} \log n$(introduced by min_25) in `poly.hpp`__
+**As an application, we compute $n!$ $O(\sqrt{n} \log^2 n)$ and $O(\sqrt{n} \log n$(introduced by min_25) in `poly.hpp`**
 
 ## Example
 

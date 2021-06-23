@@ -17,7 +17,7 @@ double diameter(std::vector<Point> p) // find greatest distance in between Verti
 double minDist(std::vector<Point> a)  // find smallest distance in between Vertices of a
 ```
 
-__Complexity__:
+**Complexity**:
 
 - cross, crossLeft, dist, dist2:  $O(1)$
 - convexHull, diameter: $O(n \log n)$
@@ -27,7 +27,7 @@ __Complexity__:
 
 partial order of dimension $k$ (optimed by bitset)
 
-__Complexity__:
+**Complexity**:
 
 - $O(\frac{n^2}{w})$ where $w = 32,\;64$
 

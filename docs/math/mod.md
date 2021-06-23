@@ -1,6 +1,6 @@
 There are three classes: `MInt`, `ModInt`, `ModLL`. Only `MInt` is a class template.
 
-__`template<typename valT>`(occur in other place) will be one of them.__
+**`template<typename valT>`(occur in other place) will be one of them.**
 
 > You must assign them a mod before use them.
 
