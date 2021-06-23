@@ -54,7 +54,7 @@ for i in sorted(ans):
 
 ## Method
 
-- elementary: `+, -, *, /, %, +=, -=, *=, /=, %=, -(negetive)`, inv, mulXn, modXn, divXn.
+- elementary: `+, -, *, /, %, +=, -=, *=, /=, %=, -(negative)`, inv, mulXn, modXn, divXn.
 - fundamental: powModPoly, inner, derivation, integral, log, exp, sqrt, mulT,  evals, Lagrange, linearRecursion, prod, stirling number(stirling1row, stirling1col, stirling2row, stirling2col)
 - mixed: sin, cos, asin, atan, compose, composeInv, toFallingPowForm, fromFallingPowForm, valToVal
 - prefixPowSum: $1^i + 2^i + \cdots + (n - 1)^i,  0 < i < k$
@@ -64,7 +64,7 @@ __As an application, we compute $n!$ $O(\sqrt{n} \log^2 n)$ and $O(\sqrt{n} \log
 
 ## Example
 
-``` C++
+``` cpp
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;

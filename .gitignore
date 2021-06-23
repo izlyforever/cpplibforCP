@@ -1,3 +1,4 @@
 main*
+*.exe
 .vscode
 site/

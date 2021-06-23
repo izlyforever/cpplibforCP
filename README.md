@@ -10,3 +10,9 @@ C++17 (-O2) template for competitive programming algorithms, which contains nume
 - Mkdocs: The Document page is build with Material for MkDocs
 
 > It's really hard to give a reference for every algorithm (in English).
+
+
+## plan
+
+- enhance document
+- add BigInt

@@ -1,4 +1,4 @@
-仅为补充，这里就放一个大致目录和一些核心内容的说明（有些英文说太麻烦）
+此文档仅为补充，这里就放一个大致目录和一些核心内容的说明（有些英文说太麻烦），可以在我的 [cnblog](https://www.cnblogs.com/izlyforever/p/templateOfCpp.html) 里找到很多核心代码的原理
 
 # 文档
 

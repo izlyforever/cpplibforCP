@@ -1,4 +1,4 @@
-// docs/test/math/gaussTest1.cpp
+// docs/test/math/gauss1.cpp
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;

@@ -2,11 +2,11 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
-int powMod(int x, int n, int p) {
+int powMod(int x, int n, int M) {
 	int r = 1;
 	while (n) {
-		if (n&1) r = 1LL * r * x % p;
-		n >>= 1; x = 1LL * x * x % p;
+		if (n&1) r = 1LL * r * x % M;
+		n >>= 1; x = 1LL * x * x % M;
 	}
 	return r;
 }
@@ -24,17 +24,17 @@ T ceil(T a, T n) { // n > 0
 namespace int128 {
 __int128 read(){
 	__int128 x = 0;
-	bool negetive = false;
+	bool negative = false;
 	char ch = getchar();
 	while (ch < '0' || ch > '9'){
-		if (ch == '-') negetive = true;
+		if (ch == '-') negative = true;
 		ch = getchar();
 	}
 	while (ch >= '0' && ch <= '9') {
 		x = x * 10 + ch - '0';
 		ch = getchar();
 	}
-	return negetive ?  -x : x;
+	return negative ?  -x : x;
 }
 
 void printS(__int128 x){
@@ -74,7 +74,7 @@ std::tuple<T, T, T> exGcd(T a, T b) {
 }
 
 // Chinese remainder theorem: x = ai mod mi, m_i > 0, 0 <= a_i < m_i
-std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2){
+std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2) {
 	auto [d, t1, t2] = exGcd(m1, m2);
 	assert((a2 - a1) % d == 0);
 	LL m = m1 / d * m2;
@@ -82,14 +82,28 @@ std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2){
 	return std::make_pair(ans < 0 ? ans + m: ans, m);
 }
 
-std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>> &a){
-	auto ans = a[0];
-	for (int i = 1, na = a.size(); i < na; ++i) {
-		ans = crt2(ans.first, ans.second, a[i].first, a[i].second);
+std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>> &A) {
+	auto ans = A[0];
+	for (int i = 1, na = A.size(); i < na; ++i) {
+		ans = crt2(ans.first, ans.second, A[i].first, A[i].second);
 	}
 	return ans;
 }
 // https://www.luogu.com.cn/problem/P1495
+
+// $O(N)$ smallest prime factor
+std::vector<int> spf(int N) {
+	std::vector<int> sp(N), p{0, 2};
+	for (int i = 2; i < N; i += 2) sp[i] = 2;
+	for (int i = 1; i < N; i += 2) sp[i] = i;
+	for (int i = 3; i < N; i += 2) {
+		if (sp[i] == i) p.emplace_back(i);
+		for (int j = 2, np = p.size(); j < np && p[j] <= sp[i] && i * p[j] < N; ++j) {
+			sp[i * p[j]] = p[j]; // Note that sp[x] is assigned only once foreach x
+		}
+	}
+	return sp;
+}
 
 class Binom {
 	static inline const int N = 65;
@@ -181,7 +195,7 @@ valT Lagrange(const std::vector<valT> &f, int m) {
 
 // Calculate powSum in $O(k)$ based on Lagrange interpolation
 template<typename valT>
-valT powSum(int n, int k, const std::vector<int> &sp){
+valT powSum(int n, int k, const std::vector<int> &sp) {
 	if (k == 0) return valT(n);
 	std::vector<valT> f(k + 2);
 	f[1] = valT(1);
@@ -311,19 +325,6 @@ public:
 	}
 };
 
-// $O(N)$ smallest prime factor
-std::vector<int> spf(int N) {
-	std::vector<int> sp(N), p{0, 2};
-	for (int i = 2; i < N; i += 2) sp[i] = 2;
-	for (int i = 1; i < N; i += 2) sp[i] = i;
-	for (int i = 3; i < N; i += 2) {
-		if (sp[i] == i) p.emplace_back(i);
-		for (int j = 2, np = p.size(); j < np && p[j] <= sp[i] && i * p[j] < N; ++j) {
-			sp[i * p[j]] = p[j]; // Note that sp[x] is assigned only once foreach x
-		}
-	}
-	return sp;
-}
 
 // transform vector<int> to vector<valT>
 template<typename valT>

@@ -3,17 +3,21 @@
 
 namespace Geomerty {
 using Point = std::pair<double, double>;
-bool crossLeft(const Point &op, const Point &sp, const Point &ep) {
-	return (sp.first - op.first) * (ep.second - op.second) 
-	<= (sp.second - op.second) * (ep.first - op.first);
-}
 double cross(const Point &op, const Point &sp, const Point &ep) {
 	return (sp.first - op.first) * (ep.second - op.second) 
 	- (sp.second - op.second) * (ep.first - op.first);	
 }
+bool crossLeft(const Point &op, const Point &sp, const Point &ep) {
+	return (sp.first - op.first) * (ep.second - op.second) 
+	<= (sp.second - op.second) * (ep.first - op.first);
+}
 double dist2(const Point &p, const Point &q) {
 	double x = q.first - p.first, y = q.second - p.second;
 	return x * x + y * y;
+};
+double dist(const Point& p, const Point &q) {
+	double x = q.first - p.first, y = q.second - p.second;
+	return std::sqrt(x * x + y * y);
 };
 
 std::vector<Point> convexHull(std::vector<Point> p) {
@@ -50,11 +54,6 @@ double diameter(std::vector<Point> p) {
 	return std::sqrt(ans);
 } // float version: https://www.luogu.com.cn/problem/P6247
 // Int version: https://www.luogu.com.cn/problem/P1452
-
-double dist (const Point& p, const Point &q) {
-	double x = q.first - p.first, y = q.second - p.second;
-	return std::sqrt(x * x + y * y);
-};
 
 double minDist(std::vector<Point> a) {
 	double d = DBL_MAX;

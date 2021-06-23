@@ -3,7 +3,7 @@
 #include "basic.hpp"
 using LL = long long;
 
-// note that p[1] = 2(p[0] is meanless)
+// note that p[1] = 2 and p[0] is meanless
 class Prime {
 	static inline constexpr int N = 5e6 + 2;
 	bool isp[N]{};
@@ -12,7 +12,7 @@ class Prime {
 	void initPrime() {
 		isp[2] = true;
 		for (int i = 3; i < N; i += 2) isp[i] = true;
-		int sq = int(std::sqrt(N + 0.1)) | 1;
+		int sq = int(std::sqrt(N + 0.1)) | 1; // make sure it is odd number
 		for (int i = 3; i <= sq; i += 2) if (isp[i]) {
 			p.emplace_back(i);
 			for (int j = i * i; j < N; j += i << 1) isp[j] = false;
@@ -191,7 +191,7 @@ class Euler {
 public:
 	int operator[](int i) { return phi[i];}
 	LL getPhi(LL n) {
-		if (n < phi.size()) return phi[n];
+		if (n < (int)phi.size()) return phi[n];
 		if (1LL * p.back() * p.back() > n) return getPhiS(n);
 		LL r = n;
 		for (int i = 1; 1LL * p[i] * p[i] <= n; ++i) if (n % p[i] == 0) {
@@ -264,7 +264,7 @@ class Mobius{
 public:
 	int operator[](int i) { return mu[i];} // assmue i < N
 	int getMu(LL n) {
-		if (n < mu.size()) return mu[n];
+		if (n < (int)mu.size()) return mu[n];
 		if (1LL * p.back() * p.back() > n) return getMuS(n);
 		int r = 1;
 		for (int i = 1; 1LL * p[i] * p[i] <= n; ++i) if (n % p[i] == 0) {
@@ -492,7 +492,7 @@ LL gpf(LL n, LL mxf = 1) {
 } // namespace PollardRho
 
 
-// find smallest non-negetive $x$ s.t. $a^x = b \mod p$, or $-1$(assume $0^0 = 1$)
+// find smallest non-negative $x$ s.t. $a^x = b \mod p$, or $-1$(assume $0^0 = 1$)
 int babyStepGiantStep(int a, int b, int p) {
 	a %= p; b %= p;
 	if (p == 1 || b == 1) return 0;

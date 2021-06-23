@@ -4,10 +4,10 @@
 
 You may add test here for example: 
 
-add file `docs/test/math/polyTest1.cpp` to solve $n! \mod p$ in [SPOJ](https://www.spoj.com/problems/FACTMODP/en/)
+add file `docs/test/math/poly1.cpp` to solve $n! \mod p$ in [SPOJ](https://www.spoj.com/problems/FACTMODP/en/)
 
-``` C++
-// docs/test/math/polyTest1.cpp
+``` cpp
+// docs/test/math/poly1.cpp
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
