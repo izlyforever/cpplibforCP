@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+using LL = long long;
 
 using edge = std::vector<std::pair<int, int>>;
 using Edge = std::tuple<int, int, int>;
@@ -634,7 +635,7 @@ public:
 
 // Minimum cost maximum flow
 class Flow {
-	static inline const int INF = 1e9;
+	static inline constexpr int INF = 1e9;
 	int n;
 	// e[i] = {endPoint, conpacity} and e[i ^ 1] is opposite edge of e[i]
 	// g[u] = {edges start from u}

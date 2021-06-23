@@ -67,7 +67,7 @@ class PolyS : public std::vector<int> {
 		standard();
 	}
 public:
-	static inline const int M = 998244353, g = 3;
+	static inline constexpr int g = 3, M = 998244353; // 1 +  2^23 * 7 * 17
 	PolyS() {}
 	PolyS(const std::vector<int> &a) : std::vector<int>{a} { standard();}
 	PolyS(const int &x) : std::vector<int>{x} { standard();}

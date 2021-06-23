@@ -10,7 +10,7 @@ class Poly : public T {
 	// many function will fail for the case n > mod
 	static inline const valT j = pow(valT(3), (valT::mod() - 1) / 4);
 	static inline const valT inv2 = (valT::mod() + 1) / 2;
-	static inline const int maxN = 1e6 + 2;  // assume size(a) < maxN
+	static inline constexpr int maxN = 1e6 + 2;  // assume size(a) < maxN
 	static inline const auto &Binom = BinomModp<valT>::Instance(maxN);
 	// static inline constexpr Binom
 public:

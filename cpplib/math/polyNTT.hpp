@@ -17,7 +17,7 @@ protected:
 		return PolyBaseNTT(A);
 	}
 public:
-	static inline const int M = N;
+	static inline constexpr int M = N;
 	static inline NTT<N> ntt;
 	using PolyBase<MInt<N>>::PolyBase;
 	PolyBaseNTT(const PolyBase<MInt<N>> &A) : PolyBase<MInt<N>>(A) {}

@@ -106,7 +106,7 @@ std::vector<int> spf(int N) {
 }
 
 class Binom {
-	static inline const int N = 65;
+	static inline constexpr int N = 65;
 	LL C[N][N];
 	Binom() {
 		for (int i = 0; i < N; ++i) C[i][0] = C[i][i] = 1;
