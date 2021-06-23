@@ -23,10 +23,11 @@ public:
 		A.n = x;
 		return A;
 	}
-	ModInt(int x = 0) : n(x % M) {
+	ModInt() { n = 0;}
+	ModInt(const int &x) : n(x % M) {
 		if (n < 0) n += M;
 	}
-	ModInt(LL x) : n(x % M) {
+	ModInt(const LL &x) : n(x % M) {
 		if (n < 0) n += M;
 	}
 	ModInt operator-() const {
@@ -133,7 +134,14 @@ public:
 		A.n = x;
 		return A;
 	}
-	ModLL(__int128 x = 0) : n(x % M) {
+	ModLL() { n = 0;}
+	ModLL(const int &x) : n(x % M) {
+		if (n < 0) n += M;
+	}
+	ModLL(const LL &x) : n(x % M) {
+		if (n < 0) n += M;
+	}
+	ModLL(const __int128 &x) : n(x % M) {
 		if (n < 0) n += M;
 	}
 	ModLL operator-() const {
@@ -242,10 +250,11 @@ public:
 		A.n = x;
 		return A;
 	}
-	MInt(int x = 0) : n(x % M) {
+	MInt() { n = 0;}
+	MInt(const int &x) : n(x % M) {
 		if (n < 0) n += M;
 	}
-	MInt(LL x) : n(x % M) {
+	MInt(const LL &x) : n(x % M) {
 		if (n < 0) n += M;
 	}
 	operator int() const {
