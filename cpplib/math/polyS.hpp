@@ -2,117 +2,109 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
-namespace NTTS {
-int M = 998244353, g = 3;
-std::vector<int> rev, roots{0, 1};
-int powMod(int x, int n) {
-	int r(1);
-	while (n) {
-		if (n&1) r = 1LL * r * x % M;
-		n >>= 1; x = 1LL * x * x % M;
+class PolyS : public std::vector<int> {
+	static inline std::vector<int> rev, roots{0, 1};
+	static int powMod(int x, int n) {
+		int r(1);
+		while (n) {
+			if (n&1) r = 1LL * r * x % M;
+			n >>= 1; x = 1LL * x * x % M;
+		}
+		return r;
 	}
-	return r;
-}
-void dft(std::vector<int> &a) {
-	int n = a.size();
-	if ((int)rev.size() != n) {
-		int k = __builtin_ctz(n) - 1;
-		rev.resize(n);
+	void dft() {
+		int n = size();
+		if ((int)rev.size() != n) {
+			int k = __builtin_ctz(n) - 1;
+			rev.resize(n);
+			for (int i = 0; i < n; ++i) {
+				rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+			}
+		}
+		if ((int)roots.size() < n) {
+			int k = __builtin_ctz(roots.size());
+			roots.resize(n);
+			while ((1 << k) < n) {
+				int e = powMod(g, (M - 1) >> (k + 1));
+				for (int i = 1 << (k - 1); i < (1 << k); ++i) {
+					roots[2 * i] = roots[i];
+					roots[2 * i + 1] = 1LL * roots[i] * e % M;
+				}
+				++k;
+			}
+		}
+		for (int i = 0; i < n; ++i) if (rev[i] < i) {
+			std::swap((*this)[i], (*this)[rev[i]]);
+		}
+		for (int k = 1; k < n; k *= 2) {
+			for (int i = 0; i < n; i += 2 * k) {
+				for (int j = 0; j < k; ++j) {
+					int u = (*this)[i + j];
+					int v = 1LL * (*this)[i + j + k] * roots[k + j] % M;
+					int x = u + v, y = u - v;
+					if (x >= M) x -= M;
+					if (y < 0) y += M;
+					(*this)[i + j] = x;
+					(*this)[i + j + k] = y;
+				}
+			}
+		}
+	}
+	void idft() {
+		int n = size();
+		std::reverse(begin() + 1, end());
+		dft();
+		int inv = powMod(n, M - 2);
 		for (int i = 0; i < n; ++i) {
-			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+			(*this)[i] = 1LL * (*this)[i] * inv % M;
 		}
 	}
-	if ((int)roots.size() < n) {
-		int k = __builtin_ctz(roots.size());
-		roots.resize(n);
-		while ((1 << k) < n) {
-			int e = powMod(g, (M - 1) >> (k + 1));
-			for (int i = 1 << (k - 1); i < (1 << k); ++i) {
-				roots[2 * i] = roots[i];
-				roots[2 * i + 1] = 1LL * roots[i] * e % M;
-			}
-			++k;
-		}
-	}
-	for (int i = 0; i < n; ++i) if (rev[i] < i) {
-		std::swap(a[i], a[rev[i]]);
-	}
-	for (int k = 1; k < n; k *= 2) {
-		for (int i = 0; i < n; i += 2 * k) {
-			for (int j = 0; j < k; ++j) {
-				int u = a[i + j];
-				int v = 1LL * a[i + j + k] * roots[k + j] % M;
-				int x = u + v, y = u - v;
-				if (x >= M) x -= M;
-				if (y < 0) y += M;
-				a[i + j] = x;
-				a[i + j + k] = y;
-			}
-		}
-	}
-}
-void idft(std::vector<int> &a) {
-	int n = a.size();
-	std::reverse(a.begin() + 1, a.end());
-	dft(a);
-	int inv = powMod(n, M - 2);
-	for (int i = 0; i < n; ++i) {
-		a[i] = 1LL * a[i] * inv % M;
-	}
-}
-} //namespace NTTS
-
-class PolyS {
 	void standard() {
-		while (!a.empty() && !a.back()) a.pop_back();
+		while (!empty() && !back()) pop_back();
 	}
 	void reverse() {
-		std::reverse(a.begin(), a.end());
+		std::reverse(begin(), end());
 		standard();
 	}
 public:
-	static inline const int M = NTTS::M;
-	static inline const int inv2 = (M + 1) / 2;
-	std::vector<int> a;
+	static inline const int M = 998244353, g = 3, inv2 = (M + 1) / 2;
 	PolyS() {}
-	PolyS(int x) { if (x) a = {x};}
-	PolyS(const std::vector<int> _a) : a(_a) {}
-	int size() const { return a.size();}
-	int& operator[](int id) { return a[id];}
+	PolyS(const std::vector<int> &a) : std::vector<int>{a} { standard();}
+	PolyS(const int &x) : std::vector<int>{x} { standard();}
 	int at(int id) const {
-		if (id < 0 || id >= (int)a.size()) return 0;
-		return a[id];
+		if (id < 0 || id >= (int)size()) return 0;
+		return (*this)[id];
 	}
 	PolyS operator-() const {
 		auto A = *this;
-		for (auto &x : A.a) x = (x == 0 ? 0 : M - x);
+		for (auto &x : A) x = (x == 0 ? 0 : M - x);
+		return A;
+	}	
+	PolyS mulXn(int n) const {
+		auto A = *this;
+		if (!A.empty()) A.insert(A.begin(), n, 0);
 		return A;
 	}
-	PolyS mulXn(int n) const {
-		auto b = a;
-		b.insert(b.begin(), n, 0);
-		return PolyS(b);
-	}
 	PolyS modXn(int n) const {
-		if (n > size()) return *this;
-		return PolyS({a.begin(), a.begin() + n});
+		if (n > (int)size()) return *this;
+		return PolyS({begin(), begin() + n});
 	}
 	PolyS divXn(int n) const {
-		if (size() <= n) return PolyS();
-		return PolyS({a.begin() + n, a.end()});
+		if ((int)size() <= n) return PolyS();
+		return PolyS({begin() + n, end()});
 	}
 	PolyS &operator+=(const PolyS &rhs) {
-		if (size() < rhs.size()) a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) {
-			if ((a[i] += rhs.a[i]) >= M) a[i] -= M;
+		if ((int)size() < (int)rhs.size()) resize(rhs.size());
+		for (int i = 0, rs = rhs.size(); i < rs; ++i) {
+			if (((*this)[i] += rhs[i]) >= M) (*this)[i] -= M;
 		}
 		standard();
 		return *this;
 	}
 	PolyS &operator-=(const PolyS &rhs) {
-		if (size() < rhs.size()) a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) {
-			if ((a[i] -= rhs.a[i]) < 0) a[i] += M;
+		if (size() < rhs.size()) resize(rhs.size());
+		for (int i = 0, rs = rhs.size(); i < rs; ++i) {
+			if (((*this)[i] -= rhs[i]) < 0) (*this)[i] += M;
 		}
 		standard();
 		return *this;
@@ -120,14 +112,14 @@ public:
 	PolyS &operator*=(PolyS rhs) {
 		int n = size(), m = rhs.size(), tot = std::max(1, n + m - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
-		a.resize(sz);
-		rhs.a.resize(sz);
-		NTTS::dft(a);
-		NTTS::dft(rhs.a);
+		resize(sz);
+		rhs.resize(sz);
+		dft();
+		rhs.dft();
 		for (int i = 0; i < sz; ++i) {
-			a[i] = 1LL * a[i] * rhs.a[i] % M;
+			(*this)[i] = 1LL * (*this)[i] * rhs[i] % M;
 		}
-		NTTS::idft(a);
+		idft();
 		standard();
 		return *this;
 	}
@@ -137,7 +129,7 @@ public:
 		reverse();
 		rhs.reverse();
 		(*this) *= rhs.inv(n - m + 1);
-		a.resize(n - m + 1);
+		resize(n - m + 1);
 		reverse();
 		return *this;
 	}
@@ -170,28 +162,28 @@ public:
 	int inner(const PolyS &rhs) {
 		int r = 0, n = std::min(size(), rhs.size());
 		for (int i = 0; i < n; ++i) {
-			r = (r + 1LL * a[i] * rhs.a[i]) % M;
+			r = (r + 1LL * (*this)[i] * rhs[i]) % M;
 		}
 		return r;
 	}
 	PolyS derivation() const {
-		if (a.empty()) return PolyS();
+		if (empty()) return PolyS();
 		int n = size();
 		std::vector<int> r(n - 1);
-		for (int i = 1; i < n; ++i) r[i - 1] =  1LL * a[i] * i % M;
+		for (int i = 1; i < n; ++i) r[i - 1] =  1LL * (*this)[i] * i % M;
 		return PolyS(r);
 	}
 	PolyS integral() const {
-		if (a.empty()) return PolyS();
+		if (empty()) return PolyS();
 		int n = size();
 		std::vector<int> r(n + 1), inv(n + 1, 1);
 		for (int i = 2; i <= n; ++i) inv[i] = 1LL * (M - M / i) * inv[M % i] % M;
-		for (int i = 0; i < n; ++i) r[i + 1] = 1LL * a[i] * inv[i + 1] % M;
+		for (int i = 0; i < n; ++i) r[i + 1] = 1LL * (*this)[i] * inv[i + 1] % M;
 		return PolyS(r);
 	}
 	PolyS inv(int n) const {
-		assert(a[0] != 0);
-		PolyS x(NTTS::powMod(a[0], M - 2));
+		// assert((*this)[0] != 0);
+		PolyS x(powMod((*this)[0], M - 2));
 		int k = 1;
 		while (k < n) {
 			k *= 2;
@@ -228,13 +220,13 @@ public:
 	PolyS mulT(PolyS rhs) const {
 		if (rhs.size() == 0) return PolyS();
 		int n = rhs.size();
-		std::reverse(rhs.a.begin(), rhs.a.end());
+		std::reverse(rhs.begin(), rhs.end());
 		return ((*this) * rhs).divXn(n - 1);
 	}
 	int eval(int x) {
 		int r = 0, t = 1;
 		for (int i = 0, n = size(); i < n; ++i) {
-			r = (r + 1LL * a[i] * t) % M;
+			r = (r + 1LL * (*this)[i] * t) % M;
 			t = 1LL * t * x % M;
 		}
 		return r;
