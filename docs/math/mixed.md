@@ -1,5 +1,16 @@
 # mixed.hpp
 
+## BigInt
+
+See [BigInt](https://github.com/izlyforever/BigInt) for detail.
+
+**Complexity**
+
+- add, sub: $O(n)$
+- mul, div: $O(n \log n)$
+
+> where $n$ is the length of number in decimal.
+
 ## GospersHack
 
 ``` cpp

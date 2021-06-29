@@ -4,6 +4,7 @@
 - Categories: math, date structure, graph theory, geometry, mixed
 - Note: algorithm name end with `S` means simple and slow
 - Index: begin with 0, unless otherwise state
+- Categories: [Math](math/basic.md), [Data Structure](dataStructure.md), [Graph Theory](graph.md), [String](string.md)
 
 ## commom ideals
 
