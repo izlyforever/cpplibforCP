@@ -157,7 +157,7 @@
 
 <h1 id="polyallhpp">polyALL.hpp</h1>
 <blockquote>
-<p>The size: <script type="math/tex">N</script> should be less than <script type="math/tex">10^6</script> or <script type="math/tex">2^{22} \doteq 4 \cdot 10^6</script> at least.</p>
+<p>The size: <script type="math/tex">N</script> should be less than <script type="math/tex">2^{22} \simeq 4 \cdot 10^6</script>, since module used in NTT are only multiples of <script type="math/tex">2^{23}</script>.</p>
 </blockquote>
 <p><code>poly.hpp</code> support almost every algorithm involved polynomial and <strong>the module number <script type="math/tex">M</script> can be any prime number</strong>.</p>
 <h2 id="how-to-choose">how to choose</h2>
