@@ -54,9 +54,9 @@ class PolyS : public std::vector<int> {
 		int n = size();
 		std::reverse(begin() + 1, end());
 		dft();
-		int inv = powMod(n, M - 2);
+		int invN = powMod(n, M - 2);
 		for (int i = 0; i < n; ++i) {
-			(*this)[i] = 1LL * (*this)[i] * inv % M;
+			(*this)[i] = 1LL * (*this)[i] * invN % M;
 		}
 	}
 	void standard() {
@@ -86,7 +86,7 @@ public:
 		return A;
 	}
 	PolyS modXn(int n) const {
-		if (n > (int)size()) return *this;
+		if (n >= (int)size()) return *this;
 		return PolyS({begin(), begin() + n});
 	}
 	PolyS divXn(int n) const {
