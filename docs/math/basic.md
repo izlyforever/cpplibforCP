@@ -44,10 +44,10 @@ $\text{ceil}(a, n) = \lceil \frac{a}{n} \rceil$
 
 
 
-## `**int128` : input and output
+## `__int128` : input and output
 
 ``` cpp
-**int128 int128::read()
+__int128 int128::read()
 void int128::print()
 ```
 
