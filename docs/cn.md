@@ -73,7 +73,7 @@
 - 模奇素数幂开根号？
 - 模任意数开根号（先因式分解，看作模素数方开根号，再 CRT 整合）？
 
-### BigInt ？
+### [BigInt](https://github.com/izlyforever/BigInt)
 
 ### 杂类
 
