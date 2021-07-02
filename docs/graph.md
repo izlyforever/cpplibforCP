@@ -20,6 +20,9 @@ Notation: $n$(numbers of vertex), $m$(numbers of edges)
 - Floyd
 - BellmanFord
 - spfa
+
+## Connectivity
+
 - Scc: Strongly Connected Components
 - twoSAT
 - cutVertex
