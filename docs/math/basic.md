@@ -188,7 +188,9 @@ std::cout << C(4, 2) << '\n'; // the answer is 6
 
 ## BinomModp
 
-It is a singleton template class, with typename `valT`
+It is a ~~singleton~~ template class, with typename `valT`
+
+> since `valT::mod()` may change in progress, It is not wise to use singleton
 
 **Members and Methods**
 

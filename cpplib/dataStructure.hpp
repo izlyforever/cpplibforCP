@@ -127,12 +127,13 @@ public:
 
 
 // Bit Tree Mininal version
+template<typename T>
 struct BitreeMin {
-	std::vector<int> s;
+	std::vector<T> s;
 	BitreeMin() {}
-	BitreeMin(int n) : s(n + 1, INT_MAX) {}
+	BitreeMin(int n) : s(n + 1, std::numeric_limits<T>::max()) {}
 	int lowbit(int n) { return n & (-n); }
-	void modify(int id, int p) {
+	void modify(int id, T p) {
 		int ns = s.size();
 		while (id < ns) {
 			s[id] = std::min(s[id], p);
@@ -140,8 +141,8 @@ struct BitreeMin {
 		}
 	}
 	// cal minial value in [1, id]
-	int min(int id) {
-		int r = INT_MAX;
+	T min(int id) {
+    T r = std::numeric_limits<T>::max()
 		while (id) {
 			r = std::min(r, s[id]);
 			id -= lowbit(id);
@@ -150,20 +151,21 @@ struct BitreeMin {
 	}
 };
 
+template<typename T>
 struct Bitree {
-	std::vector<LL> s;
+	std::vector<T> s;
 	Bitree() {}
 	Bitree(int n) : s(n + 1) {}
 	int lowbit(int n) { return n & (-n); }
-	void add(int id, int p) {
+	void add(int id, T p) {
 		int ns = s.size();
 		while (id < ns) {
 			s[id] += p;
 			id += lowbit(id);
 		}
 	}
-	LL sum(int id) {
-		LL r = 0;
+	T sum(int id) {
+		T r = 0;
 		while (id) {
 			r += s[id];
 			id -= lowbit(id);
@@ -171,8 +173,8 @@ struct Bitree {
 		return r;
 	}
 	// find minimal index s.t. sum(id) >= x, sum must be increased
-	int search(LL val) {
-		LL sum = 0;
+	int search(T val) {
+		T sum = 0;
 		int id = 0;
 		for (int i = std::__lg(s.size()); ~i; --i) {
 			if (id + (1 << i) < (int)s.size() && sum + s[id + (1 << i)] < val) {
@@ -184,27 +186,27 @@ struct Bitree {
 	}
 };
 
-
+template<typename T>
 class BitreePlus {
 	int n;
 	// c[i] = a[i] - a[i - 1], b_i = (i - 1) * c_i
-	Bitree B, C;
-	void add(int id, int p) {
+	Bitree<T> B, C;
+	void add(int id, T p) {
 		C.add(id, p);
 		B.add(id, (id - 1) * p);
 	}
 public:
 	BitreePlus() {}
 	BitreePlus(int _n) : n(_n), B(n), C(n) {}
-	void add(int l, int r, int p) {
+	void add(int l, int r, T p) {
 		add(l, p);
 		add(r + 1, -p);
 	}
-	LL sum(int id) { return id * C.sum(id) - B.sum(id); }
-	LL sum(int l, int r) { return sum(r) - sum(l - 1); }
+	T sum(int id) { return id * C.sum(id) - B.sum(id); }
+	T sum(int l, int r) { return sum(r) - sum(l - 1); }
 	// find minimal index s.t. sum(id) >= x, sum must be increased
-	int search(LL val) {
-		LL sumB = 0, sumC = 0;
+	int search(T val) {
+		T sumB = 0, sumC = 0;
 		int id = 0;
 		for (int i = std::__lg(n); ~i; --i)
 			if (int idi = id + (1 << i); idi <= n) {
@@ -546,7 +548,7 @@ std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
 		a[i].w = 0;
 	}
 	a.back().w = a.size() - last;
-	Bitree A(k);
+	Bitree<LL> A(k);
 	auto cmpy = [](const cdqNode &lhs, const cdqNode &rhs) {
 		return lhs.y < rhs.y;
 	};

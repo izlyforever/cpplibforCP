@@ -8,7 +8,7 @@ protected:
 	PolyBaseNTT mul(const PolyBaseNTT &rhs) const {
 		int n = this->size(), m = rhs.size(), tot = std::max(1, n + m - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
-		auto A = this->a, B = rhs.a;
+		std::vector<MInt<N>> A = *this, B = rhs;
 		A.resize(sz); B.resize(sz);
 		ntt.dft(A); ntt.dft(B);
 		for (int i = 0; i < sz; ++i) A[i] *= B[i];

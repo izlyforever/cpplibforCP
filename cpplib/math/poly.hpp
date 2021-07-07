@@ -5,44 +5,49 @@
 using LL = long long;
 
 // using valT = decltype(T::a)::value_type;
+
 template<typename T, typename valT>
 class Poly : public T {
 	// many function will fail for the case n > mod
 	static inline const valT j = pow(valT(3), (valT::mod() - 1) / 4);
 	static inline const valT inv2 = (valT::mod() + 1) / 2;
-	static inline constexpr int maxN = 1e6 + 2;  // assume size(a) < maxN
+	static inline const int maxN = 1e6 + 2;  // assume size(a) < maxN
 	static inline const auto &Binom = BinomModp<valT>::Instance(maxN);
-	// static inline constexpr Binom
 public:
 	using T::T;
+  // never use it if valT = MINT<M>
+  static void setMod(LL p, int n = maxN) {
+    valT::setMod(p);
+    BinomModp<valT>::Instance(std::min(LL(n), p));
+  }
 	Poly (const T &x) : T(x) {}
 	Poly mulXn(int n) const {
-		auto b = this->a;
+		std::vector<valT> b = *this;
 		b.insert(b.begin(), n, 0);
 		return Poly(b);
 	}
 	Poly modXn(int n) const {
 		if (n > (int)this->size()) return *this;
-		return Poly({this->a.begin(), this->a.begin() + n});
+		return Poly({this->begin(), this->begin() + n});
 	}
 	Poly divXn(int n) const {
 		if ((int)this->size() <= n) return Poly();
-		return Poly({this->a.begin() + n, this->a.end()});
+		return Poly({this->begin() + n, this->end()});
 	}
 	Poly operator-() const {
 		auto A = *this;
-		for (auto &x : A.a) x = -x;
+		for (auto &x : A) x = -x;
 		return A;
 	}
 	Poly &operator+=(const Poly &rhs) {
-		if (this->size() < rhs.size()) this->a.resize(rhs.size());
-		for (int i = 0, nr = rhs.size(); i < nr; ++i) this->a[i] += rhs.a[i];
+		if (this->size() < rhs.size()) this->resize(rhs.size());
+		for (int i = 0, nr = rhs.size(); i < nr; ++i) (*this)[i] += rhs[i];
 		this->standard();
 		return *this;
 	}
 	Poly &operator-=(const Poly &rhs) {
-		if (this->size() < rhs.size()) this->a.resize(rhs.size());
-		for (int i = 0, nr = rhs.size(); i < nr; ++i) this->a[i] -= rhs.a[i];
+		if (this->size() < rhs.size()) this->resize(rhs.size());
+		for (int i = 0, nr = rhs.size(); i < nr; ++i) (*this)[i] -= rhs[i];
 		this->standard();
 		return *this;
 	}
@@ -60,8 +65,8 @@ public:
 	}
 	// assume a[0] \neq 0
 	Poly inv(int n) const {
-		// assert(this->a[0] != 0);
-		Poly x(this->a[0].inv());
+		// assert((*this)[0] != 0);
+		Poly x((*this)[0].inv());
 		int k = 1;
 		while (k < n) {
 			k *= 2;
@@ -75,7 +80,7 @@ public:
 		this->reverse();
 		rhs.reverse();
 		(*this) *= rhs.inv(n - m + 1);
-		this->a.resize(n - m + 1);
+		this->resize(n - m + 1);
 		this->reverse();
 		return *this;
 	}
@@ -99,22 +104,22 @@ public:
 	valT inner(const Poly &rhs) const {
 		valT r(0);
 		int n = std::min(this->size(), rhs.size());
-		for (int i = 0; i < n; ++i) r += this->a[i] * rhs.a[i];
+		for (int i = 0; i < n; ++i) r += (*this)[i] * rhs[i];
 		return r;
 	}
 	Poly derivation() const {
-		if (this->a.empty()) return Poly();
+		if (this->empty()) return Poly();
 		int n = this->size();
 		std::vector<valT> r(n - 1);
-		for (int i = 1; i < n; ++i) r[i - 1] = this->a[i] * valT(i);
+		for (int i = 1; i < n; ++i) r[i - 1] = (*this)[i] * valT(i);
 		return Poly(r);
 	}
 	Poly integral() const {
-		if (this->a.empty()) return Poly();
+		if (this->empty()) return Poly();
 		int n = this->size();
 		std::vector<valT> r(n + 1), inv(n + 1, 1);
 		for (int i = 2; i <= n; ++i) inv[i] = valT(valT::mod() - valT::mod() / i) * inv[valT::mod() % i];
-		for (int i = 0; i < n; ++i) r[i + 1] = this->a[i] * inv[i + 1];
+		for (int i = 0; i < n; ++i) r[i + 1] = (*this)[i] * inv[i + 1];
 		return Poly(r);
 	}
 	// assume a[0] = 1
@@ -133,19 +138,19 @@ public:
 	}
 	Poly sin(int n) const {
 		auto A = *this;
-		for (auto &x : A.a) x *= j;
+		for (auto &x : A) x *= j;
 		A = A.exp(n);
 		A -= A.inv(n);
 		auto m = -j * inv2;
-		for (auto &x : A.a) x *= m;
+		for (auto &x : A) x *= m;
 		return A;
 	}
 	Poly cos(int n) const {
 		auto A = *this;
-		for (auto &x : A.a) x *= j;
+		for (auto &x : A) x *= j;
 		A = A.exp(n);
 		A += A.inv(n);
-		for (auto &x : A.a) x *= inv2;
+		for (auto &x : A) x *= inv2;
 		return A;
 	}
 	// assume a[0] = 0
@@ -179,7 +184,7 @@ public:
 	Poly mulT(Poly rhs) const {
 		if (rhs.size() == 0) return Poly();
 		int n = rhs.size();
-		std::reverse(rhs.a.begin(), rhs.a.end());
+		std::reverse(rhs.begin(), rhs.end());
 		return ((*this) * rhs).divXn(n - 1);
 	}
 	// compose poly common algorithm F(A(x)) in $O(n^2)$, however Brent-Kung algorithm with $(n \log n)^{1.5}$ may be slower.
@@ -196,7 +201,7 @@ public:
 			for (int j = 0; j < sn && i + j < n; ++j) {
 				auto m = this->at(i + j);
 				auto tmp = G[j];
-				for (auto &x : tmp.a) x *= m;
+				for (auto &x : tmp) x *= m;
 				sm += tmp;
 			}
 			ans += (now * sm).modXn(n);
@@ -242,7 +247,7 @@ public:
 	Poly fromFallingPowForm() {
 		int n = this->size();
 		Poly A = ((*this) * Poly(Binom.ifac)).modXn(n);
-		std::vector<valT> x(n), y = A.a;
+		std::vector<valT> x(n), y = A;
 		for (int i = 0; i < n; ++i) x[i] = i;
 		y.resize(n);
 		for (int i = 0; i < n; ++i) y[i] *= Binom.fac[i];
@@ -251,7 +256,7 @@ public:
 	valT eval(valT x) const {
 		valT r(0), t(1);
 		for (int i = 0, n = this->size(); i < n; ++i) {
-			r += this->a[i] * t;
+			r += (*this)[i] * t;
 			t *= x;
 		}
 		return r;
@@ -297,7 +302,7 @@ public:
 		};
 		auto [p, q] = solve(0, a.size());
 		p *= q.inv(N);
-		auto ans = p.a;
+		std::vector<valT> ans = p;
 		ans.resize(N);
 		return ans;
 	} // https://codeforces.com/gym/102978/problem/D
@@ -315,7 +320,7 @@ public:
 			f[i] = now.inv();
 			++now;
 		}
-		h = (Poly(f) * Poly(h)).a;
+		h = Poly(f) * Poly(h);
 		h.resize(d + cnt);
 		h = std::vector<valT>(h.begin() + d, h.end());
 		now = 1;
@@ -375,7 +380,7 @@ public:
 		auto Numerator = Poly(a), denominator = Poly(b);
 		
 		auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
-		auto ans = f.a;
+		auto ans = f;
 		ans.resize(k);
 		valT now(1);
 		for (int i = 2; i < k; ++i) {
@@ -397,13 +402,13 @@ public:
 				now *= k;
 			}
 			auto B = A;
-			for (int i = 0; i < B.size(); ++i) B[i] *= Binom.fac[i];
+			for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= Binom.fac[i];
 			B = B.mulT(tmp).modXn(k + 1);
-			for (int i = 0; i < B.size(); ++i) B[i] *= Binom.ifac[i];
+			for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= Binom.ifac[i];
 			A *= B;
 			if (2 * k != n) {
 				B = A;
-				for (auto &x : B.a) x *= valT::raw(n - 1);
+				for (auto &x : B) x *= valT::raw(n - 1);
 				A = A.mulXn(1) + B;
 			}
 			return A;
@@ -420,7 +425,7 @@ public:
 	}
 	// Stirling number
 	static std::vector<valT> stirling1row(int n) {
-		auto B = prod(n).a;
+		std::vector<valT> B = prod(n);
 		B.resize(n + 1);
 		return B;
 	}
@@ -428,8 +433,8 @@ public:
 		if (k > n)  return std::vector<valT>(n + 1);
 		auto B = Poly({1, -1}).log(n + 2 - k).divXn(1);
 		B = (-B).log(n + 1 - k);
-		for (auto &x : B.a) x *= valT::raw(k);
-		auto ans = B.exp(n + 1 - k).mulXn(k).a;
+		for (auto &x : B) x *= valT::raw(k);
+		std::vector<valT> ans = B.exp(n + 1 - k).mulXn(k);
 		ans.resize(n + 1);
 		auto ifacK = Binom.ifac[k];
 		for (int i = 0; i <= n; ++i) ans[i] *= Binom.fac[i] * ifacK;
@@ -439,7 +444,7 @@ public:
 		auto tmp = Binom.ifac, a = Binom.ifac;
 		for (int i = 1; i <= n; i += 2) tmp[i] = -tmp[i];
 		for (int i = 0; i <= n; ++i) a[i] *= pow(valT::raw(i), n);
-		auto ans = (Poly(a) * Poly(tmp)).a;
+    std::vector<valT> ans = Poly(a) * Poly(tmp);
 		ans.resize(n + 1);
 		return ans;
 	}
@@ -448,9 +453,9 @@ public:
 		auto A = Poly(Binom.ifac);
 		A = A.divXn(1).modXn(n + 1 - k);
 		A = A.log(n + 1 - k);
-		for (auto &x : A.a) x *= valT::raw(k);
+		for (auto &x : A) x *= valT::raw(k);
 		A = A.exp(n + 1 - k).mulXn(k);
-		auto ans = A.a;
+		std::vector<valT> ans = A;
 		ans.resize(n + 1);
 		auto ifacK = Binom.ifac[k];
 		for (int i = 0; i <= n; ++i) ans[i] *= Binom.fac[i] * ifacK;
@@ -460,30 +465,24 @@ public:
 
 
 template<typename valT>
-class PolyBase {
+class PolyBase : public std::vector<valT> {
 protected:
 	void standard() {
-		while (!a.empty() && !a.back()) a.pop_back();
+		while (!this->empty() && this->back() == valT(0)) this->pop_back();
 	}
 	void reverse() {
-		std::reverse(a.begin(), a.end());
-		standard();
+		std::reverse(this->begin(), this->end());
+		this->standard();
 	}
 public:
-	std::vector<valT> a;
 	PolyBase() {}
-	PolyBase(valT x) { if (x != valT(0)) a = {x};}
-	PolyBase(const std::vector<valT> &_a) : a(_a) { standard();}
-	int size() const { return a.size();}
-	valT &operator[](int id) { return a[id];}
+  PolyBase(const std::vector<valT> &a) : std::vector<valT>{a} { standard();}
+	PolyBase(const valT &x) : std::vector<valT>{x} { standard();}
 	valT at(int id) const {
-		if (id < 0 || id >= (int)a.size()) return 0;
-		return a[id];
+		if (id < 0 || id >= (int)this->size()) return 0;
+		return (*this)[id];
 	}
 };
-
-
-
 
 
 

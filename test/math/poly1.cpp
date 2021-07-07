@@ -2,6 +2,7 @@
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
+
 #include "../../cpplib/math.hpp"
 
 // https://www.spoj.com/problems/FACTMODP/en/
@@ -14,6 +15,7 @@ int main() {
 		LL n, p;
 		std::cin >> n >> p;
 		std::cout << factorial(n, p) << '\n';
+		// std::cout << factorialOrigin(n, p) << '\n';
 	}
 	return 0;
 }
