@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 class Timer {
-	std::chrono::_V2::steady_clock::time_point start;
+	std::chrono::steady_clock::time_point start;
 public:
 	Timer() : start(std::chrono::steady_clock::now()) {}
 	void show() {
