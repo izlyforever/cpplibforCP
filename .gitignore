@@ -2,3 +2,4 @@ main*
 *.exe
 .vscode
 site/
+.DS_Store
