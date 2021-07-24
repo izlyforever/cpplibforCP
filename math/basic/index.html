@@ -382,7 +382,10 @@ x \equiv a_i \mod m_i, \quad i = 1, 2, \cdots, n
 std::cout &lt;&lt; C(4, 2) &lt;&lt; '\n'; // the answer is 6
 </code></pre>
 <h2 id="binommodp">BinomModp</h2>
-<p>It is a singleton template class, with typename <code>valT</code></p>
+<p>It is a ~~singleton~~ template class, with typename <code>valT</code></p>
+<blockquote>
+<p>since <code>valT::mod()</code> may change in progress, It is not wise to use singleton</p>
+</blockquote>
 <p><strong>Members and Methods</strong></p>
 <ul>
 <li><code>fac</code>, <code>ifac</code>, <code>inv</code></li>

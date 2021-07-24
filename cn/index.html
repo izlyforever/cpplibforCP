@@ -365,6 +365,15 @@ h(x) &= \sum_{i = 0}^{d} h(i) \prod_{j = 0, j \neq i}^{d} \frac{x - j}{i - j} \\
 <blockquote>
 <p>下降幂与连续点值有 <script type="math/tex">O(n \log n)</script> 的转化。而普通多项式跟连续点值却没有，可以认为普通多项式要的连续其实是类似 FFT 那样的连续。但是注意到以连续点求连续点有 <script type="math/tex">O(n \log n)</script> 的做法</p>
 </blockquote>
+<h4 id="binom">Binom</h4>
+<p>这里的单例很秀的一点就是用了 const 引用，但是却不妨碍我修改它的值！这样的好处：</p>
+<ul>
+<li>对于 <code>MInt&lt;M&gt;</code> 直接初始化了，不用在 setMod</li>
+<li>对于 <code>ModInt, ModLL</code> 这些本来就要 setMod，那就给它调用 setMod 重新刷新 Binom 的值</li>
+</ul>
+<blockquote>
+<p>源代码在换 mod 的时候会有 bug，于 2021-7-24 重构 Poly，通过继承 vector 方式而非 vector 变量的方式的时候发现了这个 bug 并修复了</p>
+</blockquote>
 <h4 id="lagrange"><a href="https://users.math.msu.edu/users/magyarp/Math880/Lagrange.pdf">Lagrange 反演</a></h4>
 <p>若 <script type="math/tex">f(x), g(x) \in F[[x]]</script> 且 <script type="math/tex">f(g(x) = x</script>，则</p>
 <p>
