@@ -1,4 +1,3 @@
-
 // docs/test/math/Dirichlet1.cpp
 #include <bits/stdc++.h>
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
