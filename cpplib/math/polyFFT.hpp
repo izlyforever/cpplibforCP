@@ -8,15 +8,15 @@ template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
 protected:
 	PolyBaseFFT mul(const PolyBaseFFT &rhs) const {
-		int tot = std::max(1, this->size() + rhs.size() - 1);
+		int tot = std::max(1, int(this->size() + rhs.size() - 1));
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		// Must be split to ensure accuracy (or use skill '3 times to 2 times')
 		auto A1(*this), A2(*this), B1(rhs), B2(rhs);
 		static constexpr int bit = 15, msk = (1LL << bit) - 1;
-		for (auto &x : A1.a) x = int(x) & msk;
-		for (auto &x : A2.a) x = int(x) >> bit;
-		for (auto &x : B1.a) x = int(x) & msk;
-		for (auto &x : B2.a) x = int(x) >> bit;
+		for (auto &x : A1) x = int(x) & msk;
+		for (auto &x : A2) x = int(x) >> bit;
+		for (auto &x : B1) x = int(x) & msk;
+		for (auto &x : B2) x = int(x) >> bit;
 		std::vector<std::complex<double>> A(sz), B(sz), C(sz);
 		for (int i = 0, tSize = this->size(); i < tSize; ++i) {
 			A[i] = std::complex<double>((double)A1[i], (double)A2[i]);

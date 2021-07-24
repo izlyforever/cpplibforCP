@@ -603,7 +603,7 @@ int sqrtModp(int a, int p) {
 std::vector<std::tuple<int, int, int>> lcmPair(int n) {
 	std::vector<std::pair<int, int>> ed;
 	for (int i = 1; i <= n; ++i) {
-		for (int j = 1; j < i && i * j <= n; ++j) if (std::__gcd(i, j) == 1) {
+		for (int j = 1; j < i && i * j <= n; ++j) if (std::gcd(i, j) == 1) {
 			ed.emplace_back(j, i);
 		}
 	}

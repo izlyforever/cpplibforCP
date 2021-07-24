@@ -13,7 +13,7 @@ int main() {
 	while (cas--) {
 		LL n, p;
 		std::cin >> n >> p;
-		std::cout << factorial(n, p) << '\n';
+		std::cout << factorialOrigin(n, p) << '\n';
 	}
 	return 0;
 }

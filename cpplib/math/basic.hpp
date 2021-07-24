@@ -131,32 +131,28 @@ public:
 
 template<typename valT>
 class BinomModp {
-	int sz;
-	BinomModp() : sz(2), fac({1, 1}), ifac({1, 1}), inv({0, 1}) {}
-	void init(int N) {
-		if (sz > N) return;
+	BinomModp() : fac({1, 1}), ifac({1, 1}), inv({0, 1}) {}
+  void init(int N) {
 		const int M = valT::mod();
 		assert(N <= M);
 		fac.resize(N), ifac.resize(N), inv.resize(N);
-		for (int i = sz; i < N; ++i) inv[i] = inv[M % i] * valT::raw(M - M / i);
-		for (int i = sz; i < N; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-		for (int i = sz; i < N; ++i) ifac[i] = ifac[i - 1] * inv[i];
+		for (int i = 2; i < N; ++i) inv[i] = inv[M % i] * valT::raw(M - M / i);
+		for (int i = 2; i < N; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+		for (int i = 2; i < N; ++i) ifac[i] = ifac[i - 1] * inv[i];
 		// another way to compute ifac
 		// ifac[n - 1] = fac[n - 1].inv();
 		// for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * T(i);
-		sz = N;
 	}
 public:
 	std::vector<valT> fac, ifac, inv;
 	BinomModp(const BinomModp&) = delete;
-	static BinomModp& Instance(int N) {
+	static BinomModp& Instance(int N = 0) {
 		static BinomModp instance;
-		instance.init(N);
+		if (N) instance.init(N);
 		return instance;
 	}
 	valT binom(int n, int k) {
 		if (n < 0 || n < k) return valT(0);
-		assert(n < sz);
 		return fac[n] * ifac[k] * ifac[n - k];
 	}
 	// M is a small prime number in this case
