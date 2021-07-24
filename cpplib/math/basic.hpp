@@ -134,14 +134,13 @@ class BinomModp {
   void init(int N) {
 		const int M = valT::mod();
 		assert(N <= M);
-		fac = {1, 1}; ifac = {1, 1}; inv = {0, 1};
-		fac.resize(N), ifac.resize(N), inv.resize(N);
-		for (int i = 2; i < N; ++i) inv[i] = inv[M % i] * valT::raw(M - M / i);
-		for (int i = 2; i < N; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-		for (int i = 2; i < N; ++i) ifac[i] = ifac[i - 1] * inv[i];
-		// another way to compute ifac
-		// ifac[n - 1] = fac[n - 1].inv();
-		// for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * T(i);
+		fac.resize(N); ifac.resize(N); inv.resize(N);
+    fac[0] = 1;
+		for (int i = 1; i < N; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+    ifac.back() = fac.back().inv();
+		for (int i = N - 1; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
+    for (int i = 1; i < N; ++i) inv[i] = ifac[i] * fac[i - 1];
+		// for (int i = 2; i < N; ++i) inv[i] = inv[M % i] * valT::raw(M - M / i);
 	}
 public:
 	std::vector<valT> fac, ifac, inv;
