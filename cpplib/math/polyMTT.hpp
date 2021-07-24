@@ -58,17 +58,16 @@ using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 LL factorial(LL n, LL p) {
 	if (n >= p) return 0;
 	if (n <= 1) return 1;
-	PolyMFT::setMod(p);
 	if (n > p - 1 - n) {
 		auto ans = ModLL(factorial(p - 1 - n, p)).inv();
 		return (p - n) & 1 ? -ans : ans; 
 	}
 	int s = std::sqrt(n);
-	auto invS = ModLL(s).inv();
+	PolyMFT::setMod(p, s + 1);
 	std::vector<ModLL> h{1, s + 1};
 	for (int bit = std::__lg(s) - 1, d = 1; bit >= 0; --bit) {
 		auto nh1 = PolyMFT::valToVal(h, ModLL(d + 1), d);
-		auto nh2 = PolyMFT::valToVal(h, invS * ModLL(d), 2 * d + 1);
+		auto nh2 = PolyMFT::valToVal(h, ModLL(s).inv() * ModLL(d), 2 * d + 1);
 		h.insert(h.end(), nh1.begin(), nh1.end());
 		d *= 2;
 		for (int i = 0; i <= d; ++i) h[i] *= nh2[i];
@@ -87,70 +86,3 @@ LL factorial(LL n, LL p) {
 	return ans;
 }
 // https://vjudge.net/problem/SPOJ-FACTMODP
-
-// $O(\sqrt{n} \log n)$ (assume n < 1e12)
-LL factorialOrigin(LL n, LL p) {
-	if (n >= p) return 0;
-	if (n <= 1) return 1;
-	PolyMFT::setMod(p);
-	if (n > p - 1 - n) {
-		auto ans = ModLL(factorialOrigin(p - 1 - n, p)).inv();
-		return (p - n) & 1 ? -ans : ans;
-	}
-	int s = std::sqrt(n);
-	auto invS = ModLL(s).inv();
-	std::vector<ModLL> fac(s + 1), ifac(s + 1), inv(s + 1);
-	fac[0] = inv[1] = 1;
-	for (int i = 1; i <= s; ++i) fac[i] = fac[i - 1] * ModLL::raw(i);
-	ifac[s] = fac[s].inv();
-	for (int i = s; i > 0; --i) ifac[i - 1] = ifac[i] * ModLL::raw(i);
-	for (int i = 2; i <= s; ++i) inv[i] = inv[p % i] * ModLL::raw(p - p / i);
-	// compute $h(m), \cdots, h(m + cnt - 1)$ according to $h(0), h(1), \cdots, h(d)$
-  auto solve = [&](std::vector<ModLL> h, ModLL m, int cnt) { // m > h.size()
-		int d = h.size() - 1;
-		for (int i = 0; i <= d; ++i) {
-			h[i] *= ifac[i] * ifac[d - i];
-			if ((d - i) & 1) h[i] = -h[i];
-		}
-		std::vector<ModLL> f(d + cnt);
-		auto now = m - ModLL(d);
-		for (int i = 0; i < d + cnt; ++i) {
-			f[i] = now.inv();
-			++now;
-		}
-		h = PolyMFT(f) * PolyMFT(h);
-		h.resize(d + cnt);
-		h = std::vector<ModLL>(h.begin() + d, h.end());
-		now = 1;
-		for (int i = 0; i <= d; ++i) now *= m - ModLL::raw(i);
-		h[0] *= now;
-		for (int i = 1; i < cnt; ++i) {
-			now *= m + ModLL::raw(i);
-			now *= (m + ModLL(i - d - 1)).inv();
-			h[i] *= now;
-		}
-		return h;
-	};
-	std::vector<ModLL> h{1, s + 1};
-	for (int bit = std::__lg(s) - 1, d = 1; bit >= 0; --bit) {
-		auto nh1 = solve(h, ModLL(d + 1), d);
-		auto nh2 = solve(h, invS * ModLL(d), 2 * d + 1);
-		h.insert(h.end(), nh1.begin(), nh1.end());
-		d *= 2;
-		for (int i = 0; i <= d; ++i) h[i] *= nh2[i];
-		if (s >> bit & 1) {
-			++d;
-			LL tmp = d;
-			for (int i = 0; i < d; ++i, tmp += s) h[i] *= ModLL::raw(tmp);
-			ModLL last(1), tj = 1LL * s * d;
-			for (int i = 0; i < d; ++i) ++tj, last *= tj;
-			h.emplace_back(last);
-		}
-	}
-	ModLL ans = 1;
-	for (int i = 0; i < s; ++i) ans *= h[i];
-	for (LL i = 1LL * s * s + 1; i <= n; ++i) ans *= ModLL::raw(i);
-	return ans;
-}
-// https://vjudge.net/problem/SPOJ-FACTMODP
-

@@ -131,6 +131,7 @@ public:
 
 template<typename valT>
 class BinomModp {
+  BinomModp() {}
   void init(int N) {
 		const int M = valT::mod();
 		assert(N <= M);
@@ -144,7 +145,6 @@ class BinomModp {
 	}
 public:
 	std::vector<valT> fac, ifac, inv;
-  BinomModp() {}
 	BinomModp(const BinomModp&) = delete;
 	static BinomModp& Instance(int N = 0) {
 		static BinomModp instance;
