@@ -15,7 +15,7 @@ class Poly : public T {
 public:
 	using T::T;
   // never use it if valT = MINT<M>
-  static void setMod(valT p) {
+  static void setMod(LL p) {
     valT::setMod(p);
     BinomModp<valT>::Instance((int)std::min(LL(maxN), LL(p)));
   }

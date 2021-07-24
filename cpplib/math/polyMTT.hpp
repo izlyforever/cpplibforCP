@@ -60,16 +60,10 @@ LL factorial(LL n, LL p) {
 	if (n <= 1) return 1;
 	PolyMFT::setMod(p);
 	if (n > p - 1 - n) {
-		LL ans = ModLL(factorial(p - 1 - n, p)).inv();
-		return (p - n) & 1 ? p - ans : ans; 
+		auto ans = ModLL(factorial(p - 1 - n, p)).inv();
+		return (p - n) & 1 ? -ans : ans; 
 	}
 	int s = std::sqrt(n);
-	std::vector<ModLL> fac(s + 1), ifac(s + 1), inv(s + 1);
-	fac[0] = inv[1] = 1;
-	for (int i = 1; i <= s; ++i) fac[i] = fac[i - 1] * ModLL::raw(i);
-	ifac[s] = fac[s].inv();
-	for (int i = s; i > 0; --i) ifac[i - 1] = ifac[i] * ModLL::raw(i);
-	for (int i = 2; i <= s; ++i) inv[i] = inv[p % i] * ModLL::raw(p - p / i);
 	auto invS = ModLL(s).inv();
 	std::vector<ModLL> h{1, s + 1};
 	for (int bit = std::__lg(s) - 1, d = 1; bit >= 0; --bit) {
@@ -100,7 +94,7 @@ LL factorialOrigin(LL n, LL p) {
 	if (n <= 1) return 1;
 	PolyMFT::setMod(p);
 	if (n > p - 1 - n) {
-		LL ans = ModLL(factorial(p - 1 - n, p)).inv();
+		LL ans = ModLL(factorialOrigin(p - 1 - n, p)).inv();
 		return (p - n) & 1 ? p - ans : ans; 
 	}
 	int s = std::sqrt(n);
