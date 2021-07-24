@@ -210,6 +210,15 @@ $$
 > 下降幂与连续点值有 $O(n \log n)$ 的转化。而普通多项式跟连续点值却没有，可以认为普通多项式要的连续其实是类似 FFT 那样的连续。但是注意到以连续点求连续点有 $O(n \log n)$ 的做法
 
 
+#### Binom
+
+这里的单例很秀的一点就是用了 const 引用，但是却不妨碍我修改它的值！这样的好处：
+
+- 对于 `MInt<M>` 直接初始化了，不用在 setMod
+- 对于 `ModInt, ModLL` 这些本来就要 setMod，那就给它调用 setMod 重新刷新 Binom 的值
+
+> 源代码在换 mod 的时候会有 bug，于 2021-7-24 重构 Poly，通过继承 vector 方式而非 vector 变量的方式的时候发现了这个 bug 并修复了
+
 #### [Lagrange 反演](https://users.math.msu.edu/users/magyarp/Math880/Lagrange.pdf)
 
 若 $f(x), g(x) \in F[[x]]$ 且 $f(g(x) = x$，则
