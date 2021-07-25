@@ -374,6 +374,7 @@ h(x) &= \sum_{i = 0}^{d} h(i) \prod_{j = 0, j \neq i}^{d} \frac{x - j}{i - j} \\
 <blockquote>
 <p>源代码在换 mod 的时候会有 bug，于 2021-7-24 重构 Poly，通过继承 vector 方式而非 vector 变量的方式的时候发现了这个 bug 并修复了</p>
 </blockquote>
+<p><strong>注意事项</strong>：如果利用了 vector 这种结构，然后再用引用可能会因扩容而导致 RE，可以通过预先申请较大的内存的做法，此后不要随便用 <code>.back()</code> 这类不确定的调用</p>
 <h4 id="lagrange"><a href="https://users.math.msu.edu/users/magyarp/Math880/Lagrange.pdf">Lagrange 反演</a></h4>
 <p>若 <script type="math/tex">f(x), g(x) \in F[[x]]</script> 且 <script type="math/tex">f(g(x) = x</script>，则</p>
 <p>
