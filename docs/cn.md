@@ -219,6 +219,8 @@ $$
 
 > 源代码在换 mod 的时候会有 bug，于 2021-7-24 重构 Poly，通过继承 vector 方式而非 vector 变量的方式的时候发现了这个 bug 并修复了
 
+**注意事项**：如果利用了 vector 这种结构，然后再用引用可能会因扩容而导致 RE，可以通过预先申请较大的内存的做法，此后不要随便用 `.back()` 这类不确定的调用
+
 #### [Lagrange 反演](https://users.math.msu.edu/users/magyarp/Math880/Lagrange.pdf)
 
 若 $f(x), g(x) \in F[[x]]$ 且 $f(g(x) = x$，则

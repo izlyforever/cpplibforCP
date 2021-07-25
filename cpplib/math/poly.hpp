@@ -5,6 +5,7 @@
 using LL = long long;
 
 // using valT = decltype(T::a)::value_type;
+
 template<typename T, typename valT>
 class Poly : public T {
 	// many function will fail for the case n > mod
@@ -15,9 +16,9 @@ class Poly : public T {
 public:
 	using T::T;
   // never use it if valT = MINT<M>
-  static void setMod(LL p, LL n = maxN) {
+  static void setMod(LL p, int n = maxN) {
     valT::setMod(p);
-    BinomModp<valT>::Instance((int)std::min(maxN, p));
+    BinomModp<valT>::Instance(std::min(LL(n), p));
   }
 	Poly (const T &x) : T(x) {}
 	Poly mulXn(int n) const {
@@ -482,9 +483,6 @@ public:
 		return (*this)[id];
 	}
 };
-
-
-
 
 
 

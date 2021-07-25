@@ -131,17 +131,15 @@ public:
 
 template<typename valT>
 class BinomModp {
-  BinomModp() {}
-  void init(int N) {
-		const int M = valT::mod();
-		assert(N <= M);
-		fac.resize(N); ifac.resize(N); inv.resize(N);
+  static inline constexpr int N = 1e6 + 2;
+  BinomModp() { fac.reserve(N), ifac.reserve(N), inv.reserve(N);}
+  void init(int n) {
+		assert(n <= valT::mod());
     fac[0] = 1;
-		for (int i = 1; i < N; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-    ifac.back() = fac.back().inv();
-		for (int i = N - 1; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
-    for (int i = 1; i < N; ++i) inv[i] = ifac[i] * fac[i - 1];
-		// for (int i = 2; i < N; ++i) inv[i] = inv[M % i] * valT::raw(M - M / i);
+		for (int i = 1; i < n; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+    ifac[n - 1] = fac[n - 1].inv();
+		for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
+    for (int i = 1; i < n; ++i) inv[i] = ifac[i] * fac[i - 1];
 	}
 public:
 	std::vector<valT> fac, ifac, inv;

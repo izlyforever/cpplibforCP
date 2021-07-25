@@ -3,6 +3,7 @@
 #include "ntt.hpp"
 #include "poly.hpp"
 
+
 class PolyBaseMFT4 : public PolyBase<ModLL> {
 public:
 	static inline constexpr int M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353;
@@ -58,12 +59,12 @@ using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 LL factorial(LL n, LL p) {
 	if (n >= p) return 0;
 	if (n <= 1) return 1;
+  int s = std::sqrt(n);
+	PolyMFT::setMod(p, s + 1);
 	if (n > p - 1 - n) {
-		auto ans = ModLL(factorial(p - 1 - n, p)).inv();
+    auto ans = ModLL(factorial(p - 1 - n, p)).inv();
 		return (p - n) & 1 ? -ans : ans; 
 	}
-	int s = std::sqrt(n);
-	PolyMFT::setMod(p, s + 1);
 	std::vector<ModLL> h{1, s + 1};
 	for (int bit = std::__lg(s) - 1, d = 1; bit >= 0; --bit) {
 		auto nh1 = PolyMFT::valToVal(h, ModLL(d + 1), d);
