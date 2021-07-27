@@ -1,10 +1,9 @@
 # python update.py
 import os, sys
-os.system('git add .') 
 if len(sys.argv) < 2:
-	os.system('git commit -m "update"')
+	os.system('git commit -a -m "update"')
 else:
-	os.system('git commit -m "' + ' '.join(sys.argv[1:]) + '"')
+	os.system('git commit -a -m "' + ' '.join(sys.argv[1:]) + '"')
 os.system('git push origin master')
 
 
