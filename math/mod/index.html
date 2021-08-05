@@ -150,7 +150,7 @@
 <li>Elementary arithmetics: <code>+, -, *, /, +=, -=, *=, /=</code></li>
 <li>C-style operator: <code>++, --</code> and bit operator <code>&lt;&lt;, &lt;&lt;=</code></li>
 <li><code>raw</code> for constant-factor speedup.</li>
-<li><code>pow</code>, <code>&gt;&gt;, &lt;&lt;</code> are friend methods. </li>
+<li><code>pow</code>, <code>&gt;&gt;, &lt;&lt;</code> are friend methods.</li>
 <li><code>inv</code> is not based on <code>pow</code>, since <script type="math/tex">M</script> is not assume to be prime number.</li>
 </ul>
 <blockquote>
@@ -164,23 +164,23 @@ constexpr int M = 998244353;
 using mod = MInt&lt;M&gt;;
 
 int main() {
-    //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
-    std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
-    int a, b;
-    std::cin &gt;&gt; a &gt;&gt; b;
+  //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
+  std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
+  int a, b;
+  std::cin &gt;&gt; a &gt;&gt; b;
 
-    mod a1(a), b1(b);
-    std::cout &lt;&lt; a1 + b1 &lt;&lt; '\n';
+  mod a1(a), b1(b);
+  std::cout &lt;&lt; a1 + b1 &lt;&lt; '\n';
 
-    ModInt::setMod(M);
-    ModInt a2(a), b2(b);
-    std::cout &lt;&lt; a2 - b2 &lt;&lt; '\n';
+  ModInt::setMod(M);
+  ModInt a2(a), b2(b);
+  std::cout &lt;&lt; a2 - b2 &lt;&lt; '\n';
 
-    ModLL::setMod(M);
-    ModInt a3(a), b3(b);
-    std::cout &lt;&lt; a3 * b3 &lt;&lt; '\n';
-    std::cout &lt;&lt; a3 / b3 &lt;&lt; '\n';
-    return 0;
+  ModLL::setMod(M);
+  ModInt a3(a), b3(b);
+  std::cout &lt;&lt; a3 * b3 &lt;&lt; '\n';
+  std::cout &lt;&lt; a3 / b3 &lt;&lt; '\n';
+  return 0;
 }
 </code></pre></div>
             </div>

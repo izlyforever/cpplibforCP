@@ -175,7 +175,7 @@
 <h2 id="polyshpp">polyS.hpp</h2>
 <p><code>PolyS.hpp</code> is a simple and small version of Poly.  It contains basic operators: <code>+, -, *, /</code>, log, exp, sqrt, and multi-evaluation for fiexed mod = 998244353.</p>
 <blockquote>
-<p>You may change <code>NTTS::M = 998244353</code> to other NTT-friendly prime number(and primitive root <code>NTTS::g = 3</code>). </p>
+<p>You may change <code>NTTS::M = 998244353</code> to other NTT-friendly prime number(and primitive root <code>NTTS::g = 3</code>).</p>
 </blockquote>
 <h2 id="arbitrary-module">Arbitrary module</h2>
 <p>However <script type="math/tex">M</script> should be bigger than the size <script type="math/tex">N</script> since some function need to assmue <script type="math/tex">1, \cdots, N - 1</script> invertible in <script type="math/tex">\mod M</script>
@@ -222,37 +222,37 @@ using LL = long long;
 
 template&lt;typename T&gt;
 void debug(std::vector&lt;T&gt; a){
-    for (auto &amp;i : a) std::cout &lt;&lt; i &lt;&lt; ' ';
-    std::cout &lt;&lt; std::endl; 
+  for (auto &amp;i : a) std::cout &lt;&lt; i &lt;&lt; ' ';
+  std::cout &lt;&lt; std::endl;
 }
 
 int main() {
-    //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
-    std::cin.tie(nullptr)-&gt;sync_with_stdio(false);  
+  //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
+  std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
 
-    std::vector&lt;int&gt; a{1, 2, 3, 4};
-    std::vector&lt;int&gt; b{1, 2, 3};
-    PolyS A1(a), B1(b);
-    auto c1 = (A1 * B1).a;
-    debug(c1);
+  std::vector&lt;int&gt; a{1, 2, 3, 4};
+  std::vector&lt;int&gt; b{1, 2, 3};
+  PolyS A1(a), B1(b);
+  auto c1 = (A1 * B1).a;
+  debug(c1);
 
-    using modM = MInt&lt;998244353&gt;;
-    PolyNTT A2(trans&lt;modM&gt;(a)), B2(trans&lt;modM&gt;(b));
-    auto c2 = (A2 * B2).a;
-    debug(c2);
+  using modM = MInt&lt;998244353&gt;;
+  PolyNTT A2(trans&lt;modM&gt;(a)), B2(trans&lt;modM&gt;(b));
+  auto c2 = (A2 * B2).a;
+  debug(c2);
 
-    // you must setMod before using it
-    ModInt::setMod(998244353);
-    PolyFFTDynamic A3(trans&lt;ModInt&gt;(a)), B3(trans&lt;ModInt&gt;(b));
-    auto c3 = (A3 * B3).a;
-    debug(c3);
+  // you must setMod before using it
+  ModInt::setMod(998244353);
+  PolyFFTDynamic A3(trans&lt;ModInt&gt;(a)), B3(trans&lt;ModInt&gt;(b));
+  auto c3 = (A3 * B3).a;
+  debug(c3);
 
-    ModLL::setMod(998244353);
-    PolyMFT A4(trans&lt;ModLL&gt;(a)), B4(trans&lt;ModLL&gt;(b));
-    auto c4 = (A4 * B4).a;
-    debug(c4);
+  ModLL::setMod(998244353);
+  PolyMFT A4(trans&lt;ModLL&gt;(a)), B4(trans&lt;ModLL&gt;(b));
+  auto c4 = (A4 * B4).a;
+  debug(c4);
 
-    return 0;
+  return 0;
 }
 </code></pre></div>
             </div>

@@ -194,7 +194,7 @@
 </p>
 <p>where <script type="math/tex">m_s = p_1 \cdots p_s</script>
 </p>
-<p>The key point is: if <script type="math/tex">s \geq \pi(\sqrt{x})</script>, then </p>
+<p>The key point is: if <script type="math/tex">s \geq \pi(\sqrt{x})</script>, then</p>
 <p>
 <script type="math/tex; mode=display">
 \psi(x,s) = \pi(x) - s + 1
@@ -224,28 +224,28 @@ using LL = long long;
 #include &quot;cpplib/math/numberTheory.hpp&quot;
 
 int main() {
-    //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
-    std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
-    auto start = std::clock();
-    auto &amp;prime = Prime::Instance();
-    std::clog &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;  
+  //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
+  std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
+  auto start = std::clock();
+  auto &amp;prime = Prime::Instance();
+  std::clog &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
 
-    LL n = prime.primePi(123456789012LL);
-    std::cout &lt;&lt; n &lt;&lt; '\n';
+  LL n = prime.primePi(123456789012LL);
+  std::cout &lt;&lt; n &lt;&lt; '\n';
 
-    LL x = prime.nthPrime(n);
-    std::cout &lt;&lt; x &lt;&lt; '\n';
+  LL x = prime.nthPrime(n);
+  std::cout &lt;&lt; x &lt;&lt; '\n';
 
-    // It must the same as n
-    std::cout &lt;&lt; prime.primePi(x) &lt;&lt; '\n';
+  // It must the same as n
+  std::cout &lt;&lt; prime.primePi(x) &lt;&lt; '\n';
 
-    std::clog &lt;&lt; &quot;Total time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
-    return 0;
+  std::clog &lt;&lt; &quot;Total time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
+  return 0;
 }
 </code></pre>
 <h2 id="euler-and-mobius">Euler and Mobius</h2>
 <p>Euler's Totient function and Mobius function. The have many in common.</p>
-<p>The key points are: </p>
+<p>The key points are:</p>
 <p>
 <script type="math/tex; mode=display">
 \sum_{i = 1}^n \text{sumPhi}(\lfloor \frac{n}{i} \rfloor) = \frac{n(n + 1)}{2}, \quad \sum_{i = 1}^n \text{sumMu}(\lfloor \frac{n}{i} \rfloor) = 1
@@ -259,23 +259,23 @@ using LL = long long;
 #include &quot;cpplib/math/numberTheory.hpp&quot;
 
 int main() {
-    //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
-    std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
-    auto start = std::clock();
-    auto &amp;euler = Euler::Instance();
-    auto &amp;Mobius = Mobius::Instance();
-    std::clog &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;  
+  //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
+  std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
+  auto start = std::clock();
+  auto &amp;euler = Euler::Instance();
+  auto &amp;Mobius = Mobius::Instance();
+  std::clog &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
 
-    int n = 1e9 + 7;
-    clog(euler.getPhi(n));
-    clog(euler.getSumPhi(n));
+  int n = 1e9 + 7;
+  clog(euler.getPhi(n));
+  clog(euler.getSumPhi(n));
 
-    clog(Mobius.getMu(n));
-    clog(Mobius.getSumMu(n));
-    clog(Mobius.getAbsSum(n));
+  clog(Mobius.getMu(n));
+  clog(Mobius.getSumMu(n));
+  clog(Mobius.getAbsSum(n));
 
-    std::clog &lt;&lt; &quot;Total time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
-    return 0;
+  std::clog &lt;&lt; &quot;Total time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
+  return 0;
 }
 </code></pre>
 <h2 id="npf">npf</h2>
@@ -373,7 +373,7 @@ LL PollardRho::gpf(LL n, LL mxf = 1)
 <p><strong>Constraints</strong></p>
 <ul>
 <li>
-<script type="math/tex">p</script> is prime </li>
+<script type="math/tex">p</script> is prime</li>
 </ul>
 <p><strong>Complexity</strong></p>
 <ul>
@@ -383,12 +383,12 @@ LL PollardRho::gpf(LL n, LL mxf = 1)
 </ul>
 <h3 id="_1"></h3>
 <h2 id="sqrtmodp">sqrtModp</h2>
-<pre><code class="language-cpp">int sqrtModp(int a, int p) 
+<pre><code class="language-cpp">int sqrtModp(int a, int p)
 </code></pre>
 <p><strong>Constraints</strong></p>
 <ul>
 <li>
-<script type="math/tex">p</script> is prime </li>
+<script type="math/tex">p</script> is prime</li>
 </ul>
 <p><strong>Complexity</strong></p>
 <ul>
@@ -415,7 +415,7 @@ LL PollardRho::gpf(LL n, LL mxf = 1)
 </p>
 <ul>
 <li>
-<script type="math/tex">g \equiv 1</script>, then <script type="math/tex">f \star g</script>  is call Mobius transform, </li>
+<script type="math/tex">g \equiv 1</script>, then <script type="math/tex">f \star g</script>  is call Mobius transform,</li>
 <li>
 <script type="math/tex">g \equiv \mu</script>, then  <script type="math/tex">f \star g</script>  is call Mobius inverse transform,  where <script type="math/tex">\mu</script> is mobius function</li>
 </ul>
@@ -438,40 +438,40 @@ using UL = unsigned long long;
 std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 
 int main() {
-    //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
-    std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
-    int n = 1e5;
-    std::vector&lt;UL&gt; a(n + 1), e(n + 1, 1), mu(n + 1);
-    e[0] = 0;
-    mu[1] = 1;
-    for (int i = 1; i &lt;= n; ++i) {
-        for (int j = i * 2; j &lt;= n; j += i) {
-            mu[j] -= mu[i];
-        }
+  //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
+  std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
+  int n = 1e5;
+  std::vector&lt;UL&gt; a(n + 1), e(n + 1, 1), mu(n + 1);
+  e[0] = 0;
+  mu[1] = 1;
+  for (int i = 1; i &lt;= n; ++i) {
+    for (int j = i * 2; j &lt;= n; j += i) {
+      mu[j] -= mu[i];
     }
-    for (int i = 1; i &lt;= n; ++i) a[i] = rnd64();
-    auto b = a;
+  }
+  for (int i = 1; i &lt;= n; ++i) a[i] = rnd64();
+  auto b = a;
 
-    auto c = DirichletProduct(a, e, n);
-    mobiousTran(a, n);
-    for (int i = 0; i &lt;= n; ++i) assert(a[i] == c[i]);
+  auto c = DirichletProduct(a, e, n);
+  mobiousTran(a, n);
+  for (int i = 0; i &lt;= n; ++i) assert(a[i] == c[i]);
 
-    c = DirichletProduct(c, mu, n);
-    mobiousTranInv(a, n);
-    for (int i = 0; i &lt;= n; ++i) assert(a[i] == c[i]);
-    for (int i = 0; i &lt;= n; ++i) assert(a[i] == b[i]);
+  c = DirichletProduct(c, mu, n);
+  mobiousTranInv(a, n);
+  for (int i = 0; i &lt;= n; ++i) assert(a[i] == c[i]);
+  for (int i = 0; i &lt;= n; ++i) assert(a[i] == b[i]);
 
 
-    c = DirichletRevProduct(a, e, n);
-    mobiousRevTran(a, n);
-    for (int i = 0; i &lt;= n; ++i) assert(a[i] == c[i]);
+  c = DirichletRevProduct(a, e, n);
+  mobiousRevTran(a, n);
+  for (int i = 0; i &lt;= n; ++i) assert(a[i] == c[i]);
 
-    c = DirichletRevProduct(c, mu, n);
-    mobiousRevTranInv(a, n);
-    for (int i = 0; i &lt;= n; ++i) assert(a[i] == c[i]);
-    for (int i = 0; i &lt;= n; ++i) assert(a[i] == b[i]);
+  c = DirichletRevProduct(c, mu, n);
+  mobiousRevTranInv(a, n);
+  for (int i = 0; i &lt;= n; ++i) assert(a[i] == c[i]);
+  for (int i = 0; i &lt;= n; ++i) assert(a[i] == b[i]);
 
-    return 0;
+  return 0;
 }
 </code></pre></div>
             </div>
