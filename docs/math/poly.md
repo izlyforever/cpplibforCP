@@ -4,7 +4,7 @@
 
 `poly.hpp` support almost every algorithm involved polynomial and **the module number $M$ can be any prime number**.
 
-## how to choose 
+## how to choose
 
 There are `PolyNTT`, `PolyFFT`, `PolyFFTDynamic`, `PolyMFT` provided to suit for different module $M$.
 
@@ -19,7 +19,7 @@ There are `PolyNTT`, `PolyFFT`, `PolyFFTDynamic`, `PolyMFT` provided to suit for
 
 `PolyS.hpp` is a simple and small version of Poly.  It contains basic operators: `+, -, *, /`, log, exp, sqrt, and multi-evaluation for fiexed mod = 998244353.
 
-> You may change `NTTS::M = 998244353` to other NTT-friendly prime number(and primitive root `NTTS::g = 3`). 
+> You may change `NTTS::M = 998244353` to other NTT-friendly prime number(and primitive root `NTTS::g = 3`).
 
 ## Arbitrary module
 
@@ -72,36 +72,36 @@ using LL = long long;
 
 template<typename T>
 void debug(std::vector<T> a){
-	for (auto &i : a) std::cout << i << ' ';
-	std::cout << std::endl; 
+  for (auto &i : a) std::cout << i << ' ';
+  std::cout << std::endl;
 }
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);	
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
 
-	std::vector<int> a{1, 2, 3, 4};
-	std::vector<int> b{1, 2, 3};
-	PolyS A1(a), B1(b);
-	auto c1 = (A1 * B1).a;
-	debug(c1);
+  std::vector<int> a{1, 2, 3, 4};
+  std::vector<int> b{1, 2, 3};
+  PolyS A1(a), B1(b);
+  auto c1 = (A1 * B1).a;
+  debug(c1);
 
-	using modM = MInt<998244353>;
-	PolyNTT A2(trans<modM>(a)), B2(trans<modM>(b));
-	auto c2 = (A2 * B2).a;
-	debug(c2);
+  using modM = MInt<998244353>;
+  PolyNTT A2(trans<modM>(a)), B2(trans<modM>(b));
+  auto c2 = (A2 * B2).a;
+  debug(c2);
 
-	// you must setMod before using it
-	ModInt::setMod(998244353);
-	PolyFFTDynamic A3(trans<ModInt>(a)), B3(trans<ModInt>(b));
-	auto c3 = (A3 * B3).a;
-	debug(c3);
+  // you must setMod before using it
+  ModInt::setMod(998244353);
+  PolyFFTDynamic A3(trans<ModInt>(a)), B3(trans<ModInt>(b));
+  auto c3 = (A3 * B3).a;
+  debug(c3);
 
-	ModLL::setMod(998244353);
-	PolyMFT A4(trans<ModLL>(a)), B4(trans<ModLL>(b));
-	auto c4 = (A4 * B4).a;
-	debug(c4);
+  ModLL::setMod(998244353);
+  PolyMFT A4(trans<ModLL>(a)), B4(trans<ModLL>(b));
+  auto c4 = (A4 * B4).a;
+  debug(c4);
 
-	return 0;
+  return 0;
 }
 ```
