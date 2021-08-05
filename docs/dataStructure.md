@@ -1,6 +1,6 @@
 # dataStructure.hpp
 
-Data Structures are ideals or models, It is hard to write once, used everywhere, for example, `Segment Tree, Disjoint set union, Mo's algorithm`, monicDeque, monicStack. We will provide some Frames (you should implement it to meet for needs) 
+Data Structures are ideals or models, It is hard to write once, used everywhere, for example, `Segment Tree, Disjoint set union, Mo's algorithm`, monicDeque, monicStack. We will provide some Frames (you should implement it to meet for needs)
 
 
 ## method
@@ -11,11 +11,11 @@ Just the same as `next_permutation` to bruteForce all permutation, we have `next
 for example `bruteForceBinom(2, 4)` will get
 
 ``` markdown
-0 1 
-0 2 
-0 3 
-1 2 
-1 3 
+0 1
+0 2
+0 3
+1 2
+1 3
 2 3
 ```
 
@@ -31,18 +31,18 @@ using LL = long long;
 #include "cpplib/all.hpp"
 
 int main() {
-	// freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	std::vector<int> a{-12, 232, 12, 23};
-	auto b = discrete(a);
-	for (auto &x : a) std::cout << x << ' ';
-	std::cout << '\n';
-	for (auto &x : b) std::cout << x << ' ';
-	std::cout << '\n';
-	return 0;
+  // freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  std::vector<int> a{-12, 232, 12, 23};
+  auto b = discrete(a);
+  for (auto &x : a) std::cout << x << ' ';
+  std::cout << '\n';
+  for (auto &x : b) std::cout << x << ' ';
+  std::cout << '\n';
+  return 0;
 }
 // output:
-// 0 3 1 2 
+// 0 3 1 2
 // -12 12 23 232
 ```
 
@@ -62,7 +62,7 @@ There are two versions: sum and `min/max`
 
 ## Persistent Segment Tree
 
-It save all version of update, and version number are saved in `roots`. 
+It save all version of update, and version number are saved in `roots`.
 
 > Is this data structure used in Git ?
 

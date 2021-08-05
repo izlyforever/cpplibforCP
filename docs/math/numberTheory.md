@@ -14,7 +14,7 @@ $$
 
 where $m_s = p_1 \cdots p_s$
 
-The key point is: if $s \geq \pi(\sqrt{x})$, then 
+The key point is: if $s \geq \pi(\sqrt{x})$, then
 
 $$
 \psi(x,s) = \pi(x) - s + 1
@@ -24,7 +24,7 @@ $$
 
 **Constraints**
 
-- primePi(n): $n < N^2$ 
+- primePi(n): $n < N^2$
 - nthPrime(n): $n < (\frac{N}{\ln n})^2$
 
 **Complexity**
@@ -42,31 +42,31 @@ using LL = long long;
 #include "cpplib/math/numberTheory.hpp"
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	auto start = std::clock();
-	auto &prime = Prime::Instance();
-	std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;	
-	
-	LL n = prime.primePi(123456789012LL);
-	std::cout << n << '\n';
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  auto start = std::clock();
+  auto &prime = Prime::Instance();
+  std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
 
-	LL x = prime.nthPrime(n);
-	std::cout << x << '\n';
+  LL n = prime.primePi(123456789012LL);
+  std::cout << n << '\n';
 
-	// It must the same as n
-	std::cout << prime.primePi(x) << '\n';
-	
-	std::clog << "Total time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
-	return 0;
+  LL x = prime.nthPrime(n);
+  std::cout << x << '\n';
+
+  // It must the same as n
+  std::cout << prime.primePi(x) << '\n';
+
+  std::clog << "Total time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
+  return 0;
 }
 ```
 
-## Euler and Mobius 
+## Euler and Mobius
 
 Euler's Totient function and Mobius function. The have many in common.
 
-The key points are: 
+The key points are:
 
 $$
 \sum_{i = 1}^n \text{sumPhi}(\lfloor \frac{n}{i} \rfloor) = \frac{n(n + 1)}{2}, \quad \sum_{i = 1}^n \text{sumMu}(\lfloor \frac{n}{i} \rfloor) = 1
@@ -83,23 +83,23 @@ using LL = long long;
 #include "cpplib/math/numberTheory.hpp"
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	auto start = std::clock();
-	auto &euler = Euler::Instance();
-	auto &Mobius = Mobius::Instance();
-	std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;	
-	
-	int n = 1e9 + 7;
-	clog(euler.getPhi(n));
-	clog(euler.getSumPhi(n));
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  auto start = std::clock();
+  auto &euler = Euler::Instance();
+  auto &Mobius = Mobius::Instance();
+  std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
 
-	clog(Mobius.getMu(n));
-	clog(Mobius.getSumMu(n));
-	clog(Mobius.getAbsSum(n));
+  int n = 1e9 + 7;
+  clog(euler.getPhi(n));
+  clog(euler.getSumPhi(n));
 
-	std::clog << "Total time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
-	return 0;
+  clog(Mobius.getMu(n));
+  clog(Mobius.getSumMu(n));
+  clog(Mobius.getAbsSum(n));
+
+  std::clog << "Total time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
+  return 0;
 }
 ```
 
@@ -205,23 +205,23 @@ find smallest non-negative $x$ s.t. $a^x = b \mod p$, or $-1$
 
 **Constraints**
 
-- $p$ is prime 
+- $p$ is prime
 
 **Complexity**
 
 - $O(\sqrt{p} \log p)$
 
-### 
+###
 
 ## sqrtModp
 
 ``` cpp
-int sqrtModp(int a, int p) 
+int sqrtModp(int a, int p)
 ```
 
 **Constraints**
 
-- $p$ is prime 
+- $p$ is prime
 
 **Complexity**
 
@@ -235,7 +235,7 @@ int sqrtModp(int a, int p)
 std::vector<std::tuple<int, int, int>> lcmPair(int n)
 ```
 
-return all pair $(i, j, \text{lcm}(i, j)$  with $\text{lcm}(i, j) \leq n$ 
+return all pair $(i, j, \text{lcm}(i, j)$  with $\text{lcm}(i, j) \leq n$
 
 **Complexity**
 
@@ -250,7 +250,7 @@ $$
 (f \star g)(n) \doteq \sum_{d | n} f(d) g(\frac{n}{d})
 $$
 
-- $g \equiv 1$, then $f \star g$  is call Mobius transform, 
+- $g \equiv 1$, then $f \star g$  is call Mobius transform,
 - $g \equiv \mu$, then  $f \star g$  is call Mobius inverse transform,  where $\mu$ is mobius function
 
 **Complexity**
@@ -272,40 +272,40 @@ using UL = unsigned long long;
 std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int n = 1e5;
-	std::vector<UL> a(n + 1), e(n + 1, 1), mu(n + 1);
-	e[0] = 0;
-	mu[1] = 1;
-	for (int i = 1; i <= n; ++i) {
-		for (int j = i * 2; j <= n; j += i) {
-			mu[j] -= mu[i];
-		}
-	}
-	for (int i = 1; i <= n; ++i) a[i] = rnd64();
-	auto b = a;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int n = 1e5;
+  std::vector<UL> a(n + 1), e(n + 1, 1), mu(n + 1);
+  e[0] = 0;
+  mu[1] = 1;
+  for (int i = 1; i <= n; ++i) {
+    for (int j = i * 2; j <= n; j += i) {
+      mu[j] -= mu[i];
+    }
+  }
+  for (int i = 1; i <= n; ++i) a[i] = rnd64();
+  auto b = a;
 
-	auto c = DirichletProduct(a, e, n);
-	mobiousTran(a, n);
-	for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
+  auto c = DirichletProduct(a, e, n);
+  mobiousTran(a, n);
+  for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
 
-	c = DirichletProduct(c, mu, n);
-	mobiousTranInv(a, n);
-	for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
-	for (int i = 0; i <= n; ++i) assert(a[i] == b[i]);
+  c = DirichletProduct(c, mu, n);
+  mobiousTranInv(a, n);
+  for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
+  for (int i = 0; i <= n; ++i) assert(a[i] == b[i]);
 
 
-	c = DirichletRevProduct(a, e, n);
-	mobiousRevTran(a, n);
-	for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
+  c = DirichletRevProduct(a, e, n);
+  mobiousRevTran(a, n);
+  for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
 
-	c = DirichletRevProduct(c, mu, n);
-	mobiousRevTranInv(a, n);
-	for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
-	for (int i = 0; i <= n; ++i) assert(a[i] == b[i]);
-	
-	return 0;
+  c = DirichletRevProduct(c, mu, n);
+  mobiousRevTranInv(a, n);
+  for (int i = 0; i <= n; ++i) assert(a[i] == c[i]);
+  for (int i = 0; i <= n; ++i) assert(a[i] == b[i]);
+
+  return 0;
 }
 ```
 
