@@ -97,13 +97,13 @@ public:
 // Returns the original value corresponding to the array value after discretization
 template <typename T>
 std::vector<T> discrete(std::vector<T> &a) {
-  auto b = a;
-  std::sort(b.begin(), b.end());
-  b.erase(std::unique(b.begin(), b.end()), b.end());
+  auto r = a;
+  std::sort(r.begin(), r.end());
+  r.erase(std::unique(r.begin(), r.end()), r.end());
   for (auto &x : a) {
-    x = std::lower_bound(b.begin(), b.end(), x) - b.begin();
+    x = std::lower_bound(r.begin(), r.end(), x) - r.begin();
   }
-  return b;
+  return r;
 }
 
 // Disjoint Set Union
@@ -139,7 +139,7 @@ struct BitreeMin {
   }
   // cal minial value in [1, id]
   T min(int id) {
-    T r = std::numeric_limits<T>::max()
+    T r = std::numeric_limits<T>::max();
     while (id) {
       r = std::min(r, s[id]);
       id -= lowbit(id);
