@@ -106,6 +106,24 @@ std::vector<T> discrete(std::vector<T> &a) {
   return r;
 }
 
+// make sure that a[i].first <= a[i].second
+void disjointInterval(std::vector<std::pair<int, int>> &a) {
+  if (a.size() <= 1) return;
+  std::vector<std::pair<int, int>> b;
+  std::sort(a.begin(), a.end());
+  int l = a[0].first, r = a[0].second;
+  for (int i = 1, n = a.size(); i < n; ++i) {
+    if (a[i].first <= r) {
+      r = std::max(r, a[i].second);
+    } else {
+      b.emplace_back(l, r);
+      l = a[i].first, r = a[i].second;
+    }
+  }
+  b.emplace_back(l, r);
+  std::swap(a, b);
+}
+
 // Disjoint Set Union
 class DSU {
   std::vector<int> p;

@@ -46,6 +46,28 @@ int main() {
 // -12 12 23 232
 ```
 
+## disjointInterval
+
+
+``` cpp
+#include <bits/stdc++.h>
+#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
+using LL = long long;
+#include "cpplib/all.hpp"
+
+int main() {
+  // freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  std::vector<std::pair<int, int>> a{{-12, 2}, {2, 4}, {1, 3}, {5, 8}};
+  disjointInterval(a);
+  for (auto [l, r] : a) std::cout << l  << ' ' << r << '\n';
+  return 0;
+}
+// output:
+// -12 4
+// 5  8
+```
+
 ## DSU: Disjoint Set Union
 
 ## Bit tree
