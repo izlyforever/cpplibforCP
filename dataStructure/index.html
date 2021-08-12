@@ -132,6 +132,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#disjointinterval" class="nav-link">disjointInterval</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#dsu-disjoint-set-union" class="nav-link">DSU: Disjoint Set Union</a>
               <ul class="nav flex-column">
               </ul>
@@ -209,6 +213,24 @@ int main() {
 // output:
 // 0 3 1 2
 // -12 12 23 232
+</code></pre>
+<h2 id="disjointinterval">disjointInterval</h2>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define clog(x) std::clog &lt;&lt; (#x) &lt;&lt; &quot; is &quot; &lt;&lt; (x) &lt;&lt; '\n';
+using LL = long long;
+#include &quot;cpplib/all.hpp&quot;
+
+int main() {
+  // freopen(&quot;in&quot;, &quot;r&quot;, stdin);
+  std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
+  std::vector&lt;std::pair&lt;int, int&gt;&gt; a{{-12, 2}, {2, 4}, {1, 3}, {5, 8}};
+  disjointInterval(a);
+  for (auto [l, r] : a) std::cout &lt;&lt; l  &lt;&lt; ' ' &lt;&lt; r &lt;&lt; '\n';
+  return 0;
+}
+// output:
+// -12 4
+// 5  8
 </code></pre>
 <h2 id="dsu-disjoint-set-union">DSU: Disjoint Set Union</h2>
 <h2 id="bit-tree">Bit tree</h2>
