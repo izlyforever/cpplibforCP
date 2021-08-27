@@ -392,6 +392,32 @@ std::vector<int> SAIS(const std::string &s) {
 }
 // https://www.luogu.com.cn/problem/P3809
 
+std::vector<int> getHeight(const std::string &s) {
+  int n = s.size();
+  auto sa = SAIS(s);
+  std::vector<int> rk(n);
+  for (int i = 0; i < n; ++i) rk[sa[i]] = i;
+  std::vector<int> ht(n);
+  for (int i = 0, k = 0; i < n; ++i) {
+    if (k) --k;
+    if (rk[i] == 0) k = 0;
+    else {
+      // won't out of range
+      while (s[i + k] == s[sa[rk[i] - 1] + k]) ++k;
+      ht[rk[i]] = k;
+    }
+  }
+  return ht;
+}
+
+
+LL diffSubstringCount(const std::string &s) {
+  int n = s.size();
+  auto ht = getHeight(s);
+  return 1LL * (n + 1) * n / 2 - std::accumulate(ht.begin(), ht.end(), 0LL);
+}
+// https://www.luogu.com.cn/problem/P2408
+
 template<typename T>
 int minPresent(std::vector<T>& a) {
   int k = 0, i = 0, j = 1, n = a.size();
