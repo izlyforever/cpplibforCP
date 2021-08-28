@@ -116,7 +116,7 @@ class Binom {
       }
     }
   }
-public:
+ public:
   Binom(const Binom&) = delete;
   // Binom& operator=(const Binom&) = delete; // can be erase
   static Binom& Instance() {
@@ -141,7 +141,7 @@ class BinomModp {
     for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
     for (int i = 1; i < n; ++i) inv[i] = ifac[i] * fac[i - 1];
   }
-public:
+ public:
   std::vector<valT> fac, ifac, inv;
   BinomModp(const BinomModp&) = delete;
   static BinomModp& Instance(int N = 0) {
@@ -207,7 +207,7 @@ template<typename valT>
 class Matrix {
   static inline constexpr int N = 1003;
   int n;
-public:
+ public:
   valT a[N][N];
   Matrix() {}
   Matrix(int _n, valT x = 0): n(_n) {
@@ -287,7 +287,7 @@ class MEX {
   static inline constexpr int B = 20;
   std::array<std::map<int, int>, B> mp;
   std::map<int, int> S;
-public:
+ public:
   void insert(int x) {
     if (S[x]++) return;
     int mask = 0;

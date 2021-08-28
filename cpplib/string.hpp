@@ -13,7 +13,7 @@ class Trie {
     tag.emplace_back(0);
   }
   int charToInt(char x) { return x - 'a';}
-public:
+ public:
   Trie() : nxt(1), tag(1) {}
   void insert(std::string s) {
     int p = 0;
@@ -46,7 +46,7 @@ class Trie01 {
     ch[fa][c] = ch.size();
     ch.emplace_back(Node());
   }
-public:
+ public:
   Trie01() : ch(1) {}
   void insert(int x) {
     for (int i = 30, p = 0; i >= 0; --i) {
@@ -118,7 +118,7 @@ class FusionTree {
     std::swap(lsonFT, rsonFT);
     pushUp(p);
   }
-public:
+ public:
   FusionTree() : ch(1) {}
   void insert(int x) {
     insert(0, x);
@@ -239,7 +239,7 @@ class Automaton {
     fail.emplace_back(0);
     last.emplace_back(0);
   }
-public:
+ public:
   Automaton() : nxt(1), cnt(1), fail(1), last(1) {}
   void insert(std::string s) {
     int p = 0;

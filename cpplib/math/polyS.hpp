@@ -66,7 +66,7 @@ class PolyS : public std::vector<int> {
     std::reverse(begin(), end());
     standard();
   }
-public:
+ public:
   static inline constexpr int g = 3, M = 998244353; // 1 +  2^23 * 7 * 17
   PolyS() {}
   PolyS(const std::vector<int> &a) : std::vector<int>{a} { standard();}

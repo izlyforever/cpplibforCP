@@ -78,7 +78,7 @@ class Prime {
     for (LL i = 3; i * i <= n; i += 2) if (n % i == 0) return false;
     return true;
   }
-public:
+ public:
   int operator[](int i) { return p[i];}
   LL primephi(LL x, int s) {
     if (s <= M) return (x / phi[s].size()) * phi[s].back() + phi[s][x % phi[s].size()];
@@ -188,7 +188,7 @@ class Euler {
     initPhi();
     for (int i = 1; i < N; ++i) sumPhi[i] = sumPhi[i - 1] + phi[i];
   }
-public:
+ public:
   int operator[](int i) { return phi[i];}
   LL getPhi(LL n) {
     if (n < (int)phi.size()) return phi[n];
@@ -261,7 +261,7 @@ class Mobius{
     initMu();
     for (int i = 1; i < N; ++i) sumMu[i] = sumMu[i - 1] + mu[i];
   }
-public:
+ public:
   int operator[](int i) { return mu[i];} // assmue i < N
   int getMu(LL n) {
     if (n < (int)mu.size()) return mu[n];
