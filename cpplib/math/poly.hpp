@@ -13,7 +13,7 @@ class Poly : public T {
   static inline const valT inv2 = (valT::mod() + 1) / 2;
   static inline const int maxN = 1e6 + 2;  // assume size(a) < maxN
   static inline const auto &Binom = BinomModp<valT>::Instance(maxN);
-public:
+ public:
   using T::T;
   // never use it if valT = MINT<M>
   static void setMod(LL p, int n = maxN) {
@@ -466,7 +466,7 @@ public:
 
 template<typename valT>
 class PolyBase : public std::vector<valT> {
-protected:
+ protected:
   void standard() {
     while (!this->empty() && this->back() == valT(0)) this->pop_back();
   }
@@ -474,7 +474,7 @@ protected:
     std::reverse(this->begin(), this->end());
     this->standard();
   }
-public:
+ public:
   PolyBase() {}
   PolyBase(const std::vector<valT> &a) : std::vector<valT>{a} { standard();}
   PolyBase(const valT &x) : std::vector<valT>{x} { standard();}

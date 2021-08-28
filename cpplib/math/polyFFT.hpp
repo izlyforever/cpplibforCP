@@ -6,7 +6,7 @@
 // do not use it if T = ModLL
 template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
-protected:
+ protected:
   PolyBaseFFT mul(const PolyBaseFFT &rhs) const {
     int tot = std::max(1, int(this->size() + rhs.size() - 1));
     int sz = 1 << std::__lg(tot * 2 - 1);
@@ -43,7 +43,7 @@ protected:
     for (int i = 0; i < tot; ++i) ans[i] += A1B1[i];
     return PolyBaseFFT(ans);
   }
-public:
+ public:
   using PolyBase<T>::PolyBase;
   PolyBaseFFT (const PolyBase<T> &x) : PolyBase<T>(x) {}
 };

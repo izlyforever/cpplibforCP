@@ -476,7 +476,7 @@ class PalindromeNumber {
     }
     return r;
   }
-public:
+ public:
   PalindromeNumber(const PalindromeNumber& A) = delete;
   static PalindromeNumber& Instance() {
     static PalindromeNumber instance;

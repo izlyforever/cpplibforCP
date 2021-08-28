@@ -76,7 +76,7 @@ class ECC {
     } while (nextBinom(f, bd.size()));
     return false;
   }
-public:
+ public:
   std::vector<int> r;   // m cols vector, current answer
   ECC(std::vector<std::vector<int>> _a) : a(_a), r(a[0]) {
     n = a.size(); m = r.size();
@@ -127,7 +127,7 @@ void disjointInterval(std::vector<std::pair<int, int>> &a) {
 // Disjoint Set Union
 class DSU {
   std::vector<int> p;
-public:
+ public:
   DSU(int n) : p(n) { iota(p.begin(), p.end(), 0); }
   int find(int x) {
     return x == p[x] ? x : p[x] = find(p[x]);
@@ -210,7 +210,7 @@ class BitreePlus {
     C.add(id, p);
     B.add(id, (id - 1) * p);
   }
-public:
+ public:
   BitreePlus() {}
   BitreePlus(int _n) : n(_n), B(n), C(n) {}
   void add(int l, int r, T p) {
@@ -279,7 +279,7 @@ class SegmentTree {
     tag.resize(4 * n);
     sm.resize(4 * n);
   }
-public:
+ public:
   SegmentTree(int _n) : n(_n) { resize(); }
   SegmentTree(const std::vector<LL> &a) {
     n = a.size();
@@ -310,7 +310,7 @@ class PstSegTree {
   void pushUp(int p) {
     tree[p].val = tree[tree[p].l].val + tree[tree[p].r].val;
   }
-public:
+ public:
   int n;
   std::vector<int> root;  // version number
   std::vector<Node> tree;
@@ -407,7 +407,7 @@ class BitPstSegTree {
     return sz;
   }
   inline int lowbit(int x) { return x & -x; }
-public:
+ public:
   BitPstSegTree(const std::vector<int> &x) : n(x.size()) {
     // 0 is son of all leave nodes
     for (int i = 0; i <= n; ++i) newNode();
@@ -600,7 +600,7 @@ class BlockAbs {
   void merge(int x, int y) { // merge x to y
     fa[find(x)] = find(y);
   }
-public:
+ public:
   BlockAbs(int mx) : l(0), r(mx), f(1), d(0), fa(mx + 1) {
     std::iota(fa.begin(), fa.end(), 0);
   }
@@ -673,7 +673,7 @@ class BlockMinus {
     if (x > mx || find(x) != x) return 0;
     return sz[x];
   }
-public:
+ public:
   void init(const std::vector<int> &_a, int _l, int _r) {
     l = _l, delta = 0;
     a = {_a.begin() + _l, _a.begin() + _r};

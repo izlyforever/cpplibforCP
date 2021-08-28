@@ -5,7 +5,7 @@
 
 
 class PolyBaseMFT4 : public PolyBase<ModLL> {
-public:
+ public:
   static inline constexpr int M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353;
   static inline constexpr LL M01 = 1LL * M0 * M1, M23 = 1LL * M2 * M3;
   static inline constexpr __int128 M0123 = __int128(M01) * M23;
@@ -16,7 +16,7 @@ public:
   static inline NTT<M2> ntt2;
   static inline NTT<M3> ntt3;
   using PolyBase<ModLL>::PolyBase;
-protected:
+ protected:
   static ModLL crt(int a0, int a1, int a2, int a3) {
     LL ans1 = a0 + LL(a1 - a0) * t01 % M1 * M0;
     LL ans2 = a2 + LL(a3 - a2) * t23 % M3 * M2;

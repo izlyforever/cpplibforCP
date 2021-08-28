@@ -6,7 +6,7 @@ template<int M>
 class NTT {
   std::vector<int> rev;
   std::vector<MInt<M>> roots{0, 1};
-public:
+ public:
   static inline const MInt<M> g = 3;
   void dft(std::vector<MInt<M>> &a) {
     int n = a.size();

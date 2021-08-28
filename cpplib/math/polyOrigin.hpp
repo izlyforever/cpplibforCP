@@ -4,10 +4,10 @@
 
 template<typename T>
 class PolyBaseOrigin : public PolyBase<T> {
-public:
+ public:
   using PolyBase<T>::PolyBase;
   PolyBaseOrigin (const PolyBase<T> &x) : PolyBase<T>(x) {}
-protected:
+ protected:
   PolyBaseOrigin mul(const PolyBaseOrigin &rhs) const {
     std::vector<T> ans(this->size() + rhs.size() - 1);
     for (int i = 0, sn = this->size(); i < sn; ++i) {

@@ -10,7 +10,7 @@ class DfsTour {
   int n, cnt;
   std::vector<int> l, r;
   std::vector<std::vector<int>> e;
-public:
+ public:
   DfsTour(int _n) : n(_n), cnt(0), l(n), r(n), e(n) {}
   void addEdge(int u, int v) {
     if (u == v) return;
@@ -43,7 +43,7 @@ std::vector<int> EulerTour(std::vector<std::vector<int>>& e, int rt) {
 class LCA {
   int n;
   std::vector<int> fa, dep, sz, son, top;
-public:
+ public:
   LCA(std::vector<std::vector<int>> &e, int rt = 1) : n(e.size()) {
     fa.resize(n);
     dep.resize(n);
@@ -419,7 +419,7 @@ class CutEdge {
       }
     }
   }
-public:
+ public:
   CutEdge(int _n) : n(_n), cnt(0), g(n), dfs(n), low(n) {}
   void addEdge(int u, int v) {
     if (u == v) return;
@@ -482,7 +482,7 @@ class Dinic {
     }
     return f - r;
   }
-public:
+ public:
   Dinic(int _n) : n(_n), g(n) {}
   void addEdge(int u, int v, int c) {
     if (u == v) return;
@@ -534,7 +534,7 @@ class HLPP {
     }
     return h[s] == n;
   }
-public:
+ public:
   HLPP(int _n) : n(_n), g(n), h(n, n), ex(n) {}
   void addEdge(int u, int v, int c) {
     if (u == v) return;
@@ -600,7 +600,7 @@ class StoerWagner {
       g[i][t] = (g[t][i] += g[s][i]);
     }
   }
-public:
+ public:
   StoerWagner(int _n) : n(_n), g(n, std::vector<int>(n)), del(n) {}
   void addEdge(int u, int v, int c) {
     if (u == v) return;
@@ -671,7 +671,7 @@ class Flow {
     }
     return h[t] != INF;
   }
-public:
+ public:
   Flow(int _n) : n(_n), g(n), h(n), path(n) {}
   void addEdge(int u, int v, int w, int c) {
     if (u == v) return;

@@ -4,7 +4,7 @@
 
 template<int N>
 class PolyBaseNTT : public PolyBase<MInt<N>> {
-protected:
+ protected:
   PolyBaseNTT mul(const PolyBaseNTT &rhs) const {
     int n = this->size(), m = rhs.size(), tot = std::max(1, n + m - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
@@ -16,7 +16,7 @@ protected:
     A.resize(n + m - 1);
     return PolyBaseNTT(A);
   }
-public:
+ public:
   static inline constexpr int M = N;
   static inline NTT<N> ntt;
   using PolyBase<MInt<N>>::PolyBase;
