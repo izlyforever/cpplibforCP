@@ -10,9 +10,3 @@ class Timer {
     std::cout << "Time used: " << elapsedTime.count() / 1000000 << "ms\n";
   }
 };
-
-template<typename T>
-void debug(std::vector<T> a){
-  for (auto &i : a) std::cout << i << ' ';
-  std::cout << std::endl;
-}
