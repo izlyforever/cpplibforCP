@@ -1,4 +1,4 @@
-# python update.py
+# python update.py (never use it any more)
 import os, sys
 if len(sys.argv) < 2:
   os.system('git commit -a -m "update"')
