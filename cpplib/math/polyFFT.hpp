@@ -46,6 +46,7 @@ class PolyBaseFFT : public PolyBase<T> {
  public:
   using PolyBase<T>::PolyBase;
   PolyBaseFFT (const PolyBase<T> &x) : PolyBase<T>(x) {}
+  PolyBaseFFT (PolyBase<T> &&x) : PolyBase<T>(std::forward(x)) {}
 };
 const constexpr int FFTM = 1e9 + 7;
 using PolyFFT = Poly<PolyBaseFFT<MInt<FFTM>>, MInt<FFTM>>;

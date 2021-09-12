@@ -3,7 +3,7 @@
 using LL = long long;
 
 class PolyS : public std::vector<int> {
-  static inline std::vector<int> rev, roots{0, 1};
+  static inline std::vector<int> rev_, roots_{0, 1};
   static int powMod(int x, int n) {
     int r(1);
     while (n) {
@@ -14,33 +14,33 @@ class PolyS : public std::vector<int> {
   }
   void dft() {
     int n = size();
-    if ((int)rev.size() != n) {
+    if ((int)rev_.size() != n) {
       int k = __builtin_ctz(n) - 1;
-      rev.resize(n);
+      rev_.resize(n);
       for (int i = 0; i < n; ++i) {
-        rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+        rev_[i] = rev_[i >> 1] >> 1 | (i & 1) << k;
       }
     }
-    if ((int)roots.size() < n) {
-      int k = __builtin_ctz(roots.size());
-      roots.resize(n);
+    if ((int)roots_.size() < n) {
+      int k = __builtin_ctz(roots_.size());
+      roots_.resize(n);
       while ((1 << k) < n) {
-        int e = powMod(g, (M - 1) >> (k + 1));
+        int e = powMod(G, (M - 1) >> (k + 1));
         for (int i = 1 << (k - 1); i < (1 << k); ++i) {
-          roots[2 * i] = roots[i];
-          roots[2 * i + 1] = 1LL * roots[i] * e % M;
+          roots_[2 * i] = roots_[i];
+          roots_[2 * i + 1] = 1LL * roots_[i] * e % M;
         }
         ++k;
       }
     }
-    for (int i = 0; i < n; ++i) if (rev[i] < i) {
-      std::swap((*this)[i], (*this)[rev[i]]);
+    for (int i = 0; i < n; ++i) if (rev_[i] < i) {
+      std::swap((*this)[i], (*this)[rev_[i]]);
     }
     for (int k = 1; k < n; k *= 2) {
       for (int i = 0; i < n; i += 2 * k) {
         for (int j = 0; j < k; ++j) {
           int u = (*this)[i + j];
-          int v = 1LL * (*this)[i + j + k] * roots[k + j] % M;
+          int v = 1LL * (*this)[i + j + k] * roots_[k + j] % M;
           int x = u + v, y = u - v;
           if (x >= M) x -= M;
           if (y < 0) y += M;
@@ -67,10 +67,11 @@ class PolyS : public std::vector<int> {
     standard();
   }
  public:
-  static inline constexpr int g = 3, M = 998244353; // 1 +  2^23 * 7 * 17
+  static inline constexpr int G = 3, M = 998244353; // 1 +  2^23 * 7 * 17
   PolyS() {}
-  PolyS(const std::vector<int> &a) : std::vector<int>{a} { standard();}
   PolyS(const int &x) : std::vector<int>{x} { standard();}
+  PolyS(const std::vector<int> &a) : std::vector<int>{a} { standard();}
+  PolyS(std::vector<int> &&a) : std::vector<int>(std::move(a)) { standard();}
   int at(int id) const {
     if (id < 0 || id >= (int)size()) return 0;
     return (*this)[id];

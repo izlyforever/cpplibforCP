@@ -3,72 +3,72 @@
 #include "basic.hpp"
 using LL = long long;
 
-// note that p[1] = 2 and p[0] is meanless
+// note that p_[1] = 2 and p_[0] is meanless
 class Prime {
   static inline constexpr int N = 5e6 + 2;
-  bool isp[N]{};
-  std::vector<int> p{0, 2}, pi;
+  bool isp_[N]{};
+  std::vector<int> p_{0, 2}, pi_;
   // $O(N \log \log N)$ but faster when N < 1e9
   void initPrime() {
-    isp[2] = true;
-    for (int i = 3; i < N; i += 2) isp[i] = true;
+    isp_[2] = true;
+    for (int i = 3; i < N; i += 2) isp_[i] = true;
     int sq = int(std::sqrt(N + 0.1)) | 1; // make sure it is odd number
-    for (int i = 3; i <= sq; i += 2) if (isp[i]) {
-      p.emplace_back(i);
-      for (int j = i * i; j < N; j += i << 1) isp[j] = false;
+    for (int i = 3; i <= sq; i += 2) if (isp_[i]) {
+      p_.emplace_back(i);
+      for (int j = i * i; j < N; j += i << 1) isp_[j] = false;
     }
-    for (int i = sq + 2; i < N; i += 2) if (isp[i]) p.emplace_back(i);
+    for (int i = sq + 2; i < N; i += 2) if (isp_[i]) p_.emplace_back(i);
   }
   // $O(N)$ but slower when N < 1e9
   std::vector<int> initPrimeS() {
-    isp[2] = true;
-    for (int i = 3; i < N; i += 2) isp[i] = true;
+    isp_[2] = true;
+    for (int i = 3; i < N; i += 2) isp_[i] = true;
     for (int i = 3; i < N; i += 2) {
-      if (isp[i]) p.emplace_back(i);
+      if (isp_[i]) p_.emplace_back(i);
       // use t to avoid overflow
-      for (int j = 2, t = (N - 1) / i + 1, np = p.size(); j < np && p[j] < t; ++j) {
-        isp[i * p[j]] = false; // isp[x]
+      for (int j = 2, t = (N - 1) / i + 1, np = p_.size(); j < np && p_[j] < t; ++j) {
+        isp_[i * p_[j]] = false; // isp_[x]
         // It will be O(nloglogn) if we remove following code
-        if (i % p[j] == 0) break; // % is time-consuming
+        if (i % p_[j] == 0) break; // % is time-consuming
       }
     }
-    return p;
+    return p_;
   }
   static inline constexpr int M = 6;
-  std::vector<int> phi[M + 1];
+  std::vector<int> phi_[M + 1];
   void initPi() {
-    pi[2] = 1;
+    pi_[2] = 1;
     for (int i = 3; i < N; ++i) {
-      pi[i] = pi[i - 1];
-      if (isp[i]) ++pi[i];
+      pi_[i] = pi_[i - 1];
+      if (isp_[i]) ++pi_[i];
     }
     std::vector<int> sz(M + 1, 1);
-    for (int i = 1; i <= M; ++i) sz[i] = p[i] * sz[i - 1];
-    phi[0] = {1}; // phi[0] is meanless
-    // optim since phi[j][i] = phi[j][i - 1] - phi[j / p[i]][i - 1]
+    for (int i = 1; i <= M; ++i) sz[i] = p_[i] * sz[i - 1];
+    phi_[0] = {1}; // phi_[0] is meanless
+    // optim since phi_[j][i] = phi_[j][i - 1] - phi_[j / p_[i]][i - 1]
     for (int i = 1; i <= M; ++i) {
-      phi[i].resize(sz[i]);
-      for (int j = 0; j < p[i]; ++j) {
+      phi_[i].resize(sz[i]);
+      for (int j = 0; j < p_[i]; ++j) {
         for (int k = 0, jsz = j * sz[i - 1]; k < sz[i - 1]; ++k) {
-          phi[i][jsz + k] = j * phi[i - 1].back() + phi[i - 1][k];
+          phi_[i][jsz + k] = j * phi_[i - 1].back() + phi_[i - 1][k];
         }
       }
       for (int k = 0; k < sz[i - 1]; ++k) {
-        for (int j = 0, kp = k * p[i]; j < p[i]; ++j) {
-          phi[i][kp + j] -= phi[i - 1][k];
+        for (int j = 0, kp = k * p_[i]; j < p_[i]; ++j) {
+          phi_[i][kp + j] -= phi_[i - 1][k];
         }
       }
     }
   }
-  // See if x \in (s - n, s] is prime assume that p.back() * p.back() >= s
+  // See if x \in (s - n, s] is prime assume that p_.back() * p_.back() >= s
   std::vector<int> seive(LL s, int n) { // O(N log s)
     std::vector<int> isP(n, 1); // isP[i] = 1 means s - i is prime
-    for (int i = 1; 1LL * p[i] * p[i] <= s; ++i) {
-      for (int j = s % p[i]; j < n; j += p[i]) isP[j] = 0;
+    for (int i = 1; 1LL * p_[i] * p_[i] <= s; ++i) {
+      for (int j = s % p_[i]; j < n; j += p_[i]) isP[j] = 0;
     }
     return isP;
   }
-  Prime() : pi(N) {
+  Prime() : pi_(N) {
     initPrime();
     initPi();
   }
@@ -79,34 +79,34 @@ class Prime {
     return true;
   }
  public:
-  int operator[](int i) { return p[i];}
+  int operator[](int i) { return p_[i];}
   LL primephi(LL x, int s) {
-    if (s <= M) return (x / phi[s].size()) * phi[s].back() + phi[s][x % phi[s].size()];
-    if (x / p[s] <= p[s]) return primePi(x) - s + 1;
-    if (x / p[s] / p[s] <= p[s] && x < N) {
-      int s2x = pi[(int)(std::sqrt(x + 0.2))];
-      LL ans = pi[x] - (s2x + s - 2) * (s2x - s + 1) / 2;
+    if (s <= M) return (x / phi_[s].size()) * phi_[s].back() + phi_[s][x % phi_[s].size()];
+    if (x / p_[s] <= p_[s]) return primePi(x) - s + 1;
+    if (x / p_[s] / p_[s] <= p_[s] && x < N) {
+      int s2x = pi_[(int)(std::sqrt(x + 0.2))];
+      LL ans = pi_[x] - (s2x + s - 2) * (s2x - s + 1) / 2;
       for (int i = s + 1; i <= s2x; ++i) {
-        ans += pi[x / p[i]];
+        ans += pi_[x / p_[i]];
       }
       return ans;
     }
-    return primephi(x, s - 1) - primephi(x / p[s], s - 1);
+    return primephi(x, s - 1) - primephi(x / p_[s], s - 1);
   }
   LL primePi(LL x) {
-    if (x < N) return pi[x];
+    if (x < N) return pi_[x];
     int ps2x = primePi(int(std::sqrt(x + 0.2)));
     int ps3x = primePi(int(std::cbrt(x + 0.2)));
     LL ans = primephi(x, ps3x) + 1LL * (ps2x + ps3x - 2) * (ps2x - ps3x + 1) / 2;
     for (int i = ps3x + 1, ed = ps2x; i <= ed; ++i) {
-      ans -= primePi(x / p[i]);
+      ans -= primePi(x / p_[i]);
     }
     return ans;
   }
   bool isPrime(LL n) {
-    if (n < N) return isp[n];
-    if (1LL * p.back() * p.back() > n) return isPrimeS(n);
-    for (int i = 1; p[i] * p[i] <= n; ++i) if (n % p[i] == 0) return false;
+    if (n < N) return isp_[n];
+    if (1LL * p_.back() * p_.back() > n) return isPrimeS(n);
+    for (int i = 1; p_[i] * p_[i] <= n; ++i) if (n % p_[i] == 0) return false;
     return true;
   }
   // DynamicProgramming version O(\frac{n}{\log n}) with n < 10^12
@@ -129,7 +129,7 @@ class Prime {
     return R[1];
   }
   LL nthPrime(LL n) { // Newton method
-    if (n < (int)p.size()) return p[n];
+    if (n < (int)p_.size()) return p_[n];
     LL ans = n * log(n), err = log(n) / log(10);
     LL m = primePi(ans);
     while (m < n || m > n + err) {
@@ -154,24 +154,24 @@ class Prime {
 
 class Euler {
   static inline constexpr int N = 5e6 + 2;
-  std::vector<int> phi, p{0, 2};
-  std::unordered_map<int, LL> mpPhi;
-  std::vector<LL> sumPhi;
+  std::vector<int> phi_, p_{0, 2};
+  std::unordered_map<int, LL> mpPhi_;
+  std::vector<LL> sumPhi_;
   void initPhi() { // $O(N)$
-    for (int i = 1; i < N; i += 2) phi[i] = i;
-    for (int i = 2; i < N; i += 2) phi[i] = i >> 1;
+    for (int i = 1; i < N; i += 2) phi_[i] = i;
+    for (int i = 2; i < N; i += 2) phi_[i] = i >> 1;
     for (int i = 3; i < N; i += 2) {
-      if (phi[i] == i) p.emplace_back(i), --phi[i];
-      for (int j = 2, t = (N - 1) / i + 1, np = p.size(); j < np && p[j] < t; ++j) {
-        if (i % p[j] == 0) {
-          phi[i * p[j]] = phi[i] * p[j];
+      if (phi_[i] == i) p_.emplace_back(i), --phi_[i];
+      for (int j = 2, t = (N - 1) / i + 1, np = p_.size(); j < np && p_[j] < t; ++j) {
+        if (i % p_[j] == 0) {
+          phi_[i * p_[j]] = phi_[i] * p_[j];
           break;
         }
-        phi[i * p[j]] = phi[i] * (p[j] - 1);
+        phi_[i * p_[j]] = phi_[i] * (p_[j] - 1);
       }
     }
-    for (int i = 2; i < N; i += 4) phi[i] = phi[i >> 1];
-    for (int i = 4; i < N; i += 4) phi[i] = phi[i >> 1] << 1;
+    for (int i = 2; i < N; i += 4) phi_[i] = phi_[i >> 1];
+    for (int i = 4; i < N; i += 4) phi_[i] = phi_[i >> 1] << 1;
   }
   LL getPhiS(LL n) {
     if (n % 2 == 0) n /= 2;
@@ -184,33 +184,33 @@ class Euler {
     if (n > 1) r = r / n * (n - 1);
     return r;
   }
-  Euler() : phi(N), sumPhi(N) {
+  Euler() : phi_(N), sumPhi_(N) {
     initPhi();
-    for (int i = 1; i < N; ++i) sumPhi[i] = sumPhi[i - 1] + phi[i];
+    for (int i = 1; i < N; ++i) sumPhi_[i] = sumPhi_[i - 1] + phi_[i];
   }
  public:
-  int operator[](int i) { return phi[i];}
+  int operator[](int i) { return phi_[i];}
   LL getPhi(LL n) {
-    if (n < (int)phi.size()) return phi[n];
-    if (1LL * p.back() * p.back() > n) return getPhiS(n);
+    if (n < (int)phi_.size()) return phi_[n];
+    if (1LL * p_.back() * p_.back() > n) return getPhiS(n);
     LL r = n;
-    for (int i = 1; 1LL * p[i] * p[i] <= n; ++i) if (n % p[i] == 0) {
-      r = r / p[i] * (p[i] - 1);
-      while (n % p[i] == 0) n /= p[i];
+    for (int i = 1; 1LL * p_[i] * p_[i] <= n; ++i) if (n % p_[i] == 0) {
+      r = r / p_[i] * (p_[i] - 1);
+      while (n % p_[i] == 0) n /= p_[i];
     }
     if (n > 1) r = r / n * (n - 1);
     return r;
   }
   // min_25 $O(n^{\frac{2}{3}})$
   LL getSumPhi(int n) {
-    if (n < N) return sumPhi[n];
-    if (mpPhi.count(n)) return mpPhi[n];
+    if (n < N) return sumPhi_[n];
+    if (mpPhi_.count(n)) return mpPhi_[n];
     LL r = 1LL * (n + 1) * n / 2;
     for (int i = 2, j; i <= n; i = j + 1) {
       j = n / (n / i);
       r -= (j - i + 1) * getSumPhi(n / i);
     }
-    return mpPhi[n] = r;
+    return mpPhi_[n] = r;
   }
   Euler(const Euler&) = delete;
   static Euler& Instance() {
@@ -222,8 +222,8 @@ class Euler {
 
 class Mobius{
   static inline constexpr int N = 5e6 + 2;
-  std::vector<int> mu, sumMu, p{0, 2};
-  std::unordered_map<int, int> mpMu;
+  std::vector<int> mu_, sumMu_, p_{0, 2};
+  std::unordered_map<int, int> mpMu_;
   int getMuS(LL n){
     if (n % 4 == 0) return 0;
     int r = (n % 2 ? 1 : -1);
@@ -236,61 +236,61 @@ class Mobius{
     return n > 1 ? -r : r;
   }
   void initMuS() { // $O(n log n)$
-    mu[1] = 1;
+    mu_[1] = 1;
     for (int i = 1; i < N; ++i) {
       for (int j = i * 2; j < N; j += i) {
-        mu[j] -= mu[i];
+        mu_[j] -= mu_[i];
       }
     }
   }
   void initMu() {
-    for (int i = 1; i < N; i += 2) mu[i] = i;
+    for (int i = 1; i < N; i += 2) mu_[i] = i;
     for (int i = 3; i < N; i += 2) {
-      if (mu[i] == i) mu[i] = -1, p.emplace_back(i);
-      for (int j = 2, t = (N - 1) / i + 1, np = p.size(); j < np && p[j] < t; ++j) {
-        if (i % p[j] == 0) {
-          mu[i * p[j]] = 0;
+      if (mu_[i] == i) mu_[i] = -1, p_.emplace_back(i);
+      for (int j = 2, t = (N - 1) / i + 1, np = p_.size(); j < np && p_[j] < t; ++j) {
+        if (i % p_[j] == 0) {
+          mu_[i * p_[j]] = 0;
           break;
         }
-        mu[i * p[j]] = -mu[i];
+        mu_[i * p_[j]] = -mu_[i];
       }
     }
-    for (int i = 2; i < N; i += 4) mu[i] = -mu[i >> 1];
+    for (int i = 2; i < N; i += 4) mu_[i] = -mu_[i >> 1];
   }
-  Mobius() : mu(N), sumMu(N) {
+  Mobius() : mu_(N), sumMu_(N) {
     initMu();
-    for (int i = 1; i < N; ++i) sumMu[i] = sumMu[i - 1] + mu[i];
+    for (int i = 1; i < N; ++i) sumMu_[i] = sumMu_[i - 1] + mu_[i];
   }
  public:
-  int operator[](int i) { return mu[i];} // assmue i < N
+  int operator[](int i) { return mu_[i];} // assmue i < N
   int getMu(LL n) {
-    if (n < (int)mu.size()) return mu[n];
-    if (1LL * p.back() * p.back() > n) return getMuS(n);
+    if (n < (int)mu_.size()) return mu_[n];
+    if (1LL * p_.back() * p_.back() > n) return getMuS(n);
     int r = 1;
-    for (int i = 1; 1LL * p[i] * p[i] <= n; ++i) if (n % p[i] == 0) {
-      n /= p[i];
-      if (n % p[i] == 0) return 0;
+    for (int i = 1; 1LL * p_[i] * p_[i] <= n; ++i) if (n % p_[i] == 0) {
+      n /= p_[i];
+      if (n % p_[i] == 0) return 0;
       r = -r;
     }
     return n > 1 ? -r : r;
   }
-  LL getAbsSum(LL n) { // Q(n) = Q(n-1) + |mu(n)|
+  LL getAbsSum(LL n) { // Q(n) = Q(n-1) + |mu_(n)|
     LL r = 0;
     for (LL i = 1; i * i < n; ++i) {
-      r += mu[i] * (n / i / i);
+      r += mu_[i] * (n / i / i);
     }
     return r;
   }
   // min_25 $O(n^{\frac{2}{3}})$
   int getSumMu(int n) {
-    if (n < N) return sumMu[n];
-    if (mpMu.count(n)) return mpMu[n];
+    if (n < N) return sumMu_[n];
+    if (mpMu_.count(n)) return mpMu_[n];
     int r = 1;
     for (int i = 2, j; i <= n; i = j + 1) {
       j = n / (n / i);
       r -= 1LL * (j - i + 1) * getSumMu(n / i);
     }
-    return mpMu[n] = r;
+    return mpMu_[n] = r;
   }
   Mobius(const Mobius&) = delete;
   static Mobius& Instance() {
@@ -302,15 +302,15 @@ class Mobius{
 
 // init numbers of (multi) prime factors less than N in $O(N)$
 std::pair<std::vector<int>, std::vector<int>> npf(int N) {
-  std::vector<int> np(N, 1), nps(N, 1), p{0, 2};
+  std::vector<int> np(N, 1), nps(N, 1), p_{0, 2};
   nps[0] = nps[1] = 0;
   np[0] = np[1] = 0;
   for (int i = 3; i < N; i += 2) {
-    if (nps[i] == 1) p.emplace_back(i);
-    for (int j = 2, t, pSize = p.size(); j < pSize && (t = i * p[j]) < N; ++j) {
+    if (nps[i] == 1) p_.emplace_back(i);
+    for (int j = 2, t, pSize = p_.size(); j < pSize && (t = i * p_[j]) < N; ++j) {
       nps[t] = nps[i] + 1;
       np[t] = np[i];
-      if (i % p[j] == 0) break;
+      if (i % p_[j] == 0) break;
       ++np[t];
     }
   }

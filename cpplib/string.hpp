@@ -1,38 +1,39 @@
 #pragma once
 #include <bits/stdc++.h>
+using LL = long long;
 
 // Trie build by lowercase characters(change charToInt for other charset)
 class Trie {
   using Node = std::array<int, 26>;
-  std::vector<Node> nxt;
+  std::vector<Node> nxt_;
   // 0: no point, 1: has point unvisited, 2: has point visited
-  std::vector<int> tag;
+  std::vector<int> tag_;
   void addNode(int fa, int c) {
-    nxt[fa][c] = nxt.size();
-    nxt.emplace_back(Node());
-    tag.emplace_back(0);
+    nxt_[fa][c] = nxt_.size();
+    nxt_.emplace_back(Node());
+    tag_.emplace_back(0);
   }
   int charToInt(char x) { return x - 'a';}
  public:
-  Trie() : nxt(1), tag(1) {}
+  Trie() : nxt_(1), tag_(1) {}
   void insert(std::string s) {
     int p = 0;
     for (auto x : s) {
       int c = x - 'a';
-      if (nxt[p][c] == 0) addNode(p, c);
-      p = nxt[p][c];
+      if (nxt_[p][c] == 0) addNode(p, c);
+      p = nxt_[p][c];
     }
-    tag[p] = 1;
+    tag_[p] = 1;
   }
   int find(std::string s) {
     int p = 0;
     for (auto x : s) {
       int c = charToInt(x);
-      if (nxt[p][c] == 0) return 0;
-      p = nxt[p][c];
+      if (nxt_[p][c] == 0) return 0;
+      p = nxt_[p][c];
     }
-    if (tag[p] != 1) return tag[p];
-    tag[p] = 2;
+    if (tag_[p] != 1) return tag_[p];
+    tag_[p] = 2;
     return 1;
   }
 };
@@ -41,29 +42,29 @@ class Trie {
 // 01 Trie find maximal xor sum
 class Trie01 {
   using Node = std::array<int, 2>;
-  std::vector<Node> ch;
+  std::vector<Node> ch_;
   void addNode(int fa, int c) {
-    ch[fa][c] = ch.size();
-    ch.emplace_back(Node());
+    ch_[fa][c] = ch_.size();
+    ch_.emplace_back(Node());
   }
  public:
-  Trie01() : ch(1) {}
+  Trie01() : ch_(1) {}
   void insert(int x) {
     for (int i = 30, p = 0; i >= 0; --i) {
       int c = (x >> i) & 1;
-      if (ch[p][c] == 0) addNode(p, c);
-      p = ch[p][c];
+      if (ch_[p][c] == 0) addNode(p, c);
+      p = ch_[p][c];
     }
   }
   int getMax(int x) {
     int r = 0;
     for (int i = 30, p = 0; i >= 0; --i) {
       int c = (x >> i) & 1;
-      if (ch[p][c ^ 1]) {
-        p = ch[p][c ^ 1];
+      if (ch_[p][c ^ 1]) {
+        p = ch_[p][c ^ 1];
         r |= (1 << i);
       } else {
-        p = ch[p][c];
+        p = ch_[p][c];
       }
     }
     return r;
@@ -82,44 +83,44 @@ class Trie01 {
 // 01-Trie (Fusion Tree) xor sum(support modifty, add 1 to all)
 class FusionTree {
   using Node = std::array<int, 4>;
-  std::vector<Node> ch;
-  #define lsonFT ch[p][0]
-  #define rsonFT ch[p][1]
-  // ch[p][2] = size of subtree rooted by p
-  // ch[p][3] = xor sum of subtree rooted by p
+  std::vector<Node> ch_;
+  #define lsonFT ch_[p][0]
+  #define rsonFT ch_[p][1]
+  // ch_[p][2] = size of subtree rooted by p
+  // ch_[p][3] = xor sum of subtree rooted by p
   void addNode(int p, int c) {
-    ch[p][c] = ch.size();
-    ch.emplace_back(Node());
+    ch_[p][c] = ch_.size();
+    ch_.emplace_back(Node());
   }
   void pushUp(int p) {
-    ch[p][3] = 0;
-    if (lsonFT) ch[p][3] ^= (ch[lsonFT][3] << 1);
-    if (rsonFT) ch[p][3] ^= (ch[rsonFT][3] << 1) | (ch[rsonFT][2] & 1);
+    ch_[p][3] = 0;
+    if (lsonFT) ch_[p][3] ^= (ch_[lsonFT][3] << 1);
+    if (rsonFT) ch_[p][3] ^= (ch_[rsonFT][3] << 1) | (ch_[rsonFT][2] & 1);
   }
-  // note ch[lson][2] = ch[p][2] - ch[rsonFT] is a lazy tag
+  // note ch_[lson][2] = ch_[p][2] - ch_[rsonFT] is a lazy tag_
   void insert(int p, int x) {
-    ++ch[p][2];
+    ++ch_[p][2];
     if (!x) return;
-    if (!ch[p][x & 1]) addNode(p, x & 1);
-    insert(ch[p][x & 1], x >> 1);
+    if (!ch_[p][x & 1]) addNode(p, x & 1);
+    insert(ch_[p][x & 1], x >> 1);
     pushUp(p);
   }
   void erase(int p, int x) {
-    --ch[p][2];
+    --ch_[p][2];
     if (!x) return;
-    erase(ch[p][x & 1], x >> 1);
+    erase(ch_[p][x & 1], x >> 1);
     pushUp(p);
   }
   void addAll(int p) {
-    if (!ch[p][2]) return;
+    if (!ch_[p][2]) return;
     if (rsonFT) addAll(rsonFT);
     if (!lsonFT) addNode(p, 0);
-    ch[lsonFT][2] = ch[p][2] - (rsonFT ? ch[rsonFT][2] : 0);
+    ch_[lsonFT][2] = ch_[p][2] - (rsonFT ? ch_[rsonFT][2] : 0);
     std::swap(lsonFT, rsonFT);
     pushUp(p);
   }
  public:
-  FusionTree() : ch(1) {}
+  FusionTree() : ch_(1) {}
   void insert(int x) {
     insert(0, x);
   }
@@ -130,7 +131,7 @@ class FusionTree {
     addAll(0);
   }
   int getVal() {
-    return ch[0][3];
+    return ch_[0][3];
   }
 };
 // https://www.luogu.com.cn/problem/P6018
@@ -229,42 +230,42 @@ std::vector<int> kmpZ(std::string s, std::string t) {
 class Automaton {
   static inline constexpr int CHAR = 26;
   using Node = std::array<int, CHAR>;
-  std::vector<Node> nxt;
-  std::vector<int> cnt, fail, last;
+  std::vector<Node> nxt_;
+  std::vector<int> cnt_, fail_, last_;
   int charToInt(char x) { return x - 'a';}
   void addNode(int fa, int c) {
-    nxt[fa][c] = nxt.size();
-    nxt.emplace_back(Node());
-    cnt.emplace_back(0);
-    fail.emplace_back(0);
-    last.emplace_back(0);
+    nxt_[fa][c] = nxt_.size();
+    nxt_.emplace_back(Node());
+    cnt_.emplace_back(0);
+    fail_.emplace_back(0);
+    last_.emplace_back(0);
   }
  public:
-  Automaton() : nxt(1), cnt(1), fail(1), last(1) {}
+  Automaton() : nxt_(1), cnt_(1), fail_(1), last_(1) {}
   void insert(std::string s) {
     int p = 0;
     for (auto x : s) {
       int c = charToInt(x);
-      if (nxt[p][c] == 0) addNode(p, c);
-      p = nxt[p][c];
+      if (nxt_[p][c] == 0) addNode(p, c);
+      p = nxt_[p][c];
     }
-    ++cnt[p];
+    ++cnt_[p];
   }
   void build() {
     std::queue<int> Q;
     for (int c = 0; c < CHAR; ++c) {
-      if (nxt[0][c]) Q.push(nxt[0][c]);
+      if (nxt_[0][c]) Q.push(nxt_[0][c]);
     }
     while (!Q.empty()) {
       int p = Q.front(); Q.pop();
       for (int c = 0; c < CHAR; ++c) {
-        if (int &q = nxt[p][c]; q != 0) {
-          fail[q] = nxt[fail[p]][c];
+        if (int &q = nxt_[p][c]; q != 0) {
+          fail_[q] = nxt_[fail_[p]][c];
           Q.push(q);
           // match count optim
-          last[q] = cnt[fail[q]] ? fail[q] : last[fail[q]];
+          last_[q] = cnt_[fail_[q]] ? fail_[q] : last_[fail_[q]];
         } else {
-          q = nxt[fail[p]][c];
+          q = nxt_[fail_[p]][c];
         }
       }
     }
@@ -277,12 +278,12 @@ class Automaton {
     };
     for (auto x : s) {
       int c = charToInt(x);
-      p = nxt[p][c];
-      if (cnt[p]) add(cnt[p]);
+      p = nxt_[p][c];
+      if (cnt_[p]) add(cnt_[p]);
       int q = p;
-      while (last[q]) {
-        q = last[q];
-        if (cnt[q]) add(cnt[q]);
+      while (last_[q]) {
+        q = last_[q];
+        if (cnt_[q]) add(cnt_[q]);
       }
     }
     return r;
@@ -409,7 +410,6 @@ std::vector<int> getHeight(const std::string &s) {
   }
   return ht;
 }
-
 
 LL diffSubstringCount(const std::string &s) {
   int n = s.size();

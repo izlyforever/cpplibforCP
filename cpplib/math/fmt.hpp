@@ -10,7 +10,7 @@ auto sub = [](int &x, int y) {
   (x -= y) < 0 && (x += M);
 };
 auto extend = [](int n) {
-  int r = std::log(n);
+  int r = std::__lg(n);
   while ((1 << r) < n) ++r;
   return r;
 };
@@ -88,3 +88,4 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
   return c;
 };
 } // namespace FMT
+// https://www.luogu.com.cn/problem/P6097
