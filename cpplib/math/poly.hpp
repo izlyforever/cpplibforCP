@@ -5,18 +5,17 @@
 using LL = long long;
 
 // using valT = decltype(T::a)::value_type;
-
 template<typename T, typename valT>
 class Poly : public T {
   // many function will fail for the case n > mod
-  static inline const valT j = pow(valT(3), (valT::mod() - 1) / 4);
-  static inline const valT inv2 = (valT::mod() + 1) / 2;
-  static inline const int maxN = 1e6 + 2;  // assume size(a) < maxN
-  static inline const auto &Binom = BinomModp<valT>::Instance(maxN);
+  static inline const valT COMPLEXI = pow(valT(3), (valT::mod() - 1) / 4);
+  static inline const valT INV2 = (valT::mod() + 1) / 2;
+  static inline const int MAXN = 1e6 + 2;  // assume size(a) < MAXN
+  static inline const auto &BINOM = BinomModp<valT>::Instance(MAXN);
  public:
   using T::T;
   // never use it if valT = MINT<M>
-  static void setMod(LL p, int n = maxN) {
+  static void setMod(LL p, int n = MAXN) {
     valT::setMod(p);
     BinomModp<valT>::Instance(std::min(LL(n), p));
   }
@@ -138,19 +137,19 @@ class Poly : public T {
   }
   Poly sin(int n) const {
     auto A = *this;
-    for (auto &x : A) x *= j;
+    for (auto &x : A) x *= COMPLEXI;
     A = A.exp(n);
     A -= A.inv(n);
-    auto m = -j * inv2;
+    auto m = -COMPLEXI * INV2;
     for (auto &x : A) x *= m;
     return A;
   }
   Poly cos(int n) const {
     auto A = *this;
-    for (auto &x : A) x *= j;
+    for (auto &x : A) x *= COMPLEXI;
     A = A.exp(n);
     A += A.inv(n);
-    for (auto &x : A) x *= inv2;
+    for (auto &x : A) x *= INV2;
     return A;
   }
   // assume a[0] = 0
@@ -176,7 +175,7 @@ class Poly : public T {
     while (k < n) {
       k *= 2;
       x += this->modXn(k) * x.inv(k);
-      x = x.modXn(k) * inv2;
+      x = x.modXn(k) * INV2;
     }
     return x.modXn(n);
   }
@@ -239,18 +238,18 @@ class Poly : public T {
     std::vector<valT> x(n);
     for (int i = 0; i < n; ++i) x[i] = i;
     auto y = this->evals(x);
-    auto tmp = Binom.ifac;
+    auto tmp = BINOM.ifac;
     for (int i = 1; i < n; i += 2) tmp[i] = -tmp[i];
     Poly A = Poly(y) * Poly(tmp);
     return A.modXn(n);
   }
   Poly fromFallingPowForm() {
     int n = this->size();
-    Poly A = ((*this) * Poly(Binom.ifac)).modXn(n);
+    Poly A = ((*this) * Poly(BINOM.ifac)).modXn(n);
     std::vector<valT> x(n), y = A;
     for (int i = 0; i < n; ++i) x[i] = i;
     y.resize(n);
-    for (int i = 0; i < n; ++i) y[i] *= Binom.fac[i];
+    for (int i = 0; i < n; ++i) y[i] *= BINOM.fac[i];
     return Lagrange(x, y);
   }
   valT eval(valT x) const {
@@ -311,7 +310,7 @@ class Poly : public T {
   static std::vector<valT> valToVal(std::vector<valT> h, valT m, int cnt) { // m > h.size()
     int d = h.size() - 1;
     for (int i = 0; i <= d; ++i) {
-      h[i] *= Binom.ifac[i] * Binom.ifac[d - i];
+      h[i] *= BINOM.ifac[i] * BINOM.ifac[d - i];
       if ((d - i) & 1) h[i] = -h[i];
     }
     std::vector<valT> f(d + cnt);
@@ -333,6 +332,7 @@ class Poly : public T {
     }
     return h;
   }; // https://www.luogu.com.cn/problem/P5667
+  
   static Poly Lagrange(std::vector<valT> x, std::vector<valT> y) {
     std::function<Poly(int l, int r)> mulP = [&](int l, int r) -> Poly {
       if (r - l == 1) return Poly({-x[l], 1});
@@ -374,7 +374,7 @@ class Poly : public T {
     // Poly Numerator = Poly({0, n}).exp(k + 1).divXn(1);
     // Poly denominator  = Poly({0, 1}).exp(k + 1).divXn(1);
     std::vector<valT> a(k), b(k);
-    for (int i = 0; i < k; ++i) a[i] = b[i] = Binom.ifac[i + 1];
+    for (int i = 0; i < k; ++i) a[i] = b[i] = BINOM.ifac[i + 1];
     valT cur = 1;
     for (int i = 0; i < k; ++i) a[i] *= (cur *= valT::raw(n));
     auto Numerator = Poly(a), denominator = Poly(b);
@@ -398,13 +398,13 @@ class Poly : public T {
       std::vector<valT> tmp(k + 1);
       valT now{1};
       for (int i = 0; i <= k; ++i) {
-        tmp[i] = now * Binom.ifac[i];
+        tmp[i] = now * BINOM.ifac[i];
         now *= k;
       }
       auto B = A;
-      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= Binom.fac[i];
+      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.fac[i];
       B = B.mulT(tmp).modXn(k + 1);
-      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= Binom.ifac[i];
+      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.ifac[i];
       A *= B;
       if (2 * k != n) {
         B = A;
@@ -436,12 +436,12 @@ class Poly : public T {
     for (auto &x : B) x *= valT::raw(k);
     std::vector<valT> ans = B.exp(n + 1 - k).mulXn(k);
     ans.resize(n + 1);
-    auto ifacK = Binom.ifac[k];
-    for (int i = 0; i <= n; ++i) ans[i] *= Binom.fac[i] * ifacK;
+    auto ifacK = BINOM.ifac[k];
+    for (int i = 0; i <= n; ++i) ans[i] *= BINOM.fac[i] * ifacK;
     return ans;
   }
   std::vector<valT> stirling2row(int n) {
-    auto tmp = Binom.ifac, a = Binom.ifac;
+    auto tmp = BINOM.ifac, a = BINOM.ifac;
     for (int i = 1; i <= n; i += 2) tmp[i] = -tmp[i];
     for (int i = 0; i <= n; ++i) a[i] *= pow(valT::raw(i), n);
     std::vector<valT> ans = Poly(a) * Poly(tmp);
@@ -450,15 +450,15 @@ class Poly : public T {
   }
   std::vector<valT> stirling2col(int n, int k) {
     if (k > n)  return std::vector<valT>(n + 1);
-    auto A = Poly(Binom.ifac);
+    auto A = Poly(BINOM.ifac);
     A = A.divXn(1).modXn(n + 1 - k);
     A = A.log(n + 1 - k);
     for (auto &x : A) x *= valT::raw(k);
     A = A.exp(n + 1 - k).mulXn(k);
     std::vector<valT> ans = A;
     ans.resize(n + 1);
-    auto ifacK = Binom.ifac[k];
-    for (int i = 0; i <= n; ++i) ans[i] *= Binom.fac[i] * ifacK;
+    auto ifacK = BINOM.ifac[k];
+    for (int i = 0; i <= n; ++i) ans[i] *= BINOM.fac[i] * ifacK;
     return ans;
   }
 }; // https://www.luogu.com.cn/training/3015#information
@@ -476,15 +476,14 @@ class PolyBase : public std::vector<valT> {
   }
  public:
   PolyBase() {}
-  PolyBase(const std::vector<valT> &a) : std::vector<valT>{a} { standard();}
   PolyBase(const valT &x) : std::vector<valT>{x} { standard();}
+  PolyBase(const std::vector<valT> &a) : std::vector<valT>{a} { standard();}
+  PolyBase(std::vector<valT> &&a) : std::vector<valT>{std::move(a)} { standard();}
   valT at(int id) const {
     if (id < 0 || id >= (int)this->size()) return 0;
     return (*this)[id];
   }
 };
-
-
 
 
 // There will be `PolyNTT`, `PolyFFT`, `PolyFFTDynamic`, `PolyMFT` provided to suit for different module $M$.

@@ -5,24 +5,24 @@ using LL = long long;
 using edge = std::vector<std::pair<int, int>>;
 using Edge = std::tuple<int, int, int>;
 
-// dfs order of rooted tree
+// dfs order_ of rooted tree
 class DfsTour {
-  int n, cnt;
-  std::vector<int> l, r;
-  std::vector<std::vector<int>> e;
+  int n_, cnt_;
+  std::vector<int> l_, r_;
+  std::vector<std::vector<int>> e_;
  public:
-  DfsTour(int _n) : n(_n), cnt(0), l(n), r(n), e(n) {}
+  DfsTour(int n) : n_(n), cnt_(0), l_(n), r_(n), e_(n) {}
   void addEdge(int u, int v) {
     if (u == v) return;
-    e[u].emplace_back(v);
-    e[v].emplace_back(u);
+    e_[u].emplace_back(v);
+    e_[v].emplace_back(u);
   }
   void dfs(int u, int fa) {
-    l[u] = ++cnt;
-    for (auto v : e[u]) if (v != fa) {
+    l_[u] = ++cnt_;
+    for (auto v : e_[u]) if (v != fa) {
       dfs(v, u);
     }
-    r[u] = cnt;
+    r_[u] = cnt_;
   }
 };
 
@@ -41,45 +41,45 @@ std::vector<int> EulerTour(std::vector<std::vector<int>>& e, int rt) {
 }
 
 class LCA {
-  int n;
-  std::vector<int> fa, dep, sz, son, top;
+  int n_;
+  std::vector<int> fa_, dep_, sz_, son_, top_;
  public:
-  LCA(std::vector<std::vector<int>> &e, int rt = 1) : n(e.size()) {
-    fa.resize(n);
-    dep.resize(n);
-    sz.resize(n);
-    son.resize(n);
-    fa[rt] = rt;
-    dep[rt] = 0;
+  LCA(std::vector<std::vector<int>> &e, int rt = 1) : n_(e.size()) {
+    fa_.resize(n_);
+    dep_.resize(n_);
+    sz_.resize(n_);
+    son_.resize(n_);
+    fa_[rt] = rt;
+    dep_[rt] = 0;
     std::function<int(int)> pdfs = [&](int u) -> int {
-      sz[u] = 1;
-      for (auto v : e[u]) if (v != fa[u]) {
-        dep[v] = dep[u] + 1;
-        fa[v] = u;
-        sz[u] += pdfs(v);
-        if (sz[v] > sz[son[u]]) son[u] = v;
+      sz_[u] = 1;
+      for (auto v : e[u]) if (v != fa_[u]) {
+        dep_[v] = dep_[u] + 1;
+        fa_[v] = u;
+        sz_[u] += pdfs(v);
+        if (sz_[v] > sz_[son_[u]]) son_[u] = v;
       }
-      return sz[u];
+      return sz_[u];
     };
-    top.resize(n);
+    top_.resize(n_);
     std::function<void(int, int)> dfs = [&](int u, int t) -> void {
-      top[u] = t;
-      if (son[u] == 0) return;
-      dfs(son[u], t);
-      for (auto v : e[u]) if (v != fa[u] && v != son[u]) dfs(v, v);
+      top_[u] = t;
+      if (son_[u] == 0) return;
+      dfs(son_[u], t);
+      for (auto v : e[u]) if (v != fa_[u] && v != son_[u]) dfs(v, v);
     };
     pdfs(rt);
     dfs(rt, rt);
   }
   int lca(int u, int v) {
-    while (top[u] != top[v]) {
-      if (dep[top[u]] > dep[top[v]]) {
-        u = fa[top[u]];
+    while (top_[u] != top_[v]) {
+      if (dep_[top_[u]] > dep_[top_[v]]) {
+        u = fa_[top_[u]];
       } else {
-        v = fa[top[v]];
+        v = fa_[top_[v]];
       }
     }
-    return dep[u] < dep[v] ? u : v;
+    return dep_[u] < dep_[v] ? u : v;
   }
 };
 
@@ -122,7 +122,7 @@ LL LiuZhu(std::vector<Edge> e, int n, int rt) { // e has no self-loop
     for (int i = 0; i < n; ++i) if (i != rt) {
       ans += in[i];
       int v = i;
-      // note there may be a path of form '6'
+      // note there may be a path_ of form '6'
       while (vis[v] != i && id[v] == -1 && v != rt) {
         vis[v] = i;
         v = pre[v];
@@ -298,82 +298,82 @@ bool spfa(std::vector<edge> &e, int x = 0) {
 
 // Kosaraju: Strongly Connected Components
 struct Scc {
-  int n, nScc;
-  std::vector<int> vis, color, order;
-  std::vector<std::vector<int>> e, e2;
-  Scc(int _n) : n(_n * 2) {
-    nScc = 0;
-    e.resize(n);
-    e2.resize(n);
-    vis.resize(n);
-    color.resize(n);
+  int n_, nScc_;
+  std::vector<int> vis_, color_, order_;
+  std::vector<std::vector<int>> e_, e2_;
+  Scc(int n) : n_(n * 2) {
+    nScc_ = 0;
+    e_.resize(n_);
+    e2_.resize(n_);
+    vis_.resize(n_);
+    color_.resize(n_);
   }
   void addEdge(int u, int v) {
-    e[u].emplace_back(v);
-    e2[v].emplace_back(u);
+    e_[u].emplace_back(v);
+    e2_[v].emplace_back(u);
   }
   void dfs(int u) {
-    vis[u] = true;
-    for (auto v : e[u]) if (!vis[v]) dfs(v);
-    order.emplace_back(u);
+    vis_[u] = true;
+    for (auto v : e_[u]) if (!vis_[v]) dfs(v);
+    order_.emplace_back(u);
   }
   void dfs2(int u) {
-    color[u] = nScc;
-    for (auto v : e2[u]) if (!color[v]) dfs2(v);
+    color_[u] = nScc_;
+    for (auto v : e2_[u]) if (!color_[v]) dfs2(v);
   }
   void Kosaraju() {
-    for (int i = 0; i < n; ++i) if (!vis[i]) dfs(i);
-    for (auto it = order.rbegin(); it != order.rend(); ++it) if (!color[*it]) {
-      ++nScc;
+    for (int i = 0; i < n_; ++i) if (!vis_[i]) dfs(i);
+    for (auto it = order_.rbegin(); it != order_.rend(); ++it) if (!color_[*it]) {
+      ++nScc_;
       dfs2(*it);
     }
   }
 };
 
-// n / 2 pairs (2i, 2i + 1)
+// n_ / 2 pairs (2i, 2i + 1)
 struct twoSAT {
-  int n, nScc;
-  std::vector<int> vis, color, order;
-  std::vector<std::vector<int>> e, e2;
-  twoSAT(int _n) : n(_n * 2) {
-    nScc = 0;
-    e.resize(n);
-    e2.resize(n);
-    vis.resize(n);
-    color.resize(n);
+  int n_, nScc_;
+  std::vector<int> vis_, color_, order_;
+  std::vector<std::vector<int>> e_, e2_;
+  twoSAT(int n) : n_(n * 2) {
+    nScc_ = 0;
+    e_.resize(n_);
+    e2_.resize(n_);
+    vis_.resize(n_);
+    color_.resize(n_);
   }
   void addEdge(int u, int v) {
-    e[u].emplace_back(v);
-    e2[v].emplace_back(u);
+    e_[u].emplace_back(v);
+    e2_[v].emplace_back(u);
   }
   void dfs(int u) {
-    vis[u] = true;
-    for (auto v : e[u]) if (!vis[v]) dfs(v);
-    order.emplace_back(u);
+    vis_[u] = true;
+    for (auto v : e_[u]) if (!vis_[v]) dfs(v);
+    order_.emplace_back(u);
   }
   void dfs2(int u) {
-    color[u] = nScc;
-    for (auto v : e2[u]) if (!color[v]) dfs2(v);
+    color_[u] = nScc_;
+    for (auto v : e2_[u]) if (!color_[v]) dfs2(v);
   }
   void Kosaraju() {
-    for (int i = 0; i < n; ++i) if (!vis[i]) dfs(i);
-    for (auto it = order.rbegin(); it != order.rend(); ++it) if (!color[*it]) {
-      ++nScc;
+    for (int i = 0; i < n_; ++i) if (!vis_[i]) dfs(i);
+    for (auto it = order_.rbegin(); it != order_.rend(); ++it) if (!color_[*it]) {
+      ++nScc_;
       dfs2(*it);
     }
   }
   std::vector<int> solve() {
     Kosaraju();
-    // choose component with max color number
-    std::vector<int> choose(nScc + 1);
-    for (int i = 0; i < n; i += 2) {
-      int c1 = color[i], c2 = color[i + 1];
+    // choose component with max color_ number
+    std::vector<int> choose(nScc_ + 1);
+    for (int i = 0; i < n_; i += 2) {
+      int c1 = color_[i], c2 = color_[i + 1];
       if (c1 == c2) return std::vector<int>();
       if (choose[c1] || choose[c2]) continue;
       choose[std::max(c1, c2)] = 1;
     }
-    std::vector<int> r(n / 2);
-    for (int i = 0; i * 2 < n; ++i) r[i] = (choose[color[i * 2]] ? 1 : -1);
+    std::vector<int> r(n_ / 2);
+    for (int i = 0; i * 2 < n_; ++i) r[i] = (choose[color_[i * 2]] ? 1 : -1);
     return r;
   }
 };
@@ -403,12 +403,12 @@ std::vector<int> cutVertex(std::vector<std::vector<int>>& e) {
 // https://www.luogu.com.cn/problem/P3388
 
 class CutEdge {
-  int n, cnt;
-  std::vector<std::vector<int>> g;
+  int n_, cnt_;
+  std::vector<std::vector<int>> g_;
   std::vector<int> e, flag, dfs, low;
   void Tarjan(int u, int inEdgeNum) {
-    low[u] = dfs[u] = ++cnt;
-    for (auto i : g[u]) {
+    low[u] = dfs[u] = ++cnt_;
+    for (auto i : g_[u]) {
       int v = e[i];
       if (dfs[v] == 0) {
         Tarjan(v, i);
@@ -420,18 +420,18 @@ class CutEdge {
     }
   }
  public:
-  CutEdge(int _n) : n(_n), cnt(0), g(n), dfs(n), low(n) {}
+  CutEdge(int n) : n_(n), cnt_(0), g_(n), dfs(n), low(n) {}
   void addEdge(int u, int v) {
     if (u == v) return;
-    g[u].emplace_back(e.size());
+    g_[u].emplace_back(e.size());
     e.emplace_back(v);
     flag.emplace_back(0);
-    g[v].emplace_back(e.size());
+    g_[v].emplace_back(e.size());
     e.emplace_back(u);
     flag.emplace_back(0);
   }
   int solve() {
-    for (int i = 0; i < n; ++i) if (dfs[i] == 0) Tarjan(i, -1);
+    for (int i = 0; i < n_; ++i) if (dfs[i] == 0) Tarjan(i, -1);
     int r = 0;
     for (auto x : flag) r += x;
     return r / 2;
@@ -439,40 +439,40 @@ class CutEdge {
 };
 // https://www.luogu.com.cn/problem/T103481
 
-// S-T max-Flow: Dinic $O(n^2 m)$
+// S-T max-Flow: Dinic $O(n_^2 m)$
 class Dinic {
-  int n;
+  int n_;
   // e[i] = {endPoint, conpacity} and e[i ^ 1] is opposite edge of e[i]
-  // g[u] = {edges start from u}
+  // g_[u] = {edges start from u}
   std::vector<std::pair<int, int>> e;
-  std::vector<std::vector<int>> g;
-  std::vector<int> cur, h;
-  // h[i] = dist(s, i), so h[t] != -1 means there is a path from s to t
+  std::vector<std::vector<int>> g_;
+  std::vector<int> cur_, h_;
+  // h_[i] = dist(s, i), so h_[t] != -1 means there is a path from s to t
   bool bfs(int s, int t) {
-    h.assign(n, -1);
+    h_.assign(n_, -1);
     std::queue<int> Q;
-    h[s] = 0;
+    h_[s] = 0;
     Q.push(s);
     while (!Q.empty()) {
       int u = Q.front();
       Q.pop();
-      for (auto i : g[u]) {
+      for (auto i : g_[u]) {
         auto [v, c] = e[i];
-        if (c > 0 && h[v] == -1) {
-          h[v] = h[u] + 1;
+        if (c > 0 && h_[v] == -1) {
+          h_[v] = h_[u] + 1;
           Q.push(v);
         }
       }
     }
-    return h[t] != -1;
+    return h_[t] != -1;
   }
   LL dfs(int u, int t, LL f) {
     if (u == t || f == 0) return f;
     LL r = f;
-    for (int &i = cur[u], ng = g[u].size(); i < ng; ++i) {
-      int j = g[u][i];
+    for (int &i = cur_[u], ng = g_[u].size(); i < ng; ++i) {
+      int j = g_[u][i];
       auto [v, c] = e[j];
-      if (c > 0 && h[v] == h[u] + 1) {
+      if (c > 0 && h_[v] == h_[u] + 1) {
         int a = dfs(v, t, std::min(r, LL(c)));
         e[j].second -= a;
         e[j ^ 1].second += a;
@@ -483,36 +483,36 @@ class Dinic {
     return f - r;
   }
  public:
-  Dinic(int _n) : n(_n), g(n) {}
+  Dinic(int n) : n_(n), g_(n) {}
   void addEdge(int u, int v, int c) {
     if (u == v) return;
-    g[u].emplace_back(e.size());
+    g_[u].emplace_back(e.size());
     e.emplace_back(v, c);
-    g[v].emplace_back(e.size());
+    g_[v].emplace_back(e.size());
     e.emplace_back(u, 0);
   }
   LL maxFlow(int s, int t) {
     LL r = 0;
     while (bfs(s, t)) {
-      cur.assign(n, 0);
+      cur_.assign(n_, 0);
       r += dfs(s, t, INT64_MAX);
     }
     return r;
   }
 };
 
-// S-T max-Flow: HLPP $O(n^2 \sqrt{m})$
+// S-T max-Flow: HLPP $O(n_^2 \sqrt{m})$
 class HLPP {
-  int n;
+  int n_;
   // e[i] = {endPoint, conpacity} and e[i ^ 1] is opposite edge of e[i]
-  // g[u] = {edges start from u}
+  // g_[u] = {edges start from u}
   std::vector<std::pair<int, int>> e;
-  std::vector<std::vector<int>> g;
-  std::vector<int> h;
-  std::vector<LL> ex;
+  std::vector<std::vector<int>> g_;
+  std::vector<int> h_;
+  std::vector<LL> ex_;
   void addFlow(int i, int a) {
-    ex[e[i ^ 1].first] -= a;
-    ex[e[i].first] += a;
+    ex_[e[i ^ 1].first] -= a;
+    ex_[e[i].first] += a;
     e[i].second -= a;
     e[i ^ 1].second += a;
   };
@@ -520,101 +520,101 @@ class HLPP {
   bool init(int s, int t) {
     std::queue<int> Q;
     Q.push(t);
-    h[t] = 0;
+    h_[t] = 0;
     while (!Q.empty()) {
       int u = Q.front();
       Q.pop();
-      for (auto i : g[u]) {
+      for (auto i : g_[u]) {
         int v = e[i].first;
-        if (e[i ^ 1].second > 0 && h[v] == n) {
-          h[v] = h[u] + 1;
+        if (e[i ^ 1].second > 0 && h_[v] == n_) {
+          h_[v] = h_[u] + 1;
           Q.push(v);
         }
       }
     }
-    return h[s] == n;
+    return h_[s] == n_;
   }
  public:
-  HLPP(int _n) : n(_n), g(n), h(n, n), ex(n) {}
+  HLPP(int n) : n_(n), g_(n), h_(n, n), ex_(n) {}
   void addEdge(int u, int v, int c) {
     if (u == v) return;
-    g[u].emplace_back(e.size());
+    g_[u].emplace_back(e.size());
     e.emplace_back(v, c);
-    g[v].emplace_back(e.size());
+    g_[v].emplace_back(e.size());
     e.emplace_back(u, 0);
   }
   LL maxFlow(int s, int t) {
     if (init(s, t)) return 0;
-    std::vector<int> gap(n + 1, 0), vis(n);
-    for (auto x : h) ++gap[x];
+    std::vector<int> gap(n_ + 1, 0), vis(n_);
+    for (auto x : h_) ++gap[x];
     std::priority_queue<std::pair<int, int>> pq;
-    // overload if ex[u] > 0 after push, so lift height is needed.
+    // overload if ex_[u] > 0 after push, so lift height is needed.
     auto push = [&](int u) -> bool {
-      if (ex[u] == 0 || h[u] == n) return false;
-      for (auto i : g[u]) {
+      if (ex_[u] == 0 || h_[u] == n_) return false;
+      for (auto i : g_[u]) {
         auto [v, c] = e[i];
-        if (c == 0 || (h[u] != h[v] + 1 && u != s)) continue;
-        int a = std::min(ex[u], LL(c));
+        if (c == 0 || (h_[u] != h_[v] + 1 && u != s)) continue;
+        int a = std::min(ex_[u], LL(c));
         addFlow(i, a);
         if (!vis[v]) {
-          pq.push({h[v], v});
+          pq.push({h_[v], v});
           vis[v] = 1;
         }
-        if (ex[u] == 0) return false;
+        if (ex_[u] == 0) return false;
       }
       return true;
     };
-    ex[s] = INT64_MAX;
+    ex_[s] = INT64_MAX;
     push(s);
-    h[s] = n;
+    h_[s] = n_;
     vis[s] = vis[t] = 1;
     while (!pq.empty()) {
       int u = pq.top().second;
       pq.pop();
       vis[u] = 0;
       while (push(u)) {
-        if (--gap[h[u]] == 0) {
-          for (int i = 0; i < n; ++i) if (h[i] > h[u]) h[i] = n;
+        if (--gap[h_[u]] == 0) {
+          for (int i = 0; i < n_; ++i) if (h_[i] > h_[u]) h_[i] = n_;
         }
-        h[u] = n - 1;
-        for (auto i : g[u]) {
+        h_[u] = n_ - 1;
+        for (auto i : g_[u]) {
           auto [v, c] = e[i];
-          if (c > 0 && h[u] > h[v]) h[u] = h[v];
+          if (c > 0 && h_[u] > h_[v]) h_[u] = h_[v];
         }
-        ++gap[++h[u]];
+        ++gap[++h_[u]];
       }
     }
-    return ex[t];
+    return ex_[t];
   }
 };
 // https://vjudge.net/problem/LibreOJ-127
 
-// Global minimum cut of undirected graph: Stoer-Wagner $O(n^3)$ implement
+// Global minimum cut of undirected graph: Stoer-Wagner $O(n_^3)$ implement
 class StoerWagner {
-  int n;
-  std::vector<std::vector<int>> g;
+  int n_;
+  std::vector<std::vector<int>> g_;
   std::vector<int> del;
   void merge(int s, int t) {
     del[s] = 1;
-    for (int i = 0; i < n; ++i) {
-      g[i][t] = (g[t][i] += g[s][i]);
+    for (int i = 0; i < n_; ++i) {
+      g_[i][t] = (g_[t][i] += g_[s][i]);
     }
   }
  public:
-  StoerWagner(int _n) : n(_n), g(n, std::vector<int>(n)), del(n) {}
+  StoerWagner(int n) : n_(n), g_(n, std::vector<int>(n)), del(n) {}
   void addEdge(int u, int v, int c) {
     if (u == v) return;
-    g[u][v] += c;
-    g[v][u] += c;
+    g_[u][v] += c;
+    g_[v][u] += c;
   }
   // the graph will be destory after minCut
   int minCut() {
     auto f = [&](int cnt, int &s, int &t) -> int {
-      std::vector<int> vis(n), d(n);
+      std::vector<int> vis(n_), d(n_);
       auto push = [&](int x){
         vis[x] = 1;
         d[x] = 0;
-        for (int i = 0; i < n; ++i) if (!del[i] && !vis[i]) d[i] += g[x][i];
+        for (int i = 0; i < n_; ++i) if (!del[i] && !vis[i]) d[i] += g_[x][i];
       };
       for (int i = 0; i < cnt; ++i) {
         push(t);
@@ -624,7 +624,7 @@ class StoerWagner {
       return d[t];
     };
     int s = 0, t = 0, r = INT_MAX;
-    for (int i = n - 1; i > 0; --i) {
+    for (int i = n_ - 1; i > 0; --i) {
       r = std::min(r, f(i, s, t));
       merge(s, t);
     }
@@ -637,48 +637,48 @@ class StoerWagner {
 
 class Flow {
   static inline constexpr LL INF = INT64_MAX >> 1;
-  int n;
-  // e[i] = {endPoint, conpacity} and e[i ^ 1] is opposite edge of e[i]
-  // g[u] = {edges start from u}
-  std::vector<std::tuple<int, int, int>> e;
-  std::vector<std::vector<int>> g;
-  std::vector<int> path;
-  std::vector<LL> h;
-  // h[i] = dist(s, i), h[t] != -1 means there is a path from s to t, and h[t] will be the potential.
-  // path[v]: short path form s to v, path[v] is the previous node of v
+  int n_;
+  // e_[i] = {endPoint, conpacity} and e_[i ^ 1] is opposite edge of e_[i]
+  // g_[u] = {edges start from u}
+  std::vector<std::tuple<int, int, int>> e_;
+  std::vector<std::vector<int>> g_;
+  std::vector<int> path_;
+  std::vector<LL> h_;
+  // h_[i] = dist(s, i), h_[t] != -1 means there is a path_ from s to t, and h_[t] will be the potential.
+  // path_[v]: short path_ form s to v, path_[v] is the previous node of v
   bool Dijkstra(int s, int t) {
     std::priority_queue<std::pair<LL, int>> Q;
-    std::fill(path.begin(), path.end(), -1);
-    std::vector<LL> d(n, INF);
+    std::fill(path_.begin(), path_.end(), -1);
+    std::vector<LL> d(n_, INF);
     d[s] = 0;
     Q.push({0, s});
     while (!Q.empty()) {
       auto [du, u] = Q.top();
       Q.pop();
       if (d[u] != -du) continue;
-      for (auto i : g[u]) {
-        auto [v, w, c] = e[i];
-        c += h[u] - h[v];
+      for (auto i : g_[u]) {
+        auto [v, w, c] = e_[i];
+        c += h_[u] - h_[v];
         if (w > 0 && d[v] > d[u] + c) {
           d[v] = d[u] + c;
-          path[v] = i;
+          path_[v] = i;
           Q.push({-d[v], v});
         }
       }
     }
-    for (int i = 0; i < n; ++i) {
-      if ((h[i] += d[i]) > INF) h[i] = INF;
+    for (int i = 0; i < n_; ++i) {
+      if ((h_[i] += d[i]) > INF) h_[i] = INF;
     }
-    return h[t] != INF;
+    return h_[t] != INF;
   }
  public:
-  Flow(int _n) : n(_n), g(n), h(n), path(n) {}
+  Flow(int n) : n_(n), g_(n), h_(n), path_(n) {}
   void addEdge(int u, int v, int w, int c) {
     if (u == v) return;
-    g[u].emplace_back(e.size());
-    e.emplace_back(v, w, c);
-    g[v].emplace_back(e.size());
-    e.emplace_back(u, 0, -c);
+    g_[u].emplace_back(e_.size());
+    e_.emplace_back(v, w, c);
+    g_[v].emplace_back(e_.size());
+    e_.emplace_back(u, 0, -c);
   }
   std::pair<LL, LL> maxFlow(int s, int t) {
     LL flow = 0, cost = 0;
@@ -686,16 +686,16 @@ class Flow {
       int f = INT_MAX, now = t;
       std::vector<int> r;
       while (now != s) {
-        r.emplace_back(path[now]);
-        f = std::min(f, std::get<1>(e[path[now]]));
-        now = std::get<0>(e[path[now] ^ 1]);
+        r.emplace_back(path_[now]);
+        f = std::min(f, std::get<1>(e_[path_[now]]));
+        now = std::get<0>(e_[path_[now] ^ 1]);
       }
       for (auto i : r) {
-        std::get<1>(e[i]) -= f;
-        std::get<1>(e[i ^ 1]) += f;
+        std::get<1>(e_[i]) -= f;
+        std::get<1>(e_[i ^ 1]) += f;
       }
       flow += f;
-      cost += LL(f) * h[t];
+      cost += LL(f) * h_[t];
     }
     return {flow, cost};
   }

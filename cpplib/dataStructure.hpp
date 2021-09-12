@@ -20,78 +20,78 @@ void bruteForceBinom(int n, int mx) {
   std::iota(a.begin(), a.end(), 0);
   do {
     // do something
-    for (auto x : a) std::cout << x << " ";
-    std::cout << "\n";
+    for (auto x : a) std::cout << x << ' ';
+    std::cout << '\n';
   } while (nextBinom(a, mx));
 }
 
-// Error Correction Code: O(n m + k^k n)
+// Error Correction Code: O(n_ m_ + k_^k_ n_)
 class ECC {
-  std::vector<std::vector<int>> a;  // origin data: n rows, m cols.
-  int k;                // Maximum number of differences allowed
-  std::vector<std::vector<int>> bad;  // difference with current answer
-  int n, m, mxId;
+  std::vector<std::vector<int>> a_;   // origin data: n rows, m cols.
+  int k_;                             // Maximum number of differences allowed
+  std::vector<std::vector<int>> bad_; // difference with current answer
+  int n_, m_, mxId_;
   void updateMxId(int i) {
-    if (bad[i].size() > bad[mxId].size()) mxId = i;
+    if (bad_[i].size() > bad_[mxId_].size()) mxId_ = i;
   }
   bool dfs(int c) {  // remain time that current answer can change
-    auto bd = bad[mxId];
-    if ((int)bd.size() <= k) return true;
-    if ((int)bd.size() - k > c) return false;
-    // Note that bd is O(k) instead of O(m)
-    std::vector<int> f(bd.size() - k);
+    auto bd = bad_[mxId_];
+    if ((int)bd.size() <= k_) return true;
+    if ((int)bd.size() - k_ > c) return false;
+    // Note that bd is O(k_) instead of O(m_)
+    std::vector<int> f(bd.size() - k_);
     iota(f.begin(), f.end(), 0);
-    int tMxId = mxId;
+    int tMxId = mxId_;
     do {
-      mxId = tMxId;
+      mxId_ = tMxId;
       std::queue<int> tmp;
       for (auto x : f) {
-        tmp.push(r[bd[x]]);
-        for (int i = 0; i < n; ++i) {
-          if (a[i][bd[x]] == r[bd[x]]) {
-            bad[i].emplace_back(bd[x]);
+        tmp.push(r_[bd[x]]);
+        for (int i = 0; i < n_; ++i) {
+          if (a_[i][bd[x]] == r_[bd[x]]) {
+            bad_[i].emplace_back(bd[x]);
           }
-          if (a[i][bd[x]] == a[mxId][bd[x]]) {
-            bad[i].erase(
-              std::find(bad[i].begin(), bad[i].end(), bd[x]));
+          if (a_[i][bd[x]] == a_[mxId_][bd[x]]) {
+            bad_[i].erase(
+              std::find(bad_[i].begin(), bad_[i].end(), bd[x]));
           }
         }
-        r[bd[x]] = a[mxId][bd[x]];
+        r_[bd[x]] = a_[mxId_][bd[x]];
       }
-      for (int i = 0; i < n; ++i) updateMxId(i);
+      for (int i = 0; i < n_; ++i) updateMxId(i);
       if (dfs(c - f.size())) return true;
       for (auto x : f) {
-        for (int i = 0; i < n; ++i) {
-          if (a[i][bd[x]] == r[bd[x]]) {
-            bad[i].emplace_back(bd[x]);
+        for (int i = 0; i < n_; ++i) {
+          if (a_[i][bd[x]] == r_[bd[x]]) {
+            bad_[i].emplace_back(bd[x]);
           }
-          if (a[i][bd[x]] == tmp.front()) {
-            bad[i].erase(
-              std::find(bad[i].begin(), bad[i].end(), bd[x]));
+          if (a_[i][bd[x]] == tmp.front()) {
+            bad_[i].erase(
+              std::find(bad_[i].begin(), bad_[i].end(), bd[x]));
           }
         }
-        r[bd[x]] = tmp.front();
+        r_[bd[x]] = tmp.front();
         tmp.pop();
       }
     } while (nextBinom(f, bd.size()));
     return false;
   }
  public:
-  std::vector<int> r;   // m cols vector, current answer
-  ECC(std::vector<std::vector<int>> _a) : a(_a), r(a[0]) {
-    n = a.size(); m = r.size();
-    bad.resize(n);
-    mxId = 0;
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < m; ++j)
-        if (a[i][j] != r[j]) {
-          bad[i].emplace_back(j);
+  std::vector<int> r_;   // m_ cols vector, current answer
+  ECC(std::vector<std::vector<int>> a) : a_(a), r_(a[0]) {
+    n_ = a_.size(); m_ = r_.size();
+    bad_.resize(n_);
+    mxId_ = 0;
+    for (int i = 0; i < n_; ++i) {
+      for (int j = 0; j < m_; ++j)
+        if (a_[i][j] != r_[j]) {
+          bad_[i].emplace_back(j);
         }
       updateMxId(i);
     }
   }
-  void setK(int _k) { k = _k; }
-  bool solve() { return dfs(k); }
+  void setK(int k) { k_ = k; }
+  bool solve() { return dfs(k_); }
 };
 
 // Returns the original value corresponding to the array value after discretization
@@ -112,7 +112,7 @@ void disjointInterval(std::vector<std::pair<int, int>> &a) {
   std::vector<std::pair<int, int>> b;
   std::sort(a.begin(), a.end());
   int l = a[0].first, r = a[0].second;
-  for (int i = 1, n = a.size(); i < n; ++i) {
+  for (int i = 1, n_ = a.size(); i < n_; ++i) {
     if (a[i].first <= r) {
       r = std::max(r, a[i].second);
     } else {
@@ -126,11 +126,11 @@ void disjointInterval(std::vector<std::pair<int, int>> &a) {
 
 // Disjoint Set Union
 class DSU {
-  std::vector<int> p;
+  std::vector<int> p_;
  public:
-  DSU(int n) : p(n) { iota(p.begin(), p.end(), 0); }
+  DSU(int n) : p_(n) { iota(p_.begin(), p_.end(), 0); }
   int find(int x) {
-    return x == p[x] ? x : p[x] = find(p[x]);
+    return x == p_[x] ? x : p_[x] = find(p_[x]);
   }
   bool merge(int x, int y) {
     int px = find(x), py = find(y);
@@ -144,14 +144,14 @@ class DSU {
 // Bit Tree Mininal version
 template<typename T>
 struct BitreeMin {
-  std::vector<T> s;
+  std::vector<T> s_;
   BitreeMin() {}
-  BitreeMin(int n) : s(n + 1, std::numeric_limits<T>::max()) {}
+  BitreeMin(int n) : s_(n + 1, std::numeric_limits<T>::max()) {}
   int lowbit(int n) { return n & (-n); }
   void modify(int id, T p) {
-    int ns = s.size();
+    int ns = s_.size();
     while (id < ns) {
-      s[id] = std::min(s[id], p);
+      s_[id] = std::min(s_[id], p);
       id += lowbit(id);
     }
   }
@@ -159,7 +159,7 @@ struct BitreeMin {
   T min(int id) {
     T r = std::numeric_limits<T>::max();
     while (id) {
-      r = std::min(r, s[id]);
+      r = std::min(r, s_[id]);
       id -= lowbit(id);
     }
     return r;
@@ -168,21 +168,21 @@ struct BitreeMin {
 
 template<typename T>
 struct Bitree {
-  std::vector<T> s;
+  std::vector<T> s_;
   Bitree() {}
-  Bitree(int n) : s(n + 1) {}
+  Bitree(int n) : s_(n + 1) {}
   int lowbit(int n) { return n & (-n); }
   void add(int id, T p) {
-    int ns = s.size();
+    int ns = s_.size();
     while (id < ns) {
-      s[id] += p;
+      s_[id] += p;
       id += lowbit(id);
     }
   }
   T sum(int id) {
     T r = 0;
     while (id) {
-      r += s[id];
+      r += s_[id];
       id -= lowbit(id);
     }
     return r;
@@ -191,10 +191,10 @@ struct Bitree {
   int search(T val) {
     T sum = 0;
     int id = 0;
-    for (int i = std::__lg(s.size()); ~i; --i) {
-      if (id + (1 << i) < (int)s.size() && sum + s[id + (1 << i)] < val) {
+    for (int i = std::__lg(s_.size()); ~i; --i) {
+      if (id + (1 << i) < (int)s_.size() && sum + s_[id + (1 << i)] < val) {
         id += (1 << i);
-        sum += s[id];
+        sum += s_[id];
       }
     }
     return ++id;
@@ -203,7 +203,7 @@ struct Bitree {
 
 template<typename T>
 class BitreePlus {
-  int n;
+  int n_;
   // c[i] = a[i] - a[i - 1], b_i = (i - 1) * c_i
   Bitree<T> B, C;
   void add(int id, T p) {
@@ -212,7 +212,7 @@ class BitreePlus {
   }
  public:
   BitreePlus() {}
-  BitreePlus(int _n) : n(_n), B(n), C(n) {}
+  BitreePlus(int n) : n_(n), B(n), C(n) {}
   void add(int l, int r, T p) {
     add(l, p);
     add(r + 1, -p);
@@ -223,8 +223,8 @@ class BitreePlus {
   int search(T val) {
     T sumB = 0, sumC = 0;
     int id = 0;
-    for (int i = std::__lg(n); ~i; --i)
-      if (int idi = id + (1 << i); idi <= n) {
+    for (int i = std::__lg(n_); ~i; --i)
+      if (int idi = id + (1 << i); idi <= n_) {
         if (idi * (sumC + C.s[idi]) - B.s[idi] - sumB < val) {
           id = idi;
           sumB += B.s[id];
@@ -239,7 +239,7 @@ class BitreePlus {
 // min/max version slightly hard: you should record min/max, and second min/max value: https://codeforces.com/gym/102992/problem/J
 // sum version is simple, the class blow is an example
 class SegmentTree {
-  int n;
+  int n_;
   std::vector<LL> sm, tag;
   void pull(int p) { sm[p] = sm[p << 1] + sm[p << 1 | 1]; }
   void pushTag(LL x, int l, int r, int p) {
@@ -276,13 +276,13 @@ class SegmentTree {
     return ans;
   }
   void resize() {
-    tag.resize(4 * n);
-    sm.resize(4 * n);
+    tag.resize(4 * n_);
+    sm.resize(4 * n_);
   }
  public:
-  SegmentTree(int _n) : n(_n) { resize(); }
+  SegmentTree(int n) : n_(n) { resize(); }
   SegmentTree(const std::vector<LL> &a) {
-    n = a.size();
+    n_ = a.size();
     resize();
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {
@@ -294,10 +294,10 @@ class SegmentTree {
       build(m, r, p << 1 | 1);
       pull(p);
     };
-    build(0, n, 1);
+    build(0, n_, 1);
   }
-  void add(int L, int R, LL v) { rangeAdd(--L, R, v, 0, n, 1); }
-  LL query(int L, int R) { return query(--L, R, 0, n, 1); }
+  void add(int L, int R, LL v) { rangeAdd(--L, R, v, 0, n_, 1); }
+  LL query(int L, int R) { return query(--L, R, 0, n_, 1); }
 };
 // https://www.luogu.com.cn/problem/P3372
 
@@ -307,54 +307,61 @@ class PstSegTree {
     int l, r;
     LL val;
   };
+  int n_;
+  std::vector<int> root_;  // version number
+  std::vector<Node> tree_;
   void pushUp(int p) {
-    tree[p].val = tree[tree[p].l].val + tree[tree[p].r].val;
+    tree_[p].val = tree_[tree_[p].l].val + tree_[tree_[p].r].val;
   }
- public:
-  int n;
-  std::vector<int> root;  // version number
-  std::vector<Node> tree;
-  int newNode() {
-    int sz = tree.size();
-    tree.emplace_back(Node());
-    return sz;
-  }
-  PstSegTree(const std::vector<int> &a) : n(a.size()) {
-    root.emplace_back(newNode());
-    std::function<void(int, int, int)> build = [&](int l, int r, int p) {
-      if (r - l == 1) {
-        tree[p].val = a[l];
-      } else {
-        int m = (l + r) / 2;
-        build(l, m, tree[p].l = newNode());
-        build(m, r, tree[p].r = newNode());
-        pushUp(p);
-      }
-    };
-    build(0, n, root.back());
-  }
-  // single point update, p is current version, q is new version
   void update(int pos, int val, int l, int r, int p, int q) {
-    tree[q] = tree[p];
+    tree_[q] = tree_[p];
     if (r - l == 1) {
-      tree[q].val = val;
+      tree_[q].val = val;
     } else {
       int m = (l + r) / 2;
       if (pos < m)
-        update(pos, val, l, m, tree[p].l, tree[q].l = newNode());
+        update(pos, val, l, m, tree_[p].l, tree_[q].l = newNode());
       else
-        update(pos, val, m, r, tree[p].r, tree[q].r = newNode());
+        update(pos, val, m, r, tree_[p].r, tree_[q].r = newNode());
       pushUp(q);
     }
   }
-  // segment query, p is current version, q is new version
+
   LL query(int L, int R, int l, int r, int p) {
-    if (L <= l && R >= r) return tree[p].val;
+    if (L <= l && R >= r) return tree_[p].val;
     int m = (l + r) / 2;
     LL ans = 0;
-    if (L < m) ans += query(L, R, l, m, tree[p].l);
-    if (R > m) ans += query(L, R, m, r, tree[p].r);
+    if (L < m) ans += query(L, R, l, m, tree_[p].l);
+    if (R > m) ans += query(L, R, m, r, tree_[p].r);
     return ans;
+  }
+ public:
+  int newNode() {
+    int sz_ = tree_.size();
+    tree_.emplace_back(Node());
+    return sz_;
+  }
+  PstSegTree(const std::vector<int> &a) : n_(a.size()) {
+    root_.emplace_back(newNode());
+    std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+      if (r - l == 1) {
+        tree_[p].val = a[l];
+      } else {
+        int m = (l + r) / 2;
+        build(l, m, tree_[p].l = newNode());
+        build(m, r, tree_[p].r = newNode());
+        pushUp(p);
+      }
+    };
+    build(0, n_, root_.back());
+  }
+  // single point update, p is current version, q is new version
+  void update(int pos, int val, int p, int q) {
+    update(pos, val, 0, n_, p, q);
+  }
+  // segment query, p is current version, q is new version
+  LL query(int L, int R, int p) {
+    return query(L, R, 0, n_, p);
   }
 };
 // https://www.luogu.com.cn/problem/P3919
@@ -365,21 +372,21 @@ class BitPstSegTree {
   struct Node {
     int l, r, val;
   };
-  std::vector<Node> tree;
+  std::vector<Node> tree_;
   void pushUp(int p) {
-    tree[p].val = tree[tree[p].l].val + tree[tree[p].r].val;
+    tree_[p].val = tree_[tree_[p].l].val + tree_[tree_[p].r].val;
   }
   void add(int x, int val, int l, int r, int p) {
     if (r - l == 1) {
-      tree[p].val += val;
+      tree_[p].val += val;
     } else {
       int m = (l + r) / 2;
       if (x < m) {
-        if (tree[p].l == 0) tree[p].l = newNode();
-        add(x, val, l, m, tree[p].l);
+        if (tree_[p].l == 0) tree_[p].l = newNode();
+        add(x, val, l, m, tree_[p].l);
       } else {
-        if (tree[p].r == 0) tree[p].r = newNode();
-        add(x, val, m, r, tree[p].r);
+        if (tree_[p].r == 0) tree_[p].r = newNode();
+        add(x, val, m, r, tree_[p].r);
       }
       pushUp(p);
     }
@@ -387,41 +394,41 @@ class BitPstSegTree {
   int query(int k, int l, int r, std::vector<int> &p, std::vector<int> &q) {
     if (r - l == 1) return l;
     int m = (l + r) / 2, now = 0;
-    for (auto x : q) now += tree[tree[x].l].val;
-    for (auto x : p) now -= tree[tree[x].l].val;
+    for (auto x : q) now += tree_[tree_[x].l].val;
+    for (auto x : p) now -= tree_[tree_[x].l].val;
     if (now >= k) {
-      for (auto &x : q) x = tree[x].l;
-      for (auto &x : p) x = tree[x].l;
+      for (auto &x : q) x = tree_[x].l;
+      for (auto &x : p) x = tree_[x].l;
       return query(k, l, m, p, q);
     }
-    for (auto &x : q) x = tree[x].r;
-    for (auto &x : p) x = tree[x].r;
+    for (auto &x : q) x = tree_[x].r;
+    for (auto &x : p) x = tree_[x].r;
     return query(k - now, m, r, p, q);
   }
   void add(int x, int val, int p) { add(x, val, 0, N, p); }
-  int n;
-  std::vector<int> a{0};
+  int n_;
+  std::vector<int> a_{0};
   int newNode() {
-    int sz = tree.size();
-    tree.emplace_back(Node());
-    return sz;
+    int sz_ = tree_.size();
+    tree_.emplace_back(Node());
+    return sz_;
   }
   inline int lowbit(int x) { return x & -x; }
  public:
-  BitPstSegTree(const std::vector<int> &x) : n(x.size()) {
+  BitPstSegTree(const std::vector<int> &x) : n_(x.size()) {
     // 0 is son of all leave nodes
-    for (int i = 0; i <= n; ++i) newNode();
-    a.insert(a.end(), x.begin(), x.end());
-    for (int i = 1; i <= n; ++i) {
-      for (int j = i; j <= n; j += lowbit(j)) add(a[i], 1, j);
+    for (int i = 0; i <= n_; ++i) newNode();
+    a_.insert(a_.end(), x.begin(), x.end());
+    for (int i = 1; i <= n_; ++i) {
+      for (int j = i; j <= n_; j += lowbit(j)) add(a_[i], 1, j);
     }
   }
   void modify(int x, int y) {
-    for (int i = x; i <= n; i += lowbit(i)) {
-      add(a[x], -1, i);
+    for (int i = x; i <= n_; i += lowbit(i)) {
+      add(a_[x], -1, i);
       add(y, 1, i);
     }
-    a[x] = y;
+    a_[x] = y;
   }
   int query(int k, int l, int r) {
     std::vector<int> p, q;
@@ -591,104 +598,104 @@ std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
 
 // Second Block abs version(online)
 class BlockAbs {
-  int l, r; // fa, sz \in [l, r]
-  int f, d; // x \in [l, r] has real value f x - d, where f = 1, -1
-  std::vector<int> fa;
+  int l_, r_; // fa_ \in [l_, r_]
+  int f_, d_; // x \in [l_, r_] has real value f_ x - d_, where f_ = 1, -1
+  std::vector<int> fa_;
   int find(int x) {
-    return x == fa[x] ? x : fa[x] = find(fa[x]);
+    return x == fa_[x] ? x : fa_[x] = find(fa_[x]);
   }
   void merge(int x, int y) { // merge x to y
-    fa[find(x)] = find(y);
+    fa_[find(x)] = find(y);
   }
  public:
-  BlockAbs(int mx) : l(0), r(mx), f(1), d(0), fa(mx + 1) {
-    std::iota(fa.begin(), fa.end(), 0);
+  BlockAbs(int mx) : l_(0), r_(mx), f_(1), d_(0), fa_(mx + 1) {
+    std::iota(fa_.begin(), fa_.end(), 0);
   }
-  void add(int x) { // |fi - d - x| = | i - (x + d) f|
-    x = (x + d) * f;
-    if ((l + r) < 2 * x) {
-      f = -1;
-      d = -x;
-      if (x < r) {
-        for (int i = r; i > x; --i) merge(i, 2 * x - i);
-        r = x;
+  void add(int x) { // |fi - d_ - x| = | i - (x + d_) f_|
+    x = (x + d_) * f_;
+    if ((l_ + r_) < 2 * x) {
+      f_ = -1;
+      d_ = -x;
+      if (x < r_) {
+        for (int i = r_; i > x; --i) merge(i, 2 * x - i);
+        r_ = x;
       }
     } else {
-      f = 1;
-      d = x;
-      if (x > l) {
-        for (int i = l; i < x; ++i) merge(i, 2 * x - i);
-        l = x;
+      f_ = 1;
+      d_ = x;
+      if (x > l_) {
+        for (int i = l_; i < x; ++i) merge(i, 2 * x - i);
+        l_ = x;
       }
     }
   }
   int query(int x) {
-    return find(x) * f - d;
+    return find(x) * f_ - d_;
   }
 };
 // https://codeforces.com/gym/103104/problem/K
 
 // Second Block minus version(online, space optim can be done if offline)
 class BlockMinus {
-  std::vector<int> fa, sz, a;
-  int l, delta, mx; // real value x - delta
+  std::vector<int> fa_, sz_, a_;
+  int l_, delta_, mx_; // real value x - delta_
   int find(int x) {
-    return x == fa[x] ? x : fa[x] = find(fa[x]);
+    return x == fa_[x] ? x : fa_[x] = find(fa_[x]);
   }
   void merge(int x, int y) { // merge x to y
     x = find(x); y = find(y);
     if (x == y) return;
-    fa[x] = y;
-    sz[y] += sz[x];
-    sz[x] = 0;
+    fa_[x] = y;
+    sz_[y] += sz_[x];
+    sz_[x] = 0;
   }
   void modifyPart(int ql, int qr, int x) {
     for (int i = ql; i < qr; ++i) {
-      a[i] = find(a[i]);
-      if (a[i] - delta > x) {
-        --sz[a[i]];
-        a[i] = find(a[i] - x);
-        ++sz[a[i]];
+      a_[i] = find(a_[i]);
+      if (a_[i] - delta_ > x) {
+        --sz_[a_[i]];
+        a_[i] = find(a_[i] - x);
+        ++sz_[a_[i]];
       }
     }
   }
   void modifyAll(int x) {
-    if (x < mx - delta - x) {
-      for (int i = delta + 1; i <= x + delta; ++i) merge(i, i + x);
-      delta += x;
+    if (x < mx_ - delta_ - x) {
+      for (int i = delta_ + 1; i <= x + delta_; ++i) merge(i, i + x);
+      delta_ += x;
     } else {
-      for (int i = mx; i > x + delta; --i) merge(i, i - x);
-      mx = x + delta;
+      for (int i = mx_; i > x + delta_; --i) merge(i, i - x);
+      mx_ = x + delta_;
     }
   }
   int queryPart(int ql, int qr, int x) {
     int ans = 0;
     for (int i = ql; i < qr; ++i) {
-      if (find(a[i]) - delta == x) ++ans;
+      if (find(a_[i]) - delta_ == x) ++ans;
     }
     return ans;
   }
   int queryAll(int x) {
-    x += delta;
-    if (x > mx || find(x) != x) return 0;
-    return sz[x];
+    x += delta_;
+    if (x > mx_ || find(x) != x) return 0;
+    return sz_[x];
   }
  public:
-  void init(const std::vector<int> &_a, int _l, int _r) {
-    l = _l, delta = 0;
-    a = {_a.begin() + _l, _a.begin() + _r};
-    mx = *std::max_element(a.begin(), a.end());
-    fa.resize(mx + 1); std::iota(fa.begin(), fa.end(), 0);
-    sz.resize(mx + 1); for (auto x : a) ++sz[x];
+  void init(const std::vector<int> &a, int l, int r) {
+    l_ = l, delta_ = 0;
+    a_ = {a.begin() + l, a.begin() + r};
+    mx_ = *std::max_element(a_.begin(), a_.end());
+    fa_.resize(mx_ + 1); std::iota(fa_.begin(), fa_.end(), 0);
+    sz_.resize(mx_ + 1); for (auto x : a_) ++sz_[x];
   }
   void modify(int ql, int qr, int x) {
-    if (x >= mx - delta) return;
-    if (qr - ql == (int)a.size()) modifyAll(x);
-    else modifyPart(ql - l, qr - l, x);
+    if (x >= mx_ - delta_) return;
+    if (qr - ql == (int)a_.size()) modifyAll(x);
+    else modifyPart(ql - l_, qr - l_, x);
   }
   int query(int ql, int qr, int x) {
-    if (qr - ql == (int)a.size()) return queryAll(x);
-    return queryPart(ql - l, qr - l, x);
+    if (qr - ql == (int)a_.size()) return queryAll(x);
+    return queryPart(ql - l_, qr - l_, x);
   }
 };
 // https://codeforces.com/contest/896/problem/E

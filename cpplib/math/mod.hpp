@@ -5,7 +5,7 @@ using LL = long long;
 // You should setMod before use it
 class ModInt {
   static inline int M = 998244353;
-  int n;
+  int n_;
   // assume gcd(x, M) = 1;
   static int inv(int x) {
     return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
@@ -13,7 +13,7 @@ class ModInt {
  public:
   template <typename T>
    operator T() const {
-    return static_cast<T>(n);
+    return static_cast<T>(n_);
   }
   static void setMod(int m) {
     M = m;
@@ -24,39 +24,39 @@ class ModInt {
   // assume 0 <= x < M
   static ModInt raw(int x) {
     ModInt A;
-    A.n = x;
+    A.n_ = x;
     return A;
   }
-  ModInt() { n = 0;}
-  ModInt(const int &x) : n(x % M) {
-    if (n < 0) n += M;
+  ModInt() { n_ = 0;}
+  ModInt(const int &x) : n_(x % M) {
+    if (n_ < 0) n_ += M;
   }
-  ModInt(const LL &x) : n(x % M) {
-    if (n < 0) n += M;
+  ModInt(const LL &x) : n_(x % M) {
+    if (n_ < 0) n_ += M;
   }
   ModInt operator-() const {
-    return n == 0 ? *this : raw(M - n);
+    return n_ == 0 ? *this : raw(M - n_);
   }
   ModInt& operator++() {
-    if (++n == M) n = 0;
+    if (++n_ == M) n_ = 0;
     return *this;
   }
   ModInt& operator--() {
-    if (--n == -1) n += M;
+    if (--n_ == -1) n_ += M;
     return *this;
   }
   ModInt& operator+=(const ModInt &A) {
-    n += A.n;
-    if (n >= M) n -= M;
+    n_ += A.n_;
+    if (n_ >= M) n_ -= M;
     return (*this);
   }
   ModInt& operator-=(const ModInt &A) {
-    n -= A.n;
-    if (n < 0) n += M;
+    n_ -= A.n_;
+    if (n_ < 0) n_ += M;
     return (*this);
   }
   ModInt& operator*=(const ModInt &A) {
-    n = 1LL * n * A.n % M;
+    n_ = 1LL * n_ * A.n_ % M;
     return (*this);
   }
   ModInt& operator/=(const ModInt &A) {
@@ -76,7 +76,7 @@ class ModInt {
   }
   ModInt operator<<(int x) const {
     static constexpr int bits = 32;
-    LL r = n;
+    LL r = n_;
     while (x > bits) {
       x -= bits;
       r <<= bits;
@@ -89,19 +89,19 @@ class ModInt {
     return (*this) = (*this) << x;
   }
   bool operator==(const ModInt &A) const {
-    return n == A.n;
+    return n_ == A.n_;
   }
   bool operator!=(const ModInt &A) const {
-    return n != A.n;
+    return n_ != A.n_;
   }
   ModInt inv() const {
-    return inv(n);
+    return inv(n_);
   }
   friend ModInt pow(ModInt A, int n) {
     ModInt R(1);
     while (n) {
-      if (n& 1) R *= A;
-      n >>= 1;  A *= A;
+      if (n & 1) R *= A;
+      n >>= 1;   A *= A;
     }
     return R;
   }
@@ -112,7 +112,7 @@ class ModInt {
     return in;
   }
   friend std::ostream &operator<<(std::ostream &out, const ModInt &A) {
-    out << A.n;
+    out << A.n_;
     return out;
   }
 };
@@ -120,7 +120,7 @@ class ModInt {
 // You should setMod before use it
 class ModLL {
   static inline LL M = 998244353;
-  LL n;
+  LL n_;
   // assume gcd(x, M) = 1;
   static LL inv(LL x) {
     return x == 1 ? x : __int128(M - M / x) * inv(M % x) % M;
@@ -128,7 +128,7 @@ class ModLL {
  public:
   template <typename T>
    operator T() const {
-    return static_cast<T>(n);
+    return static_cast<T>(n_);
   }
   static void setMod(LL m) {
     M = m;
@@ -139,42 +139,42 @@ class ModLL {
   // assume 0 <= x < M
   static ModLL raw(LL x) {
     ModLL A;
-    A.n = x;
+    A.n_ = x;
     return A;
   }
-  ModLL() { n = 0;}
-  ModLL(const int &x) : n(x % M) {
-    if (n < 0) n += M;
+  ModLL() { n_ = 0;}
+  ModLL(const int &x) : n_(x % M) {
+    if (n_ < 0) n_ += M;
   }
-  ModLL(const LL &x) : n(x % M) {
-    if (n < 0) n += M;
+  ModLL(const LL &x) : n_(x % M) {
+    if (n_ < 0) n_ += M;
   }
-  ModLL(const __int128 &x) : n(x % M) {
-    if (n < 0) n += M;
+  ModLL(const __int128 &x) : n_(x % M) {
+    if (n_ < 0) n_ += M;
   }
   ModLL operator-() const {
-    return n == 0 ? *this : raw(M - n);
+    return n_ == 0 ? *this : raw(M - n_);
   }
   ModLL& operator++() {
-    if (++n == M) n = 0;
+    if (++n_ == M) n_ = 0;
     return *this;
   }
   ModLL& operator--() {
-    if (--n == -1) n += M;
+    if (--n_ == -1) n_ += M;
     return *this;
   }
   ModLL& operator+=(const ModLL &A) {
-    n += A.n;
-    if (n >= M) n -= M;
+    n_ += A.n_;
+    if (n_ >= M) n_ -= M;
     return (*this);
   }
   ModLL& operator-=(const ModLL &A) {
-    n -= A.n;
-    if (n < 0) n += M;
+    n_ -= A.n_;
+    if (n_ < 0) n_ += M;
     return (*this);
   }
   ModLL& operator*=(const ModLL &A) {
-    n = __int128(n) * A.n % M;
+    n_ = __int128(n_) * A.n_ % M;
     return (*this);
   }
   ModLL& operator/=(const ModLL &A) {
@@ -194,7 +194,7 @@ class ModLL {
   }
   ModLL operator<<(int x) const {
     static constexpr int bits = 64;
-    __int128 r = n;
+    __int128 r = n_;
     while (x > bits) {
       x -= bits;
       r <<= bits;
@@ -207,19 +207,19 @@ class ModLL {
     return (*this) = (*this) << x;
   }
   bool operator==(const ModLL &A) const {
-    return n == A.n;
+    return n_ == A.n_;
   }
   bool operator!=(const ModLL &A) const {
-    return n != A.n;
+    return n_ != A.n_;
   }
   ModLL inv() const {
-    return inv(n);
+    return inv(n_);
   }
   friend ModLL pow(ModLL A, LL n) {
     ModLL R(1);
     while (n) {
-      if (n& 1) R *= A;
-      n >>= 1;  A *= A;
+      if (n & 1) R *= A;
+      n >>= 1;   A *= A;
     }
     return R;
   }
@@ -230,17 +230,16 @@ class ModLL {
     return in;
   }
   friend std::ostream &operator<<(std::ostream &out, const ModLL &A) {
-    out << A.n;
+    out << A.n_;
     return out;
   }
 };
 
 
-
 template<int N>
 class MInt {
   static inline constexpr int M = N;
-  int n;
+  int n_;
   // assume gcd(x, M) = 1;
   static int inv(int x) {
     return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
@@ -248,7 +247,7 @@ class MInt {
  public:
   template <typename T>
    operator T() const {
-    return static_cast<T>(n);
+    return static_cast<T>(n_);
   }
   static void setMod(int m) {
     M = m;
@@ -259,39 +258,39 @@ class MInt {
   // assume 0 <= x < M
   static MInt raw(int x) {
     MInt A;
-    A.n = x;
+    A.n_ = x;
     return A;
   }
-  MInt() { n = 0;}
-  MInt(const int &x) : n(x % M) {
-    if (n < 0) n += M;
+  MInt() { n_ = 0;}
+  MInt(const int &x) : n_(x % M) {
+    if (n_ < 0) n_ += M;
   }
-  MInt(const LL &x) : n(x % M) {
-    if (n < 0) n += M;
+  MInt(const LL &x) : n_(x % M) {
+    if (n_ < 0) n_ += M;
   }
   MInt operator-() const {
-    return n == 0 ? *this : raw(M - n);
+    return n_ == 0 ? *this : raw(M - n_);
   }
   MInt& operator++() {
-    if (++n == M) n = 0;
+    if (++n_ == M) n_ = 0;
     return *this;
   }
   MInt& operator--() {
-    if (--n == -1) n += M;
+    if (n_-- == 0) n_ += M;
     return *this;
   }
   MInt& operator+=(const MInt &A) {
-    n += A.n;
-    if (n >= M) n -= M;
+    n_ += A.n_;
+    if (n_ >= M) n_ -= M;
     return (*this);
   }
   MInt& operator-=(const MInt &A) {
-    n -= A.n;
-    if (n < 0) n += M;
+    n_ -= A.n_;
+    if (n_ < 0) n_ += M;
     return (*this);
   }
   MInt& operator*=(const MInt &A) {
-    n = 1LL * n * A.n % M;
+    n_ = 1LL * n_ * A.n_ % M;
     return (*this);
   }
   MInt& operator/=(const MInt &A) {
@@ -311,7 +310,7 @@ class MInt {
   }
   MInt operator<<(int x) const {
     static constexpr int bits = 32;
-    LL r = n;
+    LL r = n_;
     while (x > bits) {
       x -= bits;
       r <<= bits;
@@ -324,19 +323,19 @@ class MInt {
     return (*this) = (*this) << x;
   }
   bool operator==(const MInt &A) const {
-    return n == A.n;
+    return n_ == A.n_;
   }
   bool operator!=(const MInt &A) const {
-    return n != A.n;
+    return n_ != A.n_;
   }
   MInt inv() const {
-    return inv(n);
+    return inv(n_);
   }
   friend MInt pow(MInt A, int n) {
     MInt R(1);
     while (n) {
-      if (n& 1) R *= A;
-      n >>= 1;  A *= A;
+      if (n & 1) R *= A;
+      n >>= 1;   A *= A;
     }
     return R;
   }
@@ -347,7 +346,7 @@ class MInt {
     return in;
   }
   friend std::ostream &operator<<(std::ostream &out, const MInt &A) {
-    out << A.n;
+    out << A.n_;
     return out;
   }
 };
