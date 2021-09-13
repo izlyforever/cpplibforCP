@@ -478,7 +478,7 @@ class PolyBase : public std::vector<valT> {
   PolyBase() {}
   PolyBase(const valT &x) : std::vector<valT>{x} { standard();}
   PolyBase(const std::vector<valT> &a) : std::vector<valT>{a} { standard();}
-  PolyBase(std::vector<valT> &&a) : std::vector<valT>{std::move(a)} { standard();}
+  PolyBase(std::vector<valT> &&a) : std::vector<valT>{std::forward<std::vector<valT>>(a)} { standard();}
   valT at(int id) const {
     if (id < 0 || id >= (int)this->size()) return 0;
     return (*this)[id];
