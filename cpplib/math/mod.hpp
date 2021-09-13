@@ -42,7 +42,7 @@ class ModInt {
     return *this;
   }
   ModInt& operator--() {
-    if (--n_ == -1) n_ += M;
+    if (n_-- == 0) n_ += M;
     return *this;
   }
   ModInt& operator+=(const ModInt &A) {
@@ -160,7 +160,7 @@ class ModLL {
     return *this;
   }
   ModLL& operator--() {
-    if (--n_ == -1) n_ += M;
+    if (n_-- == 0) n_ += M;
     return *this;
   }
   ModLL& operator+=(const ModLL &A) {

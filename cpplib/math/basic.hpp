@@ -107,12 +107,12 @@ std::vector<int> spf(int N) {
 
 class Binom {
   static inline constexpr int N = 65;
-  LL C[N][N];
+  LL C_[N][N];
   Binom() {
-    for (int i = 0; i < N; ++i) C[i][0] = C[i][i] = 1;
+    for (int i = 0; i < N; ++i) C_[i][0] = C_[i][i] = 1;
     for (int i = 1; i < N; ++i) {
       for (int j = 1; j < i; ++j) {
-        C[i][j] = C[i - 1][j] + C[i - 1][j - 1];
+        C_[i][j] = C_[i - 1][j] + C_[i - 1][j - 1];
       }
     }
   }
@@ -120,38 +120,38 @@ class Binom {
   Binom(const Binom&) = delete;
   // Binom& operator=(const Binom&) = delete; // can be erase
   static Binom& Instance() {
-    static Binom instance;
-    return instance;
+    static Binom instance_;
+    return instance_;
   }
   LL operator()(const int &m, const int &n) {
     assert(n < N && m < N);
-    return C[m][n];
+    return C_[m][n];
   }
 };
 
 template<typename valT>
 class BinomModp {
   static inline constexpr int N = 1e6 + 2;
-  BinomModp() { fac.reserve(N), ifac.reserve(N), inv.reserve(N);}
+  BinomModp() { fac_.reserve(N), ifac_.reserve(N), inv_.reserve(N);}
   void init(int n) {
     assert(n <= valT::mod());
-    fac[0] = 1;
-    for (int i = 1; i < n; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-    ifac[n - 1] = fac[n - 1].inv();
-    for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
-    for (int i = 1; i < n; ++i) inv[i] = ifac[i] * fac[i - 1];
+    fac_[0] = 1;
+    for (int i = 1; i < n; ++i) fac_[i] = fac_[i - 1] * valT::raw(i);
+    ifac_[n - 1] = fac_[n - 1].inv_();
+    for (int i = n - 1; i > 0; --i) ifac_[i - 1] = ifac_[i] * valT::raw(i);
+    for (int i = 1; i < n; ++i) inv_[i] = ifac_[i] * fac_[i - 1];
   }
  public:
-  std::vector<valT> fac, ifac, inv;
+  std::vector<valT> fac_, ifac_, inv_;
   BinomModp(const BinomModp&) = delete;
   static BinomModp& Instance(int N = 0) {
-    static BinomModp instance;
-    if (N) instance.init(N);
-    return instance;
+    static BinomModp instance_;
+    if (N) instance_.init(N);
+    return instance_;
   }
   valT binom(int n, int k) {
     if (n < 0 || n < k) return valT(0);
-    return fac[n] * ifac[k] * ifac[n - k];
+    return fac_[n] * ifac_[k] * ifac_[n - k];
   }
   // M is a small prime number in this case
   valT lucas(int n, int k) {
@@ -179,7 +179,7 @@ valT Lagrange(const std::vector<valT> &f, int m) {
   for (int i = n - 2; ~i; --i) BP[i] = BP[i + 1] * valT::raw(m - 1 - i);
   valT ans = 0;
   for (int i = 0; i < n; ++i) {
-    valT x = f[i] * AP[i] * BP[i] * B.ifac[i] * B.ifac[n - 1 - i];
+    valT x = f[i] * AP[i] * BP[i] * B.ifac_[i] * B.ifac_[n - 1 - i];
     ans += (n - 1 - i) & 1 ? -x : x;
   }
   return ans;
@@ -206,47 +206,47 @@ valT powSum(int n, int k, const std::vector<int> &sp) {
 template<typename valT>
 class Matrix {
   static inline constexpr int N = 1003;
-  int n;
+  int n_;
  public:
-  valT a[N][N];
+  valT a_[N][N];
   Matrix() {}
-  Matrix(int _n, valT x = 0): n(_n) {
+  Matrix(int n, valT x = 0): n_(n) {
     all(0);
-    for (int i = 0; i < n; ++i) {
-      a[i][i] = x;
+    for (int i = 0; i < n_; ++i) {
+      a_[i][i] = x;
     }
   }
   void all(valT x) {
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < n; ++j) {
-        a[i][j] = x;
+    for (int i = 0; i < n_; ++i) {
+      for (int j = 0; j < n_; ++j) {
+        a_[i][j] = x;
       }
     }
   }
   Matrix operator+(const Matrix &A) const {
-    Matrix R(n);
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < n; ++j) {
-        R.a[i][j] += a[i][j];
+    Matrix R(n_);
+    for (int i = 0; i < n_; ++i) {
+      for (int j = 0; j < n_; ++j) {
+        R.a_[i][j] += a_[i][j];
       }
     }
     return R;
   }
   Matrix operator*(const Matrix &A) const {
-    Matrix R(n);
-    for (int i = 0; i < n; ++i) {
-      for (int k = 0; k < n; ++k) {
-        for (int j = 0; j < n; ++j) {
-          R.a[i][j] += a[i][k] * A.a[k][j];
+    Matrix R(n_);
+    for (int i = 0; i < n_; ++i) {
+      for (int k = 0; k < n_; ++k) {
+        for (int j = 0; j < n_; ++j) {
+          R.a_[i][j] += a_[i][k] * A.a_[k][j];
         }
       }
     }
     return R;
   }
   void print() {
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < n; ++j) {
-        std::cout << a[i][j] << ' ';
+    for (int i = 0; i < n_; ++i) {
+      for (int j = 0; j < n_; ++j) {
+        std::cout << a_[i][j] << ' ';
       }
       std::cout << '\n';
     }
