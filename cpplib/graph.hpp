@@ -5,7 +5,7 @@ using LL = long long;
 using edge = std::vector<std::pair<int, int>>;
 using Edge = std::tuple<int, int, int>;
 
-// dfs order_ of rooted tree
+// dfs order of rooted tree
 class DfsTour {
   int n_, cnt_;
   std::vector<int> l_, r_;

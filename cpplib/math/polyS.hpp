@@ -71,7 +71,7 @@ class PolyS : public std::vector<int> {
   PolyS() {}
   PolyS(const int &x) : std::vector<int>{x} { standard();}
   PolyS(const std::vector<int> &a) : std::vector<int>{a} { standard();}
-  PolyS(std::vector<int> &&a) : std::vector<int>(std::move(a)) { standard();}
+  PolyS(std::vector<int> &&a) : std::vector<int>(std::forward<std::vector<int>>(a)) { standard();}
   int at(int id) const {
     if (id < 0 || id >= (int)size()) return 0;
     return (*this)[id];
