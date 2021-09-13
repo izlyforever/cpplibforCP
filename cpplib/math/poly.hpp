@@ -20,10 +20,11 @@ class Poly : public T {
     BinomModp<valT>::Instance(std::min(LL(n), p));
   }
   Poly (const T &x) : T(x) {}
+  Poly (T &&x) : T(std::forward<T>(x)) {}
   Poly mulXn(int n) const {
     std::vector<valT> b = *this;
     b.insert(b.begin(), n, 0);
-    return Poly(b);
+    return Poly(std::move(b));
   }
   Poly modXn(int n) const {
     if (n > (int)this->size()) return *this;
@@ -111,7 +112,7 @@ class Poly : public T {
     int n = this->size();
     std::vector<valT> r(n - 1);
     for (int i = 1; i < n; ++i) r[i - 1] = (*this)[i] * valT(i);
-    return Poly(r);
+    return Poly(std::move(r));
   }
   Poly integral() const {
     if (this->empty()) return Poly();
@@ -119,7 +120,7 @@ class Poly : public T {
     std::vector<valT> r(n + 1), inv(n + 1, 1);
     for (int i = 2; i <= n; ++i) inv[i] = valT(valT::mod() - valT::mod() / i) * inv[valT::mod() % i];
     for (int i = 0; i < n; ++i) r[i + 1] = (*this)[i] * inv[i + 1];
-    return Poly(r);
+    return Poly(std::move(r));
   }
   // assume a[0] = 1
   Poly log(int n) const {
@@ -190,16 +191,16 @@ class Poly : public T {
   Poly compose(Poly A, int n) const {
     A = A.modXn(n);
     int sn = std::sqrt(n);
-    std::vector<Poly> G(sn);
-    G[0] = {1};
-    for (int i = 1; i < sn; ++i) G[i] = (G[i - 1] * A).modXn(n);
-    auto B = (G.back() * A).modXn(n);
+    std::vector<Poly> h(sn);
+    h[0] = {1};
+    for (int i = 1; i < sn; ++i) h[i] = (h[i - 1] * A).modXn(n);
+    auto B = (h.back() * A).modXn(n);
     Poly now{1}, ans;
     for (int i = 0; i < n; i += sn) {
       Poly sm;
       for (int j = 0; j < sn && i + j < n; ++j) {
         auto m = this->at(i + j);
-        auto tmp = G[j];
+        auto tmp = h[j];
         for (auto &x : tmp) x *= m;
         sm += tmp;
       }
@@ -212,9 +213,9 @@ class Poly : public T {
   Poly composeInv(int n) const {
     auto A = this->divXn(1).inv(n - 1);
     int sn = std::sqrt(n);
-    std::vector<Poly> G(sn + 1);
-    G[0] = {1};
-    for (int i = 1; i <= sn; ++i) G[i] = (G[i - 1] * A).modXn(n - 1);
+    std::vector<Poly> h(sn + 1);
+    h[0] = {1};
+    for (int i = 1; i <= sn; ++i) h[i] = (h[i - 1] * A).modXn(n - 1);
     std::vector<valT> ans(n), inv(n);
     auto M = valT::mod();
     inv[1] = 1;
@@ -223,15 +224,15 @@ class Poly : public T {
     for (int i = 0; i < n; i += sn) {
       for (int j = 1; j <= sn && i + j < n; ++j) {
         valT tmp;
-        auto &sg = G[j];
+        auto &sg = h[j];
         for (int k = 0, sk = i + j - 1; k <= sk; ++k) {
           tmp += now.at(k) * sg.at(sk - k);
         }
         ans[i + j] = tmp * inv[i + j];
       }
-      now = (now * G.back()).modXn(n - 1);
+      now = (now * h.back()).modXn(n - 1);
     }
-    return Poly(ans);
+    return Poly(std::move(ans));
   }
   Poly toFallingPowForm() {
     int n = this->size();
@@ -240,7 +241,7 @@ class Poly : public T {
     auto y = this->evals(x);
     auto tmp = BINOM.ifac;
     for (int i = 1; i < n; i += 2) tmp[i] = -tmp[i];
-    Poly A = Poly(y) * Poly(tmp);
+    Poly A = Poly(std::move(y)) * Poly(std::move(tmp));
     return A.modXn(n);
   }
   Poly fromFallingPowForm() {
