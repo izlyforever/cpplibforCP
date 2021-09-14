@@ -182,7 +182,7 @@ class Poly : public T {
     return x.modXnR(n);
   }
   // transpose {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
-  Poly mulT(Poly rhs) const {
+  Poly mulT(Poly &&rhs) const {
     if (rhs.size() == 0) return Poly();
     int n = rhs.size();
     rhs.reverse();
@@ -284,8 +284,8 @@ class Poly : public T {
         ans[l] = f.at(0);
       } else {
         int m = (l + r) / 2;
-        solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXnR(m - l));
-        solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXnR(r - m));
+        solve(l, m, 2 * p, f.mulT(std::move(g[2 * p + 1])).modXnR(m - l));
+        solve(m, r, 2 * p + 1, f.mulT(std::move(g[2 * p])).modXnR(r - m));
       }
     };
     solve(0, n, 1, mulT(g[1].inv(this->size())).modXnR(n));
@@ -405,7 +405,7 @@ class Poly : public T {
       }
       auto B = A;
       for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.fac_[i];
-      B = B.mulT(tmp).modXnR(k + 1);
+      B = B.mulT(Poly(std::move(tmp))).modXnR(k + 1);
       for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.ifac_[i];
       A *= B;
       if (2 * k != n) {
