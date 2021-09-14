@@ -137,7 +137,7 @@ class BinomModp {
     assert(n <= valT::mod());
     fac_[0] = 1;
     for (int i = 1; i < n; ++i) fac_[i] = fac_[i - 1] * valT::raw(i);
-    ifac_[n - 1] = fac_[n - 1].inv_();
+    ifac_[n - 1] = fac_[n - 1].inv();
     for (int i = n - 1; i > 0; --i) ifac_[i - 1] = ifac_[i] * valT::raw(i);
     for (int i = 1; i < n; ++i) inv_[i] = ifac_[i] * fac_[i - 1];
   }

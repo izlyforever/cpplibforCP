@@ -49,7 +49,7 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
     ntt0.idft(a0); ntt1.idft(a1); ntt2.idft(a2); ntt3.idft(a3);
     std::vector<ModLL> ans(tot);
     for (int i = 0; i < tot; ++i) ans[i] = crt(a0[i], a1[i], a2[i], a3[i]);
-    return PolyBaseMFT4(ans);
+    return PolyBaseMFT4(std::move(ans));
   }
 };
 // 4-module NTT, Module can be up to 1e14 since N < 1e6 in general

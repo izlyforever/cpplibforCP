@@ -41,7 +41,7 @@ class PolyBaseFFT : public PolyBase<T> {
     for (int i = 0; i < tot; ++i) ans[i] += A1B2[i];
     for (auto &x : ans) x <<= bit;
     for (int i = 0; i < tot; ++i) ans[i] += A1B1[i];
-    return PolyBaseFFT(ans);
+    return PolyBaseFFT(std::move(ans));
   }
  public:
   using PolyBase<T>::PolyBase;
