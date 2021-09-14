@@ -21,7 +21,7 @@ class PolyBaseNTT : public PolyBase<MInt<N>> {
   static inline NTT<N> ntt;
   using PolyBase<MInt<N>>::PolyBase;
   PolyBaseNTT(const PolyBase<MInt<N>> &A) : PolyBase<MInt<N>>(A) {}
-  PolyBaseNTT(PolyBase<MInt<N>> &&A) : PolyBase<MInt<N>>(std::forward<PolyBase<MInt<N>>>(A)) {}
+  PolyBaseNTT(PolyBase<MInt<N>> &&A) : PolyBase<MInt<N>>(std::move(A)) {}
 };
 
 const constexpr int NTTM = 998244353;

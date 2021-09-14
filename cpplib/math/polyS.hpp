@@ -71,7 +71,7 @@ class PolyS : public std::vector<int> {
   PolyS() {}
   PolyS(const int &x) : std::vector<int>{x} { standard();}
   PolyS(const std::vector<int> &a) : std::vector<int>{a} { standard();}
-  PolyS(std::vector<int> &&a) : std::vector<int>(std::forward<std::vector<int>>(a)) { standard();}
+  PolyS(std::vector<int> &&a) : std::vector<int>(std::move(a)) { standard();}
   int at(int id) const {
     if (id < 0 || id >= (int)size()) return 0;
     return (*this)[id];
@@ -89,6 +89,10 @@ class PolyS : public std::vector<int> {
   PolyS modXn(int n) const {
     if (n >= (int)size()) return *this;
     return PolyS({begin(), begin() + n});
+  }
+  PolyS modXnR(int n) {
+    this->resize(n);
+    return PolyS(std::move(*this));
   }
   PolyS divXn(int n) const {
     if ((int)size() <= n) return PolyS();
@@ -188,13 +192,13 @@ class PolyS : public std::vector<int> {
     int k = 1;
     while (k < n) {
       k *= 2;
-      x *= (PolyS(2) - modXn(k) * x).modXn(k);
+      x *= (PolyS(2) - this->modXn(k) * x).modXnR(k);
     }
-    return x.modXn(n);
+    return x.modXnR(n);
   }
   // assume a[0] = 1
   PolyS log(int n) const {
-    return (derivation() * inv(n)).integral().modXn(n);
+    return (derivation() * inv(n)).integral().modXnR(n);
   }
   // assume a[0] = 0
   PolyS exp(int n) const {
@@ -202,9 +206,9 @@ class PolyS : public std::vector<int> {
     int k = 1;
     while (k < n) {
       k *= 2;
-      x = (x * (PolyS(1) - x.log(k) + modXn(k))).modXn(k);
+      x = (x * (PolyS(1) - x.log(k) + this->modXn(k))).modXnR(k);
     }
-    return x.modXn(n);
+    return x.modXnR(n);
   }
   // assume a[0] = 1;
   PolyS sqrt(int n) const {
@@ -213,10 +217,10 @@ class PolyS : public std::vector<int> {
     int k = 1;
     while (k < n) {
       k *= 2;
-      x += modXn(k) * x.inv(k);
-      x = x.modXn(k) * inv2;
+      x += this->modXn(k) * x.inv(k);
+      x = x.modXnR(k) * inv2;
     }
-    return x.modXn(n);
+    return x.modXnR(n);
   }
   // transpose convolution {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
   PolyS mulT(PolyS rhs) const {
@@ -234,7 +238,7 @@ class PolyS : public std::vector<int> {
     return r;
   }
   // multi-evaluation(new tech)
-  std::vector<int> evals(std::vector<int> x) const {
+  std::vector<int> evals(const std::vector<int> &x) const {
     if (size() == 0) return std::vector<int>(x.size());
     int n = x.size();
     std::vector<int> ans(n);
@@ -256,11 +260,11 @@ class PolyS : public std::vector<int> {
         ans[l] = f.at(0);
       } else {
         int m = (l + r) / 2;
-        solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXn(m - l));
-        solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXn(r - m));
+        solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXnR(m - l));
+        solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXnR(r - m));
       }
     };
-    solve(0, n, 1, mulT(g[1].inv(size())).modXn(n));
+    solve(0, n, 1, mulT(g[1].inv(size())).modXnR(n));
     return ans;
   } // https://www.luogu.com.cn/problem/P5050
 }; // https://www.luogu.com.cn/training/3015#information

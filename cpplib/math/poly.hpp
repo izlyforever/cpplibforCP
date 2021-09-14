@@ -27,8 +27,12 @@ class Poly : public T {
     return Poly(std::move(b));
   }
   Poly modXn(int n) const {
-    if (n > (int)this->size()) return *this;
+    if (n >= (int)this->size()) return *this;
     return Poly({this->begin(), this->begin() + n});
+  }
+  Poly modXnR(int n) {
+    this->resize(n);
+    return Poly(std::move(*this));
   }
   Poly divXn(int n) const {
     if ((int)this->size() <= n) return Poly();
@@ -70,9 +74,9 @@ class Poly : public T {
     int k = 1;
     while (k < n) {
       k *= 2;
-      x *= (Poly(2) - this->modXn(k) * x).modXn(k);
+      x *= (Poly(2) - this->modXn(k) * x).modXnR(k);
     }
-    return x.modXn(n);
+    return x.modXnR(n);
   }
   Poly &operator/=(Poly rhs) {
     int n = this->size(), m = rhs.size();
@@ -117,14 +121,13 @@ class Poly : public T {
   Poly integral() const {
     if (this->empty()) return Poly();
     int n = this->size();
-    std::vector<valT> r(n + 1), inv(n + 1, 1);
-    for (int i = 2; i <= n; ++i) inv[i] = valT(valT::mod() - valT::mod() / i) * inv[valT::mod() % i];
-    for (int i = 0; i < n; ++i) r[i + 1] = (*this)[i] * inv[i + 1];
+    std::vector<valT> r(n + 1);
+    for (int i = 0; i < n; ++i) r[i + 1] = (*this)[i] * BINOM.inv_[i + 1];
     return Poly(std::move(r));
   }
   // assume a[0] = 1
   Poly log(int n) const {
-    return (derivation() * inv(n)).integral().modXn(n);
+    return (derivation() * inv(n)).integral().modXnR(n);
   }
   // assume a[0] = 0
   Poly exp(int n) const {
@@ -132,9 +135,9 @@ class Poly : public T {
     int k = 1;
     while (k < n) {
       k *= 2;
-      x = (x * (Poly(1) - x.log(k) + this->modXn(k))).modXn(k);
+      x = (x * (Poly(1) - x.log(k) + this->modXn(k))).modXnR(k);
     }
-    return x.modXn(n);
+    return x.modXnR(n);
   }
   Poly sin(int n) const {
     auto A = *this;
@@ -156,17 +159,15 @@ class Poly : public T {
   // assume a[0] = 0
   Poly asin(int n) const { // unkown for acos
     auto D = this -> derivation();
-    auto A = (Poly(1) - (*this) * (*this)).modXn(n - 1);
-    D = D * A.sqrt(n - 1).inv(n - 1);
-    D = D.modXn(n - 1);
+    auto A = (Poly(1) - (*this) * (*this)).modXnR(n - 1);
+    D = (D * A.sqrt(n - 1).inv(n - 1)).modXnR(n - 1);
     return D.integral();
   }
   // assume a[0] = 0
   Poly atan(int n) const {
     auto D = this -> derivation();
-    auto A = (Poly(1) + (*this) * (*this)).modXn(n - 1);
-    D = D * A.inv(n - 1);
-    D = D.modXn(n - 1);
+    auto A = (Poly(1) + (*this) * (*this)).modXnR(n - 1);
+    D = (D * A.inv(n - 1)).modXnR(n - 1);
     return D.integral();
   }
   // assum a[0] = 1
@@ -176,25 +177,25 @@ class Poly : public T {
     while (k < n) {
       k *= 2;
       x += this->modXn(k) * x.inv(k);
-      x = x.modXn(k) * INV2;
+      x = x.modXnR(k) * INV2;
     }
-    return x.modXn(n);
+    return x.modXnR(n);
   }
   // transpose {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
   Poly mulT(Poly rhs) const {
     if (rhs.size() == 0) return Poly();
     int n = rhs.size();
-    std::reverse(rhs.begin(), rhs.end());
+    rhs.reverse();
     return ((*this) * rhs).divXn(n - 1);
   }
   // compose poly common algorithm F(A(x)) in $O(n^2)$, however Brent-Kung algorithm with $(n \log n)^{1.5}$ may be slower.
   Poly compose(Poly A, int n) const {
-    A = A.modXn(n);
+    A = A.modXnR(n);
     int sn = std::sqrt(n);
     std::vector<Poly> h(sn);
     h[0] = {1};
-    for (int i = 1; i < sn; ++i) h[i] = (h[i - 1] * A).modXn(n);
-    auto B = (h.back() * A).modXn(n);
+    for (int i = 1; i < sn; ++i) h[i] = (h[i - 1] * A).modXnR(n);
+    auto B = (h.back() * A).modXnR(n);
     Poly now{1}, ans;
     for (int i = 0; i < n; i += sn) {
       Poly sm;
@@ -204,8 +205,8 @@ class Poly : public T {
         for (auto &x : tmp) x *= m;
         sm += tmp;
       }
-      ans += (now * sm).modXn(n);
-      now = (now * B).modXn(n);
+      ans += (now * sm).modXnR(n);
+      now = (now * B).modXnR(n);
     }
     return ans;
   }
@@ -215,7 +216,7 @@ class Poly : public T {
     int sn = std::sqrt(n);
     std::vector<Poly> h(sn + 1);
     h[0] = {1};
-    for (int i = 1; i <= sn; ++i) h[i] = (h[i - 1] * A).modXn(n - 1);
+    for (int i = 1; i <= sn; ++i) h[i] = (h[i - 1] * A).modXnR(n - 1);
     std::vector<valT> ans(n), inv(n);
     auto M = valT::mod();
     inv[1] = 1;
@@ -230,7 +231,7 @@ class Poly : public T {
         }
         ans[i + j] = tmp * inv[i + j];
       }
-      now = (now * h.back()).modXn(n - 1);
+      now = (now * h.back()).modXnR(n - 1);
     }
     return Poly(std::move(ans));
   }
@@ -239,18 +240,18 @@ class Poly : public T {
     std::vector<valT> x(n);
     for (int i = 0; i < n; ++i) x[i] = i;
     auto y = this->evals(x);
-    auto tmp = BINOM.ifac;
+    auto tmp = BINOM.ifac_;
     for (int i = 1; i < n; i += 2) tmp[i] = -tmp[i];
     Poly A = Poly(std::move(y)) * Poly(std::move(tmp));
-    return A.modXn(n);
+    return A.modXnR(n);
   }
   Poly fromFallingPowForm() {
     int n = this->size();
-    Poly A = ((*this) * Poly(BINOM.ifac)).modXn(n);
+    Poly A = ((*this) * Poly(BINOM.ifac_)).modXnR(n);
     std::vector<valT> x(n), y = A;
     for (int i = 0; i < n; ++i) x[i] = i;
     y.resize(n);
-    for (int i = 0; i < n; ++i) y[i] *= BINOM.fac[i];
+    for (int i = 0; i < n; ++i) y[i] *= BINOM.fac_[i];
     return Lagrange(x, y);
   }
   valT eval(valT x) const {
@@ -262,7 +263,7 @@ class Poly : public T {
     return r;
   }
   // multi-evaluation(new tech)
-  std::vector<valT> evals(std::vector<valT> x) const {
+  std::vector<valT> evals(const std::vector<valT> &x) const {
     if (this->size() == 0) return std::vector<valT>(x.size());
     int n = x.size();
     std::vector<valT> ans(n);
@@ -283,11 +284,11 @@ class Poly : public T {
         ans[l] = f.at(0);
       } else {
         int m = (l + r) / 2;
-        solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXn(m - l));
-        solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXn(r - m));
+        solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXnR(m - l));
+        solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXnR(r - m));
       }
     };
-    solve(0, n, 1, mulT(g[1].inv(this->size())).modXn(n));
+    solve(0, n, 1, mulT(g[1].inv(this->size())).modXnR(n));
     return ans;
   } // https://www.luogu.com.cn/problem/P5050
 
@@ -311,7 +312,7 @@ class Poly : public T {
   static std::vector<valT> valToVal(std::vector<valT> h, valT m, int cnt) { // m > h.size()
     int d = h.size() - 1;
     for (int i = 0; i <= d; ++i) {
-      h[i] *= BINOM.ifac[i] * BINOM.ifac[d - i];
+      h[i] *= BINOM.ifac_[i] * BINOM.ifac_[d - i];
       if ((d - i) & 1) h[i] = -h[i];
     }
     std::vector<valT> f(d + cnt);
@@ -359,13 +360,13 @@ class Poly : public T {
 
   // $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$: https://oi-wiki.org/math/linear-recurrence/
   // find n-th term of The recursive formula for the constant coefficient of order k in $O(k \log k \log n)$
-  static valT linearRecursion(std::vector<valT> a, std::vector<valT> f, LL n) {
+  static valT linearRecursion(const std::vector<valT> &a, std::vector<valT> f, LL n) {
     if (n < (int)a.size()) return a[n];
     int m = f.size();
     std::reverse(f.begin(), f.end());
     std::vector<valT> g(m);
     g.emplace_back(1);
-    Poly A = Poly({0, 1}), p = Poly(g) - Poly(f);
+    Poly A = Poly({0, 1}), p = Poly(std::move(g)) - Poly(std::move(f));
     Poly R = A.powModPoly(n, p);
     return R.inner(a);
   } // https://www.luogu.com.cn/problem/P4723
@@ -375,12 +376,12 @@ class Poly : public T {
     // Poly Numerator = Poly({0, n}).exp(k + 1).divXn(1);
     // Poly denominator  = Poly({0, 1}).exp(k + 1).divXn(1);
     std::vector<valT> a(k), b(k);
-    for (int i = 0; i < k; ++i) a[i] = b[i] = BINOM.ifac[i + 1];
+    for (int i = 0; i < k; ++i) a[i] = b[i] = BINOM.ifac_[i + 1];
     valT cur = 1;
     for (int i = 0; i < k; ++i) a[i] *= (cur *= valT::raw(n));
-    auto Numerator = Poly(a), denominator = Poly(b);
+    auto Numerator = Poly(std::move(a)), denominator = Poly(std::move(b));
 
-    auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
+    auto f = (Numerator * denominator.inv(k)).modXnR(k) - Poly(1);
     auto ans = f;
     ans.resize(k);
     valT now(1);
@@ -399,13 +400,13 @@ class Poly : public T {
       std::vector<valT> tmp(k + 1);
       valT now{1};
       for (int i = 0; i <= k; ++i) {
-        tmp[i] = now * BINOM.ifac[i];
+        tmp[i] = now * BINOM.ifac_[i];
         now *= k;
       }
       auto B = A;
-      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.fac[i];
-      B = B.mulT(tmp).modXn(k + 1);
-      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.ifac[i];
+      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.fac_[i];
+      B = B.mulT(tmp).modXnR(k + 1);
+      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.ifac_[i];
       A *= B;
       if (2 * k != n) {
         B = A;
@@ -437,29 +438,29 @@ class Poly : public T {
     for (auto &x : B) x *= valT::raw(k);
     std::vector<valT> ans = B.exp(n + 1 - k).mulXn(k);
     ans.resize(n + 1);
-    auto ifacK = BINOM.ifac[k];
-    for (int i = 0; i <= n; ++i) ans[i] *= BINOM.fac[i] * ifacK;
+    auto ifacK = BINOM.ifac_[k];
+    for (int i = 0; i <= n; ++i) ans[i] *= BINOM.fac_[i] * ifacK;
     return ans;
   }
   std::vector<valT> stirling2row(int n) {
-    auto tmp = BINOM.ifac, a = BINOM.ifac;
+    auto tmp = BINOM.ifac_, a = BINOM.ifac_;
     for (int i = 1; i <= n; i += 2) tmp[i] = -tmp[i];
     for (int i = 0; i <= n; ++i) a[i] *= pow(valT::raw(i), n);
-    std::vector<valT> ans = Poly(a) * Poly(tmp);
+    std::vector<valT> ans = Poly(std::move(a)) * Poly(std::move(tmp));
     ans.resize(n + 1);
     return ans;
   }
   std::vector<valT> stirling2col(int n, int k) {
     if (k > n)  return std::vector<valT>(n + 1);
-    auto A = Poly(BINOM.ifac);
-    A = A.divXn(1).modXn(n + 1 - k);
+    auto A = Poly(BINOM.ifac_);
+    A = A.divXn(1).modXnR(n + 1 - k);
     A = A.log(n + 1 - k);
     for (auto &x : A) x *= valT::raw(k);
-    A = A.exp(n + 1 - k).mulXn(k);
+    A = A.exp(n + 1 - k).mulXnR(k);
     std::vector<valT> ans = A;
     ans.resize(n + 1);
-    auto ifacK = BINOM.ifac[k];
-    for (int i = 0; i <= n; ++i) ans[i] *= BINOM.fac[i] * ifacK;
+    auto ifacK = BINOM.ifac_[k];
+    for (int i = 0; i <= n; ++i) ans[i] *= BINOM.fac_[i] * ifacK;
     return ans;
   }
 }; // https://www.luogu.com.cn/training/3015#information
@@ -479,7 +480,7 @@ class PolyBase : public std::vector<valT> {
   PolyBase() {}
   PolyBase(const valT &x) : std::vector<valT>{x} { standard();}
   PolyBase(const std::vector<valT> &a) : std::vector<valT>{a} { standard();}
-  PolyBase(std::vector<valT> &&a) : std::vector<valT>{std::forward<std::vector<valT>>(a)} { standard();}
+  PolyBase(std::vector<valT> &&a) : std::vector<valT>{std::move(a)} { standard();}
   valT at(int id) const {
     if (id < 0 || id >= (int)this->size()) return 0;
     return (*this)[id];
