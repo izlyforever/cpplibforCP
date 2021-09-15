@@ -24,7 +24,7 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
     if (ans < 0) ans += M0123;
     return ModLL(ans);
   }
-  PolyBaseMFT4 mul(const PolyBaseMFT4 &rhs) const {
+  PolyBaseMFT4 mul(const PolyBaseMFT4& rhs) const {
     int tot = std::max(1, int(this->size() + rhs.size() - 1));
     int sz = 1 << std::__lg(tot * 2 - 1);
     std::vector<MInt<M0>> a0(sz), b0(sz);
@@ -63,7 +63,7 @@ LL factorial(LL n, LL p) {
   PolyMFT::setMod(p, s + 1);
   if (n > p - 1 - n) {
     auto ans = ModLL(factorial(p - 1 - n, p)).inv();
-    return (p - n) & 1 ? -ans : ans;
+    return (p - n)&  1 ? -ans : ans;
   }
   std::vector<ModLL> h{1, s + 1};
   for (int bit = std::__lg(s) - 1, d = 1; bit >= 0; --bit) {
@@ -72,7 +72,7 @@ LL factorial(LL n, LL p) {
     h.insert(h.end(), nh1.begin(), nh1.end());
     d *= 2;
     for (int i = 0; i <= d; ++i) h[i] *= nh2[i];
-    if (s >> bit & 1) {
+    if (s >> bit&  1) {
       ++d;
       LL tmp = d;
       for (int i = 0; i < d; ++i, tmp += s) h[i] *= ModLL::raw(tmp);

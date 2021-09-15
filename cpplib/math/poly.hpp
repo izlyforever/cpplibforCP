@@ -11,61 +11,67 @@ class Poly : public T {
   static inline const valT COMPLEXI = pow(valT(3), (valT::mod() - 1) / 4);
   static inline const valT INV2 = (valT::mod() + 1) / 2;
   static inline const int MAXN = 1e6 + 2;  // assume size(a) < MAXN
-  static inline const auto &BINOM = BinomModp<valT>::Instance(MAXN);
+  static inline const auto& BINOM = BinomModp<valT>::Instance(MAXN);
  public:
   using T::T;
-  // never use it if valT = MINT<M>
+  Poly (const T& x) : T(x) {}
+  Poly (T&& x) : T(std::forward<T>(x)) {}
+  // never use it if valT = MINT<M>, this method is awesome
   static void setMod(LL p, int n = MAXN) {
     valT::setMod(p);
     BinomModp<valT>::Instance(std::min(LL(n), p));
   }
-  Poly (const T &x) : T(x) {}
-  Poly (T &&x) : T(std::forward<T>(x)) {}
+  Poly operator-() const {
+    auto A = *this;
+    for (auto& x : A) x = -x;
+    return A;
+  }
   Poly mulXn(int n) const {
-    std::vector<valT> b = *this;
-    b.insert(b.begin(), n, 0);
-    return Poly(std::move(b));
+    auto A = (*this);
+    A.insert(A.begin(), n, 0);
+    return A;
   }
   Poly modXn(int n) const {
-    if (n >= (int)this->size()) return *this;
+    if (n >= (int)this->size()) return (*this);
     return Poly({this->begin(), this->begin() + n});
   }
   Poly modXnR(int n) {
     this->resize(n);
-    return Poly(std::move(*this));
+    return Poly(std::forward<Poly>(*this));
   }
   Poly divXn(int n) const {
     if ((int)this->size() <= n) return Poly();
     return Poly({this->begin() + n, this->end()});
   }
-  Poly operator-() const {
-    auto A = *this;
-    for (auto &x : A) x = -x;
-    return A;
-  }
-  Poly &operator+=(const Poly &rhs) {
+  Poly& operator+=(const Poly& rhs) {
     if (this->size() < rhs.size()) this->resize(rhs.size());
     for (int i = 0, nr = rhs.size(); i < nr; ++i) (*this)[i] += rhs[i];
     this->standard();
     return *this;
   }
-  Poly &operator-=(const Poly &rhs) {
+  Poly& operator-=(const Poly& rhs) {
     if (this->size() < rhs.size()) this->resize(rhs.size());
     for (int i = 0, nr = rhs.size(); i < nr; ++i) (*this)[i] -= rhs[i];
     this->standard();
     return *this;
   }
-  Poly operator+(const Poly &rhs) const {
+  Poly operator+(const Poly& rhs) const {
     return Poly(*this) += rhs;
   }
-  Poly operator-(const Poly &rhs) const {
+  Poly operator-(const Poly& rhs) const {
     return Poly(*this) -= rhs;
   }
-  Poly operator*(const Poly &rhs) const {
+  Poly operator*(const Poly& rhs) const {
     return this->mul(rhs);
   }
-  Poly &operator*=(const Poly &rhs) {
+  Poly operator*(Poly&& rhs) const {
+    return this->mul(std::forward<Poly>(rhs));
+  }
+  Poly& operator*=(const Poly& rhs) {
     return (*this) = (*this) * rhs;
+  }
+  Poly& operator*=(Poly&& rhs) {
+    return (*this) = (*this) * std::forward<Poly>(rhs);
   }
   // assume a[0] \neq 0
   Poly inv(int n) const {
@@ -78,7 +84,7 @@ class Poly : public T {
     }
     return x.modXnR(n);
   }
-  Poly &operator/=(Poly rhs) {
+  Poly& operator/=(Poly rhs) {
     int n = this->size(), m = rhs.size();
     if (n < m) return (*this) = Poly();
     this->reverse();
@@ -88,16 +94,25 @@ class Poly : public T {
     this->reverse();
     return *this;
   }
-  Poly operator/(const Poly &rhs) const {
+  Poly operator/(const Poly& rhs) const {
     return Poly(*this) /= rhs;
   }
-  Poly &operator%=(const Poly &rhs) {
+  Poly operator/(Poly&& rhs) const {
+    return Poly(*this) /= std::forward<Poly>(rhs);
+  }
+  Poly& operator%=(const Poly& rhs) {
     return *this -= (*this) / rhs * rhs;
   }
-  Poly operator%(const Poly &rhs) const {
+  Poly& operator%=(Poly&& rhs) {
+    return *this -= (*this) / rhs * std::forward<Poly>(rhs);
+  }
+  Poly operator%(const Poly& rhs) const {
     return Poly(*this) %= rhs;
   }
-  Poly powModPoly(LL n, const Poly &p) const {
+  Poly operator%(Poly&& rhs) const {
+    return Poly(*this) %= std::forward<Poly>(rhs);
+  }
+  Poly powModPoly(LL n, const Poly& p) const {
     Poly r(1), x(*this);
     while (n) {
       if (n&1) r = r * x % p;
@@ -105,7 +120,7 @@ class Poly : public T {
     }
     return r;
   }
-  valT inner(const Poly &rhs) const {
+  valT inner(const Poly& rhs) const {
     valT r(0);
     int n = std::min(this->size(), rhs.size());
     for (int i = 0; i < n; ++i) r += (*this)[i] * rhs[i];
@@ -116,14 +131,14 @@ class Poly : public T {
     int n = this->size();
     std::vector<valT> r(n - 1);
     for (int i = 1; i < n; ++i) r[i - 1] = (*this)[i] * valT(i);
-    return Poly(std::move(r));
+    return Poly(std::forward<Poly>(r));
   }
   Poly integral() const {
     if (this->empty()) return Poly();
     int n = this->size();
     std::vector<valT> r(n + 1);
     for (int i = 0; i < n; ++i) r[i + 1] = (*this)[i] * BINOM.inv_[i + 1];
-    return Poly(std::move(r));
+    return Poly(std::forward<Poly>(r));
   }
   // assume a[0] = 1
   Poly log(int n) const {
@@ -141,19 +156,19 @@ class Poly : public T {
   }
   Poly sin(int n) const {
     auto A = *this;
-    for (auto &x : A) x *= COMPLEXI;
+    for (auto& x : A) x *= COMPLEXI;
     A = A.exp(n);
     A -= A.inv(n);
     auto m = -COMPLEXI * INV2;
-    for (auto &x : A) x *= m;
+    for (auto& x : A) x *= m;
     return A;
   }
   Poly cos(int n) const {
     auto A = *this;
-    for (auto &x : A) x *= COMPLEXI;
+    for (auto& x : A) x *= COMPLEXI;
     A = A.exp(n);
     A += A.inv(n);
-    for (auto &x : A) x *= INV2;
+    for (auto& x : A) x *= INV2;
     return A;
   }
   // assume a[0] = 0
@@ -182,7 +197,7 @@ class Poly : public T {
     return x.modXnR(n);
   }
   // transpose {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
-  Poly mulT(Poly &&rhs) const {
+  Poly mulT(Poly&& rhs) const {
     if (rhs.size() == 0) return Poly();
     int n = rhs.size();
     rhs.reverse();
@@ -202,7 +217,7 @@ class Poly : public T {
       for (int j = 0; j < sn && i + j < n; ++j) {
         auto m = this->at(i + j);
         auto tmp = h[j];
-        for (auto &x : tmp) x *= m;
+        for (auto& x : tmp) x *= m;
         sm += tmp;
       }
       ans += (now * sm).modXnR(n);
@@ -225,7 +240,7 @@ class Poly : public T {
     for (int i = 0; i < n; i += sn) {
       for (int j = 1; j <= sn && i + j < n; ++j) {
         valT tmp;
-        auto &sg = h[j];
+        auto& sg = h[j];
         for (int k = 0, sk = i + j - 1; k <= sk; ++k) {
           tmp += now.at(k) * sg.at(sk - k);
         }
@@ -233,7 +248,7 @@ class Poly : public T {
       }
       now = (now * h.back()).modXnR(n - 1);
     }
-    return Poly(std::move(ans));
+    return Poly(std::forward<Poly>(ans));
   }
   Poly toFallingPowForm() {
     int n = this->size();
@@ -242,7 +257,7 @@ class Poly : public T {
     auto y = this->evals(x);
     auto tmp = BINOM.ifac_;
     for (int i = 1; i < n; i += 2) tmp[i] = -tmp[i];
-    Poly A = Poly(std::move(y)) * Poly(std::move(tmp));
+    Poly A = Poly(std::forward<Poly>(y)) * Poly(std::forward<Poly>(tmp));
     return A.modXnR(n);
   }
   Poly fromFallingPowForm() {
@@ -263,7 +278,7 @@ class Poly : public T {
     return r;
   }
   // multi-evaluation(new tech)
-  std::vector<valT> evals(const std::vector<valT> &x) const {
+  std::vector<valT> evals(const std::vector<valT>& x) const {
     if (this->size() == 0) return std::vector<valT>(x.size());
     int n = x.size();
     std::vector<valT> ans(n);
@@ -279,7 +294,7 @@ class Poly : public T {
       }
     };
     build(0, n, 1);
-    std::function<void(int, int, int, const Poly &)> solve = [&](int l, int r, int p, const Poly &f) {
+    std::function<void(int, int, int, const Poly& )> solve = [&](int l, int r, int p, const Poly& f) {
       if (r - l == 1) {
         ans[l] = f.at(0);
       } else {
@@ -313,7 +328,7 @@ class Poly : public T {
     int d = h.size() - 1;
     for (int i = 0; i <= d; ++i) {
       h[i] *= BINOM.ifac_[i] * BINOM.ifac_[d - i];
-      if ((d - i) & 1) h[i] = -h[i];
+      if ((d - i)&  1) h[i] = -h[i];
     }
     std::vector<valT> f(d + cnt);
     auto now = m - valT(d);
@@ -360,13 +375,13 @@ class Poly : public T {
 
   // $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$: https://oi-wiki.org/math/linear-recurrence/
   // find n-th term of The recursive formula for the constant coefficient of order k in $O(k \log k \log n)$
-  static valT linearRecursion(const std::vector<valT> &a, std::vector<valT> f, LL n) {
+  static valT linearRecursion(const std::vector<valT>& a, std::vector<valT> f, LL n) {
     if (n < (int)a.size()) return a[n];
     int m = f.size();
     std::reverse(f.begin(), f.end());
     std::vector<valT> g(m);
     g.emplace_back(1);
-    Poly A = Poly({0, 1}), p = Poly(std::move(g)) - Poly(std::move(f));
+    Poly A = Poly({0, 1}), p = Poly(std::forward<Poly>(g)) - Poly(std::forward<Poly>(f));
     Poly R = A.powModPoly(n, p);
     return R.inner(a);
   } // https://www.luogu.com.cn/problem/P4723
@@ -379,7 +394,7 @@ class Poly : public T {
     for (int i = 0; i < k; ++i) a[i] = b[i] = BINOM.ifac_[i + 1];
     valT cur = 1;
     for (int i = 0; i < k; ++i) a[i] *= (cur *= valT::raw(n));
-    auto Numerator = Poly(std::move(a)), denominator = Poly(std::move(b));
+    auto Numerator = Poly(std::forward<Poly>(a)), denominator = Poly(std::forward<Poly>(b));
 
     auto f = (Numerator * denominator.inv(k)).modXnR(k) - Poly(1);
     auto ans = f;
@@ -405,12 +420,12 @@ class Poly : public T {
       }
       auto B = A;
       for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.fac_[i];
-      B = B.mulT(Poly(std::move(tmp))).modXnR(k + 1);
+      B = B.mulT(tmp).modXnR(k + 1);
       for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.ifac_[i];
       A *= B;
       if (2 * k != n) {
         B = A;
-        for (auto &x : B) x *= valT::raw(n - 1);
+        for (auto& x : B) x *= valT::raw(n - 1);
         A = A.mulXn(1) + B;
       }
       return A;
@@ -435,7 +450,7 @@ class Poly : public T {
     if (k > n)  return std::vector<valT>(n + 1);
     auto B = Poly({1, -1}).log(n + 2 - k).divXn(1);
     B = (-B).log(n + 1 - k);
-    for (auto &x : B) x *= valT::raw(k);
+    for (auto& x : B) x *= valT::raw(k);
     std::vector<valT> ans = B.exp(n + 1 - k).mulXn(k);
     ans.resize(n + 1);
     auto ifacK = BINOM.ifac_[k];
@@ -446,7 +461,7 @@ class Poly : public T {
     auto tmp = BINOM.ifac_, a = BINOM.ifac_;
     for (int i = 1; i <= n; i += 2) tmp[i] = -tmp[i];
     for (int i = 0; i <= n; ++i) a[i] *= pow(valT::raw(i), n);
-    std::vector<valT> ans = Poly(std::move(a)) * Poly(std::move(tmp));
+    std::vector<valT> ans = Poly(std::forward<Poly>(a)) * Poly(std::forward<Poly>(tmp));
     ans.resize(n + 1);
     return ans;
   }
@@ -455,7 +470,7 @@ class Poly : public T {
     auto A = Poly(BINOM.ifac_);
     A = A.divXn(1).modXnR(n + 1 - k);
     A = A.log(n + 1 - k);
-    for (auto &x : A) x *= valT::raw(k);
+    for (auto& x : A) x *= valT::raw(k);
     A = A.exp(n + 1 - k).mulXnR(k);
     std::vector<valT> ans = A;
     ans.resize(n + 1);
@@ -478,9 +493,9 @@ class PolyBase : public std::vector<valT> {
   }
  public:
   PolyBase() {}
-  PolyBase(const valT &x) : std::vector<valT>{x} { standard();}
-  PolyBase(const std::vector<valT> &a) : std::vector<valT>{a} { standard();}
-  PolyBase(std::vector<valT> &&a) : std::vector<valT>{std::move(a)} { standard();}
+  PolyBase(const valT& x) : std::vector<valT>{x} { standard();}
+  PolyBase(const std::vector<valT>& a) : std::vector<valT>{a} { standard();}
+  PolyBase(std::vector<valT>&& a) : std::vector<valT>{std::move(a)} { standard();}
   valT at(int id) const {
     if (id < 0 || id >= (int)this->size()) return 0;
     return (*this)[id];
