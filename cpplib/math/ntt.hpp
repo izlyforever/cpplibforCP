@@ -8,7 +8,7 @@ class NTT {
   std::vector<MInt<M>> roots_{0, 1};
  public:
   static inline const MInt<M> g = 3;
-  void dft(std::vector<MInt<M>> &a) {
+  void dft(std::vector<MInt<M>>& a) {
     int n = a.size();
     if ((int)rev_.size() != n) {
       int k = __builtin_ctz(n) - 1;
@@ -42,11 +42,11 @@ class NTT {
       }
     }
   }
-  void idft(std::vector<MInt<M>> &a) {
+  void idft(std::vector<MInt<M>>& a) {
     int n = a.size();
     std::reverse(a.begin() + 1, a.end());
     dft(a);
     auto inv = pow(MInt<M>(n), M - 2);
-    for (auto &x : a) x *= inv;
+    for (auto& x : a) x *= inv;
   }
 };

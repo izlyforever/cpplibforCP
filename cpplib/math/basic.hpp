@@ -82,7 +82,7 @@ std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2) {
   return std::make_pair(ans < 0 ? ans + m: ans, m);
 }
 
-std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>> &A) {
+std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>>& A) {
   auto ans = A[0];
   for (int i = 1, na = A.size(); i < na; ++i) {
     ans = crt2(ans.first, ans.second, A[i].first, A[i].second);
@@ -123,7 +123,7 @@ class Binom {
     static Binom instance_;
     return instance_;
   }
-  LL operator()(const int &m, const int &n) {
+  LL operator()(const int& m, const int& n) {
     assert(n < N && m < N);
     return C_[m][n];
   }
@@ -169,10 +169,10 @@ class BinomModp {
 
 // Calculate f(m) where f is the Lagrange interpolation on $f(0), f(1), \cdots, f(n - 1)$
 template<typename valT>
-valT Lagrange(const std::vector<valT> &f, int m) {
+valT Lagrange(const std::vector<valT>& f, int m) {
   int n = f.size();
   if (m < n) return f[m];
-  auto &B = BinomModp<valT>::Instance(n);
+  auto& B = BinomModp<valT>::Instance(n);
   std::vector<valT> AP(n), BP(n);
   AP[0] = BP[n - 1] = valT(1);
   for (int i = 1; i < n; ++i) AP[i] = AP[i - 1] * valT::raw(m + 1 - i);
@@ -189,7 +189,7 @@ valT Lagrange(const std::vector<valT> &f, int m) {
 
 // Calculate powSum in $O(k)$ based on Lagrange interpolation
 template<typename valT>
-valT powSum(int n, int k, const std::vector<int> &sp) {
+valT powSum(int n, int k, const std::vector<int>& sp) {
   if (k == 0) return valT(n);
   std::vector<valT> f(k + 2);
   f[1] = valT(1);
@@ -223,7 +223,7 @@ class Matrix {
       }
     }
   }
-  Matrix operator+(const Matrix &A) const {
+  Matrix operator+(const Matrix& A) const {
     Matrix R(n_);
     for (int i = 0; i < n_; ++i) {
       for (int j = 0; j < n_; ++j) {
@@ -232,7 +232,7 @@ class Matrix {
     }
     return R;
   }
-  Matrix operator*(const Matrix &A) const {
+  Matrix operator*(const Matrix& A) const {
     Matrix R(n_);
     for (int i = 0; i < n_; ++i) {
       for (int k = 0; k < n_; ++k) {
@@ -263,7 +263,7 @@ class Matrix {
 
 // You must change mid to be random one or you will be hack
 template<typename T> // don't use it
-void quickSort(std::vector<T> &a) {
+void quickSort(std::vector<T>& a) {
   std::function<void(int, int)> qSort = [&](int l, int r) {
     int i = l, j = r;
     auto mid = a[(l + r) / 2];
@@ -322,7 +322,7 @@ class MEX {
 
 // transform vector<int> to vector<valT>
 template<typename valT>
-std::vector<valT> trans(const std::vector<int> &a) {
+std::vector<valT> trans(const std::vector<int>& a) {
   int n = a.size();
   std::vector<valT> ans(n);
   for (int i = 0; i < n; ++i) ans[i] = valT(a[i]);
@@ -331,7 +331,7 @@ std::vector<valT> trans(const std::vector<int> &a) {
 
 // Shortest recursive relational formula: https://cmwqf.github.io/2020/07/18/%E6%B5%85%E8%B0%88Berlekamp-Massey%E7%AE%97%E6%B3%95/
 template<typename valT>
-static std::vector<valT> BerlekampMassey(const std::vector<valT> &a) {
+static std::vector<valT> BerlekampMassey(const std::vector<valT>& a) {
   std::vector<valT> ans, lst;
   valT delta = 0;
   for (int i = 0, w = -1, n = a.size(); i < n; ++i) {

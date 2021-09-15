@@ -3,10 +3,10 @@
 
 namespace FMT {
 constexpr int M = 998244353, inv2 = (M + 1) / 2;
-auto add = [](int &x, int y) {
+auto add = [](int& x, int y) {
   (x += y) >= M && (x -= M);
 };
-auto sub = [](int &x, int y) {
+auto sub = [](int& x, int y) {
   (x -= y) < 0 && (x += M);
 };
 auto extend = [](int n) {
@@ -14,7 +14,7 @@ auto extend = [](int n) {
   while ((1 << r) < n) ++r;
   return r;
 };
-auto FMTor = [](std::vector<int> &a, bool isRev) {
+auto FMTor = [](std::vector<int>& a, bool isRev) {
   int n = extend(a.size());
   a.resize(1 << n);
   for (int i = 0; i < n; ++i) {
@@ -24,7 +24,7 @@ auto FMTor = [](std::vector<int> &a, bool isRev) {
     }
   }
 };
-auto FMTand = [](std::vector<int> &a, bool isRev) {
+auto FMTand = [](std::vector<int>& a, bool isRev) {
   int n = extend(a.size());
   a.resize(1 << n);
   for (int i = 0; i < n; ++i) {
@@ -34,7 +34,7 @@ auto FMTand = [](std::vector<int> &a, bool isRev) {
     }
   }
 };
-auto FMTxor = [](std::vector<int> &a, bool isRev) {
+auto FMTxor = [](std::vector<int>& a, bool isRev) {
   int n = extend(a.size());
   a.resize(1 << n);
   for (int i = 0; i < n; ++i) {
@@ -43,10 +43,10 @@ auto FMTxor = [](std::vector<int> &a, bool isRev) {
       a[j] = (v - u + M) % M;
       a[j ^ (1 << i)] = (u + v) % M;
     }
-    if (isRev) for (auto &x : a) x = 1LL * inv2 * x % M;
+    if (isRev) for (auto& x : a) x = 1LL * inv2 * x % M;
   }
 };
-auto fun = [](std::function<void(std::vector<int> &, bool)> f, std::vector<int> a, std::vector<int> b) {
+auto fun = [](std::function<void(std::vector<int>& , bool)> f, std::vector<int> a, std::vector<int> b) {
   int n = extend(std::max(a.size(), b.size()));
   a.resize(1 << n); b.resize(1 << n);
   f(a, 0); f(b, 0);

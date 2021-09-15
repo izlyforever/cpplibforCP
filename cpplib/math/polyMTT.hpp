@@ -63,7 +63,7 @@ LL factorial(LL n, LL p) {
   PolyMFT::setMod(p, s + 1);
   if (n > p - 1 - n) {
     auto ans = ModLL(factorial(p - 1 - n, p)).inv();
-    return (p - n)&  1 ? -ans : ans;
+    return (p - n) & 1 ? -ans : ans;
   }
   std::vector<ModLL> h{1, s + 1};
   for (int bit = std::__lg(s) - 1, d = 1; bit >= 0; --bit) {
@@ -72,7 +72,7 @@ LL factorial(LL n, LL p) {
     h.insert(h.end(), nh1.begin(), nh1.end());
     d *= 2;
     for (int i = 0; i <= d; ++i) h[i] *= nh2[i];
-    if (s >> bit&  1) {
+    if (s >> bit & 1) {
       ++d;
       LL tmp = d;
       for (int i = 0; i < d; ++i, tmp += s) h[i] *= ModLL::raw(tmp);

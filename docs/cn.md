@@ -181,8 +181,8 @@ $$
 $$
 \begin{aligned}
 h(x) &= \sum_{i = 0}^{d} h(i) \prod_{j = 0, j \neq i}^{d} \frac{x - j}{i - j} \\ 
-&= \sum_{i = 0}^d (-1)^{d - i} h(i) \binom{x}{i} \binom{x - i - 1}{d - i} \\
-&=  \left(\prod_{i = x - d}^x i \right) \sum_{i = 0}^d \frac{h(i)}{i!(d - i)!(-1)^{d - i}} \cdot \frac{1}{(x - i)}
+ &= \sum_{i = 0}^d (-1)^{d - i} h(i) \binom{x}{i} \binom{x - i - 1}{d - i} \\
+ &=  \left(\prod_{i = x - d}^x i \right) \sum_{i = 0}^d \frac{h(i)}{i!(d - i)!(-1)^{d - i}} \cdot \frac{1}{(x - i)}
 \end{aligned}
 $$
 

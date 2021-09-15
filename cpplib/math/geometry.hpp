@@ -3,19 +3,19 @@
 
 namespace Geomerty {
 using Point = std::pair<double, double>;
-double cross(const Point &op, const Point &sp, const Point &ep) {
+double cross(const Point& op, const Point& sp, const Point& ep) {
   return (sp.first - op.first) * (ep.second - op.second)
   - (sp.second - op.second) * (ep.first - op.first);
 }
-bool crossLeft(const Point &op, const Point &sp, const Point &ep) {
+bool crossLeft(const Point& op, const Point& sp, const Point& ep) {
   return (sp.first - op.first) * (ep.second - op.second)
   <= (sp.second - op.second) * (ep.first - op.first);
 }
-double dist2(const Point &p, const Point &q) {
+double dist2(const Point& p, const Point& q) {
   double x = q.first - p.first, y = q.second - p.second;
   return x * x + y * y;
 };
-double dist(const Point& p, const Point &q) {
+double dist(const Point& p, const Point& q) {
   double x = q.first - p.first, y = q.second - p.second;
   return std::sqrt(x * x + y * y);
 };
@@ -89,7 +89,7 @@ double minDist(std::vector<Point> a) {
 } // namespace Geomerty
 
 // a is k * n matrix: has n k-dimension vectors, return r[i]: number of vector less than i
-std::vector<int> partialOrder(std::vector<std::vector<int>> &a) {
+std::vector<int> partialOrder(std::vector<std::vector<int>>& a) {
   int k = a.size(), n = a[0].size();
   using Node = std::vector<std::pair<int, int>>;
   std::vector<Node> f(k, Node(n));

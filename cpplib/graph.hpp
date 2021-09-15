@@ -44,7 +44,7 @@ class LCA {
   int n_;
   std::vector<int> fa_, dep_, sz_, son_, top_;
  public:
-  LCA(std::vector<std::vector<int>> &e, int rt = 1) : n_(e.size()) {
+  LCA(std::vector<std::vector<int>>& e, int rt = 1) : n_(e.size()) {
     fa_.resize(n_);
     dep_.resize(n_);
     sz_.resize(n_);
@@ -84,7 +84,7 @@ class LCA {
 };
 
 // Minimum Spanning Tree
-LL Prim(const std::vector<edge> &e) {
+LL Prim(const std::vector<edge>& e) {
   LL r = 0;
   int n = e.size(), cnt = 0;
   std::priority_queue<std::pair<int, int>> Q;
@@ -139,7 +139,7 @@ LL LiuZhu(std::vector<Edge> e, int n, int rt) { // e has no self-loop
     if (cnt == 0) break;
     // update nodes and edges
     for (int i = 0; i < n; ++i) if (id[i] == -1) id[i] = cnt++;
-    for (auto &[u, v, w] : e) {
+    for (auto& [u, v, w] : e) {
       if (id[u] != id[v]) w -= in[v];
       u = id[u];
       v = id[v];
@@ -152,12 +152,12 @@ LL LiuZhu(std::vector<Edge> e, int n, int rt) { // e has no self-loop
 
 
 // Topological sorting: Kahn algorithm for DAG. return lexicographical smallest one
-std::vector<int> TopSort(std::vector<std::set<int>> &e) {
+std::vector<int> TopSort(std::vector<std::set<int>>& e) {
   std::vector<int> r;
   std::priority_queue<int> Q;
   int n = e.size();
   std::vector<int> in(n);
-  for (auto &x : e) for (auto i : x) ++in[i];
+  for (auto& x : e) for (auto i : x) ++in[i];
   for (int i = 0; i < n; ++i) if (in[i] == 0) Q.push(-i);
   while (!Q.empty()) {
     int u = -Q.top();
@@ -237,7 +237,7 @@ std::vector<int> getPath(int x, int y) {
 }
 } // namespace Floyd
 
-std::vector<LL> Dijkstra(int s, const std::vector<edge> &e) {
+std::vector<LL> Dijkstra(int s, const std::vector<edge>& e) {
   std::priority_queue<std::pair<LL, int>> Q;
   std::vector<LL> d(e.size(), INT64_MAX);
   d[s] = 0;
@@ -254,7 +254,7 @@ std::vector<LL> Dijkstra(int s, const std::vector<edge> &e) {
   return d;
 }
 
-bool BellmanFord(std::vector<Edge> &e, int n, int x = 0) {
+bool BellmanFord(std::vector<Edge>& e, int n, int x = 0) {
   std::vector<int> dist(n + 1, INT_MAX);
   dist[x] = 0;
   for (int i = 0; i <= n; ++i) {
@@ -270,7 +270,7 @@ bool BellmanFord(std::vector<Edge> &e, int n, int x = 0) {
   return false;
 }
 
-bool spfa(std::vector<edge> &e, int x = 0) {
+bool spfa(std::vector<edge>& e, int x = 0) {
   int n = e.size();
   std::queue<int> Q;
   std::vector<int> dist(n, INT_MAX), cnt(n), inQ(n);
@@ -469,7 +469,7 @@ class Dinic {
   LL dfs(int u, int t, LL f) {
     if (u == t || f == 0) return f;
     LL r = f;
-    for (int &i = cur_[u], ng = g_[u].size(); i < ng; ++i) {
+    for (int& i = cur_[u], ng = g_[u].size(); i < ng; ++i) {
       int j = g_[u][i];
       auto [v, c] = e[j];
       if (c > 0 && h_[v] == h_[u] + 1) {
@@ -609,7 +609,7 @@ class StoerWagner {
   }
   // the graph will be destory after minCut
   int minCut() {
-    auto f = [&](int cnt, int &s, int &t) -> int {
+    auto f = [&](int cnt, int& s, int& t) -> int {
       std::vector<int> vis(n_), d(n_);
       auto push = [&](int x){
         vis[x] = 1;
@@ -703,7 +703,7 @@ class Flow {
 // https://www.luogu.com.cn/problem/P3381
 
 // $O(m \sqrt{m})$, we will get TLE if the answer greater than INT_MAX
-int circle3count(const std::vector<std::pair<int, int>> &edge, int n) {
+int circle3count(const std::vector<std::pair<int, int>>& edge, int n) {
   std::vector<int> d(n), vis(n, -1);
   for (auto [u, v] : edge) ++d[u], ++d[v];
   std::vector<std::vector<int>> e(n);
@@ -728,7 +728,7 @@ int circle3count(const std::vector<std::pair<int, int>> &edge, int n) {
 
 
 // $O(m \sqrt{m})$
-LL circle4count(const std::vector<std::pair<int, int>> &edge, int n) {
+LL circle4count(const std::vector<std::pair<int, int>>& edge, int n) {
   std::vector<int> d(n), c(n, -1), id(n);
   for (auto [u, v] : edge) ++d[u], ++d[v];
   std::iota(id.begin(), id.end(), 0);

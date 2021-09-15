@@ -63,7 +63,7 @@ LL floorSum(int n, int m, int a, int b) {
 // https://atcoder.jp/contests/practice2/tasks/practice2_c
 
 // $\sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
-int sumNum(const std::vector<int> &c, int m, int M) {
+int sumNum(const std::vector<int>& c, int m, int M) {
   std::vector<int> dp(m + 1);
   dp[0] = 1;
   for (int i = 1; i <= m; ++i) {
@@ -283,11 +283,11 @@ VD simplex(VD c, std::vector<VD> Aq, VD bq, std::vector<VD> Alq, VD blq) {
   int n = Aq.size() + Alq.size();
   int m = c.size();
   for (int i = 0, nb = bq.size(); i < nb; ++i) if (bq[i] < -eps) {
-    for (auto &x : Aq[i]) x = -x;
+    for (auto& x : Aq[i]) x = -x;
     bq[i] = -bq[i];
   }
   for (int i = 0, nb = blq.size(); i < nb; ++i) if (blq[i] < -eps) {
-    for (auto &x : Alq[i]) x = -x;
+    for (auto& x : Alq[i]) x = -x;
     ++m;
   }
   std::vector<VD> A(n, VD(n + m));

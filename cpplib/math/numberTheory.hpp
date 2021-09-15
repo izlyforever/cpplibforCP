@@ -321,7 +321,7 @@ std::pair<std::vector<int>, std::vector<int>> npf(int N) {
 }
 
 // list of different prime factors of n
-std::vector<int> factor(int n, const std::vector<int> &sp) {
+std::vector<int> factor(int n, const std::vector<int>& sp) {
   std::vector<int> ans;
   while (n > 1) {
     int pn = sp[n];
@@ -332,7 +332,7 @@ std::vector<int> factor(int n, const std::vector<int> &sp) {
 }
 
 // list of prime factors of n
-std::vector<std::pair<int, int>> Factor(int n, const std::vector<int> &sp) {
+std::vector<std::pair<int, int>> Factor(int n, const std::vector<int>& sp) {
   std::vector<std::pair<int, int>> ans;
   while (n > 1) {
     int pn = sp[n], cnt = 0;
@@ -343,7 +343,7 @@ std::vector<std::pair<int, int>> Factor(int n, const std::vector<int> &sp) {
 }
 
 // smallest primitive root or 0
-int primitiveRoot(int n, const std::vector<int> &sp) {
+int primitiveRoot(int n, const std::vector<int>& sp) {
   if (n < 2) return 0;
   if (n == 2 || n == 4) return n - 1;
   if (n % 4 == 0) return 0;
@@ -376,7 +376,7 @@ int primitiveRoot(int n, const std::vector<int> &sp) {
 }
 
 // list of all primitive roots or empty
-std::vector<int> primitiveRootAllS(int n, const std::vector<int> &sp) {
+std::vector<int> primitiveRootAllS(int n, const std::vector<int>& sp) {
   int g = primitiveRoot(n, sp);
   if (g == 0) return {};
   if (n == 2 || n == 4) return {n - 1};
@@ -392,7 +392,7 @@ std::vector<int> primitiveRootAllS(int n, const std::vector<int> &sp) {
 }
 
 // list of all primitive roots or empty
-std::vector<int> primitiveRootAll(int n, const std::vector<int> &sp) {
+std::vector<int> primitiveRootAll(int n, const std::vector<int>& sp) {
   if (n < 2) return {};
   if (n == 2 || n == 4) return {n - 1};
   if (n % 4 == 0) return {};
@@ -625,7 +625,7 @@ std::vector<std::tuple<int, int, int>> lcmPair(int n) {
 
 // $O(n \log n)$
 template<typename T>
-std::vector<T> DirichletProduct(const std::vector<T> &a, const std::vector<T> &b, int n) {
+std::vector<T> DirichletProduct(const std::vector<T>& a, const std::vector<T>& b, int n) {
   std::vector<T> c(n + 1);
   for (int i = 1; i <= n; ++i) {
     for (int j = 1; i * j <= n; ++j) {
@@ -636,8 +636,8 @@ std::vector<T> DirichletProduct(const std::vector<T> &a, const std::vector<T> &b
 }
 // $O(n \log \log n)$, $new_a[n] = \sum_{d | n} old_a[d]$
 template<typename T>
-void mobiousTran(std::vector<T> &a, int n) {
-  auto &p = Prime::Instance();
+void mobiousTran(std::vector<T>& a, int n) {
+  auto& p = Prime::Instance();
   for (int i = 1; p[i] <= n; ++i) {
     for (int j = 1; j * p[i] <= n; ++j) {
       a[j * p[i]] += a[j];
@@ -646,8 +646,8 @@ void mobiousTran(std::vector<T> &a, int n) {
 }
 // $O(n \log \log n)$, $old_a[n] = \sum_{d | n} new_a[d]$
 template<typename T>
-void mobiousTranInv(std::vector<T> &a, int n) {
-  auto &p = Prime::Instance();
+void mobiousTranInv(std::vector<T>& a, int n) {
+  auto& p = Prime::Instance();
   for (int i = p.primePi(n); i; --i) {
     for (int j = n / p[i]; j; --j) {
       a[j * p[i]] -= a[j];
@@ -656,7 +656,7 @@ void mobiousTranInv(std::vector<T> &a, int n) {
 }
 // It is perfect simple and fast in $O(n \log n)$
 template<typename T>
-void mobiousTranInvS(std::vector<T> &a, int n) {
+void mobiousTranInvS(std::vector<T>& a, int n) {
   for (int i = 1; i <= n; ++i) {
     for (int j = i * 2; j <= n; j += i) {
       a[j] -= a[i];
@@ -665,7 +665,7 @@ void mobiousTranInvS(std::vector<T> &a, int n) {
 }
 // $O(n \log n)$
 template<typename T>
-std::vector<T> DirichletRevProduct(const std::vector<T> &a, const std::vector<T> &b, int n) {
+std::vector<T> DirichletRevProduct(const std::vector<T>& a, const std::vector<T>& b, int n) {
   std::vector<T> c(n + 1);
   for (int i = 1; i <= n; ++i) {
     for (int j = 1; i * j <= n; ++j) {
@@ -676,8 +676,8 @@ std::vector<T> DirichletRevProduct(const std::vector<T> &a, const std::vector<T>
 }
 // $O(n \log \log n)$, $new_a[d] = \sum_{d | n} old_a[n]$
 template<typename T>
-void mobiousRevTran(std::vector<T> &a, int n) {
-  auto &p = Prime::Instance();
+void mobiousRevTran(std::vector<T>& a, int n) {
+  auto& p = Prime::Instance();
   for (int i = 1; p[i] <= n; ++i) {
     for (int j = n / p[i]; j; --j) {
       a[j] += a[j * p[i]];
@@ -686,8 +686,8 @@ void mobiousRevTran(std::vector<T> &a, int n) {
 }
 // $O(n \log \log n)$, $old_a[d] = \sum_{d | n} new_a[n]$
 template<typename T>
-void mobiousRevTranInv(std::vector<T> &a, int n) {
-  auto &p = Prime::Instance();
+void mobiousRevTranInv(std::vector<T>& a, int n) {
+  auto& p = Prime::Instance();
   for (int i = 1; p[i] <= n; ++i) {
     for (int j = 1; j * p[i] <= n; ++j) {
       a[j] -= a[j * p[i]];

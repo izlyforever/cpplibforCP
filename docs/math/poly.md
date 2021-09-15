@@ -72,7 +72,7 @@ using LL = long long;
 
 template<typename T>
 void debug(std::vector<T> a){
-  for (auto &i : a) std::cout << i << ' ';
+  for (auto& i : a) std::cout << i << ' ';
   std::cout << std::endl;
 }
 

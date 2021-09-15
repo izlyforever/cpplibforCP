@@ -58,7 +58,7 @@ $\displaystyle \text{floorSum}(n, m, a, b) = \sum_{i = 0}^{n - 1} \lfloor \frac{
 ## sumNum
 
 ``` cpp
-int sumNum(const std::vector<int> &c, int m, int M)
+int sumNum(const std::vector<int>& c, int m, int M)
 ```
 
 $\displaystyle \text{sumNum}(c, m, M) = \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)} \mod M$

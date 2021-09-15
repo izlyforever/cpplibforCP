@@ -28,10 +28,10 @@ class ModInt {
     return A;
   }
   ModInt() { n_ = 0;}
-  ModInt(const int &x) : n_(x % M) {
+  ModInt(const int& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
-  ModInt(const LL &x) : n_(x % M) {
+  ModInt(const LL& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
   ModInt operator-() const {
@@ -45,33 +45,33 @@ class ModInt {
     if (n_-- == 0) n_ += M;
     return *this;
   }
-  ModInt& operator+=(const ModInt &A) {
+  ModInt& operator+=(const ModInt& A) {
     n_ += A.n_;
     if (n_ >= M) n_ -= M;
     return (*this);
   }
-  ModInt& operator-=(const ModInt &A) {
+  ModInt& operator-=(const ModInt& A) {
     n_ -= A.n_;
     if (n_ < 0) n_ += M;
     return (*this);
   }
-  ModInt& operator*=(const ModInt &A) {
+  ModInt& operator*=(const ModInt& A) {
     n_ = 1LL * n_ * A.n_ % M;
     return (*this);
   }
-  ModInt& operator/=(const ModInt &A) {
+  ModInt& operator/=(const ModInt& A) {
     return (*this) *= A.inv();
   }
-  ModInt operator+(const ModInt &A) const {
+  ModInt operator+(const ModInt& A) const {
     return ModInt(*this) += A;
   }
-  ModInt operator-(const ModInt &A) const {
+  ModInt operator-(const ModInt& A) const {
     return ModInt(*this) -= A;
   }
-  ModInt operator*(const ModInt &A) const {
+  ModInt operator*(const ModInt& A) const {
     return ModInt(*this) *= A;
   }
-  ModInt operator/(const ModInt &A) const {
+  ModInt operator/(const ModInt& A) const {
     return ModInt(*this) /= A;
   }
   ModInt operator<<(int x) const {
@@ -88,10 +88,10 @@ class ModInt {
   ModInt& operator<<=(int x) {
     return (*this) = (*this) << x;
   }
-  bool operator==(const ModInt &A) const {
+  bool operator==(const ModInt& A) const {
     return n_ == A.n_;
   }
-  bool operator!=(const ModInt &A) const {
+  bool operator!=(const ModInt& A) const {
     return n_ != A.n_;
   }
   ModInt inv() const {
@@ -105,13 +105,13 @@ class ModInt {
     }
     return R;
   }
-  friend std::istream &operator>>(std::istream &in, ModInt &A) {
+  friend std::istream& operator>>(std::istream& in, ModInt& A) {
     LL x;
     in >> x;
     A = ModInt(x);
     return in;
   }
-  friend std::ostream &operator<<(std::ostream &out, const ModInt &A) {
+  friend std::ostream& operator<<(std::ostream& out, const ModInt& A) {
     out << A.n_;
     return out;
   }
@@ -143,13 +143,13 @@ class ModLL {
     return A;
   }
   ModLL() { n_ = 0;}
-  ModLL(const int &x) : n_(x % M) {
+  ModLL(const int& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
-  ModLL(const LL &x) : n_(x % M) {
+  ModLL(const LL& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
-  ModLL(const __int128 &x) : n_(x % M) {
+  ModLL(const __int128& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
   ModLL operator-() const {
@@ -163,33 +163,33 @@ class ModLL {
     if (n_-- == 0) n_ += M;
     return *this;
   }
-  ModLL& operator+=(const ModLL &A) {
+  ModLL& operator+=(const ModLL& A) {
     n_ += A.n_;
     if (n_ >= M) n_ -= M;
     return (*this);
   }
-  ModLL& operator-=(const ModLL &A) {
+  ModLL& operator-=(const ModLL& A) {
     n_ -= A.n_;
     if (n_ < 0) n_ += M;
     return (*this);
   }
-  ModLL& operator*=(const ModLL &A) {
+  ModLL& operator*=(const ModLL& A) {
     n_ = __int128(n_) * A.n_ % M;
     return (*this);
   }
-  ModLL& operator/=(const ModLL &A) {
+  ModLL& operator/=(const ModLL& A) {
     return (*this) *= A.inv();
   }
-  ModLL operator+(const ModLL &A) const {
+  ModLL operator+(const ModLL& A) const {
     return ModLL(*this) += A;
   }
-  ModLL operator-(const ModLL &A) const {
+  ModLL operator-(const ModLL& A) const {
     return ModLL(*this) -= A;
   }
-  ModLL operator*(const ModLL &A) const {
+  ModLL operator*(const ModLL& A) const {
     return ModLL(*this) *= A;
   }
-  ModLL operator/(const ModLL &A) const {
+  ModLL operator/(const ModLL& A) const {
     return ModLL(*this) /= A;
   }
   ModLL operator<<(int x) const {
@@ -206,10 +206,10 @@ class ModLL {
   ModLL& operator<<=(int x) {
     return (*this) = (*this) << x;
   }
-  bool operator==(const ModLL &A) const {
+  bool operator==(const ModLL& A) const {
     return n_ == A.n_;
   }
-  bool operator!=(const ModLL &A) const {
+  bool operator!=(const ModLL& A) const {
     return n_ != A.n_;
   }
   ModLL inv() const {
@@ -223,13 +223,13 @@ class ModLL {
     }
     return R;
   }
-  friend std::istream &operator>>(std::istream &in, ModLL &A) {
+  friend std::istream& operator>>(std::istream& in, ModLL& A) {
     LL x;
     in >> x;
     A = ModLL(x);
     return in;
   }
-  friend std::ostream &operator<<(std::ostream &out, const ModLL &A) {
+  friend std::ostream& operator<<(std::ostream& out, const ModLL& A) {
     out << A.n_;
     return out;
   }
@@ -262,10 +262,10 @@ class MInt {
     return A;
   }
   MInt() { n_ = 0;}
-  MInt(const int &x) : n_(x % M) {
+  MInt(const int& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
-  MInt(const LL &x) : n_(x % M) {
+  MInt(const LL& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
   MInt operator-() const {
@@ -279,33 +279,33 @@ class MInt {
     if (n_-- == 0) n_ += M;
     return *this;
   }
-  MInt& operator+=(const MInt &A) {
+  MInt& operator+=(const MInt& A) {
     n_ += A.n_;
     if (n_ >= M) n_ -= M;
     return (*this);
   }
-  MInt& operator-=(const MInt &A) {
+  MInt& operator-=(const MInt& A) {
     n_ -= A.n_;
     if (n_ < 0) n_ += M;
     return (*this);
   }
-  MInt& operator*=(const MInt &A) {
+  MInt& operator*=(const MInt& A) {
     n_ = 1LL * n_ * A.n_ % M;
     return (*this);
   }
-  MInt& operator/=(const MInt &A) {
+  MInt& operator/=(const MInt& A) {
     return (*this) *= A.inv();
   }
-  MInt operator+(const MInt &A) const {
+  MInt operator+(const MInt& A) const {
     return MInt(*this) += A;
   }
-  MInt operator-(const MInt &A) const {
+  MInt operator-(const MInt& A) const {
     return MInt(*this) -= A;
   }
-  MInt operator*(const MInt &A) const {
+  MInt operator*(const MInt& A) const {
     return MInt(*this) *= A;
   }
-  MInt operator/(const MInt &A) const {
+  MInt operator/(const MInt& A) const {
     return MInt(*this) /= A;
   }
   MInt operator<<(int x) const {
@@ -322,10 +322,10 @@ class MInt {
   MInt& operator<<=(int x) {
     return (*this) = (*this) << x;
   }
-  bool operator==(const MInt &A) const {
+  bool operator==(const MInt& A) const {
     return n_ == A.n_;
   }
-  bool operator!=(const MInt &A) const {
+  bool operator!=(const MInt& A) const {
     return n_ != A.n_;
   }
   MInt inv() const {
@@ -339,13 +339,13 @@ class MInt {
     }
     return R;
   }
-  friend std::istream &operator>>(std::istream &in, MInt &A) {
+  friend std::istream& operator>>(std::istream& in, MInt& A) {
     LL x;
     in >> x;
     A = MInt(x);
     return in;
   }
-  friend std::ostream &operator<<(std::ostream &out, const MInt &A) {
+  friend std::ostream& operator<<(std::ostream& out, const MInt& A) {
     out << A.n_;
     return out;
   }

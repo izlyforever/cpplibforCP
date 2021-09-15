@@ -7,16 +7,16 @@
 template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
  protected:
-  PolyBaseFFT mul(const PolyBaseFFT &rhs) const {
+  PolyBaseFFT mul(const PolyBaseFFT& rhs) const {
     int tot = std::max(1, int(this->size() + rhs.size() - 1));
     int sz = 1 << std::__lg(tot * 2 - 1);
     // Must be split to ensure accuracy (or use skill '3 times to 2 times')
     auto A1(*this), A2(*this), B1(rhs), B2(rhs);
     static constexpr int bit = 15, msk = (1LL << bit) - 1;
-    for (auto &x : A1) x = int(x) & msk;
-    for (auto &x : A2) x = int(x) >> bit;
-    for (auto &x : B1) x = int(x) & msk;
-    for (auto &x : B2) x = int(x) >> bit;
+    for (auto& x : A1) x = int(x) & msk;
+    for (auto& x : A2) x = int(x) >> bit;
+    for (auto& x : B1) x = int(x) & msk;
+    for (auto& x : B2) x = int(x) >> bit;
     std::vector<std::complex<double>> A(sz), B(sz), C(sz);
     for (int i = 0, tSize = this->size(); i < tSize; ++i) {
       A[i] = std::complex<double>((double)A1[i], (double)A2[i]);
@@ -37,16 +37,16 @@ class PolyBaseFFT : public PolyBase<T> {
       A1B1[i] = llround(B[i].real() * 0.5 + C[i].real() * 0.5);
       ans[i] = llround(C[i].real() * 0.5 - B[i].real() * 0.5);
     }
-    for (auto &x : ans) x <<= bit;
+    for (auto& x : ans) x <<= bit;
     for (int i = 0; i < tot; ++i) ans[i] += A1B2[i];
-    for (auto &x : ans) x <<= bit;
+    for (auto& x : ans) x <<= bit;
     for (int i = 0; i < tot; ++i) ans[i] += A1B1[i];
     return PolyBaseFFT(std::move(ans));
   }
  public:
   using PolyBase<T>::PolyBase;
-  PolyBaseFFT (const PolyBase<T> &x) : PolyBase<T>(x) {}
-  PolyBaseFFT (PolyBase<T> &&x) : PolyBase<T>(std::forward<PolyBase<T>>(x)) {}
+  PolyBaseFFT (const PolyBase<T>& x) : PolyBase<T>(x) {}
+  PolyBaseFFT (PolyBase<T>&& x) : PolyBase<T>(std::forward<PolyBase<T>>(x)) {}
 };
 const constexpr int FFTM = 1e9 + 7;
 using PolyFFT = Poly<PolyBaseFFT<MInt<FFTM>>, MInt<FFTM>>;

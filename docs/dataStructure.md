@@ -35,9 +35,9 @@ int main() {
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::vector<int> a{-12, 232, 12, 23};
   auto b = discrete(a);
-  for (auto &x : a) std::cout << x << ' ';
+  for (auto& x : a) std::cout << x << ' ';
   std::cout << '\n';
-  for (auto &x : b) std::cout << x << ' ';
+  for (auto& x : b) std::cout << x << ' ';
   std::cout << '\n';
   return 0;
 }

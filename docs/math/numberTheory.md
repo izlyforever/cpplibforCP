@@ -45,7 +45,7 @@ int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto start = std::clock();
-  auto &prime = Prime::Instance();
+  auto& prime = Prime::Instance();
   std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
 
   LL n = prime.primePi(123456789012LL);
@@ -86,8 +86,8 @@ int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto start = std::clock();
-  auto &euler = Euler::Instance();
-  auto &Mobius = Mobius::Instance();
+  auto& euler = Euler::Instance();
+  auto& Mobius = Mobius::Instance();
   std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
 
   int n = 1e9 + 7;
@@ -128,8 +128,8 @@ init numbers of (multi) prime factors less than $N$
 ## factor and Factor
 
 ``` cpp
-std::vector<int> factor(int n, const std::vector<int> &sp)
-std::vector<std::pair<int, int>> Factor(int n, const std::vector<int> &sp)
+std::vector<int> factor(int n, const std::vector<int>& sp)
+std::vector<std::pair<int, int>> Factor(int n, const std::vector<int>& sp)
 ```
 
 factor  $n$ into prime number
@@ -148,7 +148,7 @@ factor  $n$ into prime number
 ## primitiveRoot
 
 ``` cpp
-int primitiveRoot(int n, const std::vector<int> &sp)
+int primitiveRoot(int n, const std::vector<int>& sp)
 ```
 
 return smallest primitive root or 0 if not exist.
@@ -168,7 +168,7 @@ $n$ have primitive root if and only if $n = 2, 4, p^n, 2 p^n$ where $p > 2$ is p
 ## primitiveRootAll
 
 ``` cpp
-std::vector<int> primitiveRootAll(int n, const std::vector<int> &sp)
+std::vector<int> primitiveRootAll(int n, const std::vector<int>& sp)
 ```
 
 return list of all primitive roots or empty if not exist

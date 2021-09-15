@@ -3,7 +3,7 @@
 using LL = long long;
 
 // a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$
-bool nextBinom(std::vector<int> &a, int mx) {
+bool nextBinom(std::vector<int>& a, int mx) {
   int n = a.size(), i = 1;
   while (i <= n && a[n - i] == mx - i) ++i;
   if (i > n) return false;
@@ -96,18 +96,18 @@ class ECC {
 
 // Returns the original value corresponding to the array value after discretization
 template <typename T>
-std::vector<T> discrete(std::vector<T> &a) {
+std::vector<T> discrete(std::vector<T>& a) {
   auto r = a;
   std::sort(r.begin(), r.end());
   r.erase(std::unique(r.begin(), r.end()), r.end());
-  for (auto &x : a) {
+  for (auto& x : a) {
     x = std::lower_bound(r.begin(), r.end(), x) - r.begin();
   }
   return r;
 }
 
 // make sure that a[i].first <= a[i].second
-void disjointInterval(std::vector<std::pair<int, int>> &a) {
+void disjointInterval(std::vector<std::pair<int, int>>& a) {
   if (a.size() <= 1) return;
   std::vector<std::pair<int, int>> b;
   std::sort(a.begin(), a.end());
@@ -281,7 +281,7 @@ class SegmentTree {
   }
  public:
   SegmentTree(int n) : n_(n) { resize(); }
-  SegmentTree(const std::vector<LL> &a) {
+  SegmentTree(const std::vector<LL>& a) {
     n_ = a.size();
     resize();
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
@@ -341,7 +341,7 @@ class PstSegTree {
     tree_.emplace_back(Node());
     return sz_;
   }
-  PstSegTree(const std::vector<int> &a) : n_(a.size()) {
+  PstSegTree(const std::vector<int>& a) : n_(a.size()) {
     root_.emplace_back(newNode());
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {
@@ -391,18 +391,18 @@ class BitPstSegTree {
       pushUp(p);
     }
   }
-  int query(int k, int l, int r, std::vector<int> &p, std::vector<int> &q) {
+  int query(int k, int l, int r, std::vector<int>& p, std::vector<int>& q) {
     if (r - l == 1) return l;
     int m = (l + r) / 2, now = 0;
     for (auto x : q) now += tree_[tree_[x].l].val;
     for (auto x : p) now -= tree_[tree_[x].l].val;
     if (now >= k) {
-      for (auto &x : q) x = tree_[x].l;
-      for (auto &x : p) x = tree_[x].l;
+      for (auto& x : q) x = tree_[x].l;
+      for (auto& x : p) x = tree_[x].l;
       return query(k, l, m, p, q);
     }
-    for (auto &x : q) x = tree_[x].r;
-    for (auto &x : p) x = tree_[x].r;
+    for (auto& x : q) x = tree_[x].r;
+    for (auto& x : p) x = tree_[x].r;
     return query(k - now, m, r, p, q);
   }
   void add(int x, int val, int p) { add(x, val, 0, N, p); }
@@ -415,7 +415,7 @@ class BitPstSegTree {
   }
   inline int lowbit(int x) { return x & -x; }
  public:
-  BitPstSegTree(const std::vector<int> &x) : n_(x.size()) {
+  BitPstSegTree(const std::vector<int>& x) : n_(x.size()) {
     // 0 is son of all leave nodes
     for (int i = 0; i <= n_; ++i) newNode();
     a_.insert(a_.end(), x.begin(), x.end());
@@ -440,7 +440,7 @@ class BitPstSegTree {
 // https://www.luogu.com.cn/problem/P2617
 
 // length of longest increasing subsquence
-int LIS(std::vector<int> &a) {
+int LIS(std::vector<int>& a) {
   std::vector<int> b;
   for (auto x : a) {
     if (auto it = std::lower_bound(b.begin(), b.end(), x); it == b.end()) {
@@ -451,7 +451,7 @@ int LIS(std::vector<int> &a) {
   return b.size();
 }
 // length of longest non-decreasing subsquence
-int LNDS(std::vector<int> &a) {
+int LNDS(std::vector<int>& a) {
   std::vector<int> b;
   for (auto x : a) {
     if (auto it = std::upper_bound(b.begin(), b.end(), x); it == b.end()) {
@@ -462,7 +462,7 @@ int LNDS(std::vector<int> &a) {
   return b.size();
 }
 // longest increasing subsquence
-auto LISP(std::vector<int> &a) {
+auto LISP(std::vector<int>& a) {
   std::vector<int> b, pb, pa(a.size());
   std::iota(pa.begin(), pa.end(), 0);
   for (int i = 0, na = a.size(); i < na; ++i) {
@@ -489,7 +489,7 @@ auto LISP(std::vector<int> &a) {
 }
 
 // monicDeque: index of every max element of SubInterval of length m
-std::vector<int> monicDequeMax(std::vector<int> &a, int m) {
+std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
   std::vector<int> r;
   std::deque<int> Q;
   for (int i = 0, na = a.size(); i < na; ++i) {
@@ -503,7 +503,7 @@ std::vector<int> monicDequeMax(std::vector<int> &a, int m) {
 }
 
 // f is index of a such that $a_{f_0} < a_{f_1} < a_{f_m}$
-std::vector<int> monicStack(const std::vector<int> &a) {
+std::vector<int> monicStack(const std::vector<int>& a) {
   int n = a.size();
   std::vector<int> f(n);
   std::stack<int> S;
@@ -525,7 +525,7 @@ struct cNode {
     id = _id, val = _val, par = _par, ch[0] = ch[1] = 0;
   }
 };
-int cartesian_build(std::vector<cNode> &tree, int n) {
+int cartesian_build(std::vector<cNode>& tree, int n) {
   for (int i = 1; i <= n; ++i) {
     int k = i - 1;
     while (tree[k].val < tree[i].val) k = tree[k].par;
@@ -541,13 +541,13 @@ int cartesian_build(std::vector<cNode> &tree, int n) {
 // CDQ divided and conquer for partial order of dimension 3
 struct cdqNode {
   int x, y, z, id, w;
-  bool operator<(const cdqNode &A) const {
+  bool operator<(const cdqNode& A) const {
     if (x == A.x) return y == A.y ? z < A.z : y < A.y;
     return x < A.x;
   }
 };
 // ans[i] is the number of element less or equal to a[i]
-std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
+std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
   // sort by y
   std::vector<int> ans(a.size());
   std::sort(a.begin(), a.end());
@@ -571,7 +571,7 @@ std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
   }
   a.back().w = a.size() - last;
   Bitree<LL> A(k);
-  auto cmpy = [](const cdqNode &lhs, const cdqNode &rhs) {
+  auto cmpy = [](const cdqNode& lhs, const cdqNode& rhs) {
     return lhs.y < rhs.y;
   };
   std::function<void(int, int)> divide = [&](int l, int r) {
@@ -681,7 +681,7 @@ class BlockMinus {
     return sz_[x];
   }
  public:
-  void init(const std::vector<int> &a, int l, int r) {
+  void init(const std::vector<int>& a, int l, int r) {
     l_ = l, delta_ = 0;
     a_ = {a.begin() + l, a.begin() + r};
     mx_ = *std::max_element(a_.begin(), a_.end());

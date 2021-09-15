@@ -69,7 +69,7 @@ class Trie01 {
     }
     return r;
   }
-  int getAns(const std::vector<int> &a) {
+  int getAns(const std::vector<int>& a) {
     int r = 0;
     for (auto x : a) {
       insert(x);
@@ -259,7 +259,7 @@ class Automaton {
     while (!Q.empty()) {
       int p = Q.front(); Q.pop();
       for (int c = 0; c < CHAR; ++c) {
-        if (int &q = nxt_[p][c]; q != 0) {
+        if (int& q = nxt_[p][c]; q != 0) {
           fail_[q] = nxt_[fail_[p]][c];
           Q.push(q);
           // match count optim
@@ -381,7 +381,7 @@ std::vector<int> SAIS(std::vector<int> a) {
 }
 
 // the lexicographical smallest suffix is s[ans[0],...]
-std::vector<int> SAIS(const std::string &s) {
+std::vector<int> SAIS(const std::string& s) {
   // If charset of s is lowercase letter, using th following f
   // auto f = [](char x) -> int { return int(x - 'a') + 1;};
   auto f = [](char x) -> int { return int(x) + 1;};
@@ -393,7 +393,7 @@ std::vector<int> SAIS(const std::string &s) {
 }
 // https://www.luogu.com.cn/problem/P3809
 
-std::vector<int> getHeight(const std::string &s) {
+std::vector<int> getHeight(const std::string& s) {
   int n = s.size();
   auto sa = SAIS(s);
   std::vector<int> rk(n);
@@ -411,7 +411,7 @@ std::vector<int> getHeight(const std::string &s) {
   return ht;
 }
 
-LL diffSubstringCount(const std::string &s) {
+LL diffSubstringCount(const std::string& s) {
   int n = s.size();
   auto ht = getHeight(s);
   return 1LL * (n + 1) * n / 2 - std::accumulate(ht.begin(), ht.end(), 0LL);
@@ -434,7 +434,7 @@ int minPresent(std::vector<T>& a) {
 }
 
 // Lyndon decomposition using Duval algorithm
-std::vector<std::string> duval(const std::string &s) {
+std::vector<std::string> duval(const std::string& s) {
   std::vector<std::string> r;
   int n = s.size(), i = 0;
   while (i < n) {

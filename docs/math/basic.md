@@ -127,7 +127,7 @@ $$
 ## crt
 
 ``` cpp
-std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>> &A)
+std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>>& A)
 // n = A.size(), a[i] = A[i].first, m[i] = A[i].second, 
 ```
 
@@ -212,7 +212,7 @@ It is a ~~singleton~~ template class, with typename `valT`
 
 ``` cpp
 template<typename valT>
-valT Lagrange(const std::vector<valT> &f, int m)
+valT Lagrange(const std::vector<valT>& f, int m)
 ```
 
 Calculate $f(m)$ where $f$ is the Lagrange interpolation on $f(0), f(1), \cdots, f(n - 1)$
@@ -230,7 +230,7 @@ Calculate $f(m)$ where $f$ is the Lagrange interpolation on $f(0), f(1), \cdots,
 ## powSum
 
 ``` cpp
-valT powSum(int n, int k, const std::vector<int> &sp)
+valT powSum(int n, int k, const std::vector<int>& sp)
 ```
 
 $\displaystyle \text{powSum}(n, k) = \sum_{i = 0}^n i^k$,  where`sp[x]` is smallest prime factor of $x$
@@ -287,7 +287,7 @@ $\text{MEX.solve}(x) = MEX_{a_i \in S} (a_i \oplus x)$
 ## BerlekampMassey(every useful)
 
 ``` cpp
-static std::vector<valT> BerlekampMassey(const std::vector<valT> &a)
+static std::vector<valT> BerlekampMassey(const std::vector<valT>& a)
 ```
 
 It return shortest recursive relational formula of $a$.

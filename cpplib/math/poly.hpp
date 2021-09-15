@@ -328,7 +328,7 @@ class Poly : public T {
     int d = h.size() - 1;
     for (int i = 0; i <= d; ++i) {
       h[i] *= BINOM.ifac_[i] * BINOM.ifac_[d - i];
-      if ((d - i)&  1) h[i] = -h[i];
+      if ((d - i) & 1) h[i] = -h[i];
     }
     std::vector<valT> f(d + cnt);
     auto now = m - valT(d);
