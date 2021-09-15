@@ -251,7 +251,7 @@ class MInt {
     return static_cast<T>(n);
   }
   static void setMod(int m) {
-    M = m;
+    assert(M == m);
   }
   static constexpr int mod() {
     return M;
