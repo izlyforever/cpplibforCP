@@ -77,7 +77,7 @@ class PolyS : public std::vector<int> {
     return (*this)[id];
   }
   PolyS operator-() const {
-    auto A = *this;
+    auto A = (*this);
     for (auto &x : A) x = (x == 0 ? 0 : M - x);
     return A;
   }
@@ -114,7 +114,7 @@ class PolyS : public std::vector<int> {
     standard();
     return *this;
   }
-  PolyS &operator*=(PolyS rhs) {
+  PolyS &operator*=(PolyS &&rhs) {
     int n = size(), m = rhs.size(), tot = std::max(1, n + m - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
     resize(sz);
@@ -128,7 +128,7 @@ class PolyS : public std::vector<int> {
     standard();
     return *this;
   }
-  PolyS &operator/=(PolyS rhs) {
+  PolyS &operator/=(PolyS &&rhs) {
     int n = size(), m = rhs.size();
     if (n < m) return (*this) = PolyS();
     reverse();
@@ -138,8 +138,17 @@ class PolyS : public std::vector<int> {
     reverse();
     return *this;
   }
-  PolyS &operator%=(PolyS rhs) {
+  PolyS &operator*=(const PolyS &rhs) {
+    return (*this) *= PolyS(rhs);
+  }
+  PolyS &operator/=(const PolyS &rhs) {
+    return (*this) /= PolyS(rhs);
+  }
+  PolyS &operator%=(const PolyS &rhs) {
     return (*this) -= (*this) / rhs * rhs;
+  }
+  PolyS &operator%=(PolyS &&rhs) {
+    return (*this) -= (*this) / rhs * std::move(rhs);
   }
   PolyS operator+(const PolyS &rhs) const {
     return PolyS(*this) += rhs;
@@ -147,14 +156,23 @@ class PolyS : public std::vector<int> {
   PolyS operator-(const PolyS &rhs) const {
     return PolyS(*this) -= rhs;
   }
-  PolyS operator*(PolyS rhs) const {
+  PolyS operator*(const PolyS &rhs) const {
     return PolyS(*this) *= rhs;
   }
-  PolyS operator/(PolyS rhs) const {
+  PolyS operator*(PolyS &&rhs) const {
+    return PolyS(*this) *= std::move(rhs);
+  }
+  PolyS operator/(const PolyS &rhs) const {
     return PolyS(*this) /= rhs;
   }
-  PolyS operator%(PolyS rhs) const {
+  PolyS operator/(PolyS &&rhs) const {
+    return PolyS(*this) /= std::move(rhs);
+  }
+  PolyS operator%(const PolyS &rhs) const {
     return PolyS(*this) %= rhs;
+  }
+  PolyS operator%(PolyS &&rhs) const {
+    return PolyS(*this) %= std::move(rhs);
   }
   PolyS powModPoly(int n, PolyS p) {
     PolyS r(1), x(*this);
@@ -223,13 +241,13 @@ class PolyS : public std::vector<int> {
     return x.modXnR(n);
   }
   // transpose convolution {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
-  PolyS mulT(PolyS rhs) const {
+  PolyS mulT(PolyS &&rhs) const {
     if (rhs.size() == 0) return PolyS();
     int n = rhs.size();
     std::reverse(rhs.begin(), rhs.end());
     return ((*this) * rhs).divXn(n - 1);
   }
-  int eval(int x) {
+  int eval(int x) const {
     int r = 0, t = 1;
     for (int i = 0, n = size(); i < n; ++i) {
       r = (r + 1LL * (*this)[i] * t) % M;
@@ -260,8 +278,8 @@ class PolyS : public std::vector<int> {
         ans[l] = f.at(0);
       } else {
         int m = (l + r) / 2;
-        solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXnR(m - l));
-        solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXnR(r - m));
+        solve(l, m, 2 * p, f.mulT(std::move(g[2 * p + 1])).modXnR(m - l));
+        solve(m, r, 2 * p + 1, f.mulT(std::move(g[2 * p])).modXnR(r - m));
       }
     };
     solve(0, n, 1, mulT(g[1].inv(size())).modXnR(n));
