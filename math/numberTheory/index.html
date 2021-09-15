@@ -227,7 +227,7 @@ int main() {
   //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
   std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
   auto start = std::clock();
-  auto &amp;prime = Prime::Instance();
+  auto&amp; prime = Prime::Instance();
   std::clog &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
 
   LL n = prime.primePi(123456789012LL);
@@ -262,8 +262,8 @@ int main() {
   //freopen(&quot;in&quot;, &quot;r&quot;, stdin);
   std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
   auto start = std::clock();
-  auto &amp;euler = Euler::Instance();
-  auto &amp;Mobius = Mobius::Instance();
+  auto&amp; euler = Euler::Instance();
+  auto&amp; Mobius = Mobius::Instance();
   std::clog &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
 
   int n = 1e9 + 7;
@@ -302,8 +302,8 @@ int main() {
 <script type="math/tex">a[72] = 2, b[72] = </script>5</li>
 </ul>
 <h2 id="factor-and-factor">factor and Factor</h2>
-<pre><code class="language-cpp">std::vector&lt;int&gt; factor(int n, const std::vector&lt;int&gt; &amp;sp)
-std::vector&lt;std::pair&lt;int, int&gt;&gt; Factor(int n, const std::vector&lt;int&gt; &amp;sp)
+<pre><code class="language-cpp">std::vector&lt;int&gt; factor(int n, const std::vector&lt;int&gt;&amp; sp)
+std::vector&lt;std::pair&lt;int, int&gt;&gt; Factor(int n, const std::vector&lt;int&gt;&amp; sp)
 </code></pre>
 <p>factor  <script type="math/tex">n</script> into prime number</p>
 <p><strong>Complexity</strong></p>
@@ -322,7 +322,7 @@ std::vector&lt;std::pair&lt;int, int&gt;&gt; Factor(int n, const std::vector&lt;
 </li>
 </ul>
 <h2 id="primitiveroot">primitiveRoot</h2>
-<pre><code class="language-cpp">int primitiveRoot(int n, const std::vector&lt;int&gt; &amp;sp)
+<pre><code class="language-cpp">int primitiveRoot(int n, const std::vector&lt;int&gt;&amp; sp)
 </code></pre>
 <p>return smallest primitive root or 0 if not exist.</p>
 <p>
@@ -340,7 +340,7 @@ std::vector&lt;std::pair&lt;int, int&gt;&gt; Factor(int n, const std::vector&lt;
 </li>
 </ul>
 <h2 id="primitiverootall">primitiveRootAll</h2>
-<pre><code class="language-cpp">std::vector&lt;int&gt; primitiveRootAll(int n, const std::vector&lt;int&gt; &amp;sp)
+<pre><code class="language-cpp">std::vector&lt;int&gt; primitiveRootAll(int n, const std::vector&lt;int&gt;&amp; sp)
 </code></pre>
 <p>return list of all primitive roots or empty if not exist</p>
 <p><strong>Complexity</strong></p>

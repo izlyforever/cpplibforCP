@@ -204,9 +204,9 @@ int main() {
   std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
   std::vector&lt;int&gt; a{-12, 232, 12, 23};
   auto b = discrete(a);
-  for (auto &amp;x : a) std::cout &lt;&lt; x &lt;&lt; ' ';
+  for (auto&amp; x : a) std::cout &lt;&lt; x &lt;&lt; ' ';
   std::cout &lt;&lt; '\n';
-  for (auto &amp;x : b) std::cout &lt;&lt; x &lt;&lt; ' ';
+  for (auto&amp; x : b) std::cout &lt;&lt; x &lt;&lt; ' ';
   std::cout &lt;&lt; '\n';
   return 0;
 }

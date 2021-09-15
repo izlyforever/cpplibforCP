@@ -327,7 +327,7 @@ x \equiv a_i \mod m_i, \quad i = 1, 2
 </li>
 </ul>
 <h2 id="crt">crt</h2>
-<pre><code class="language-cpp">std::pair&lt;LL, LL&gt; crt(const std::vector&lt;std::pair&lt;LL, LL&gt;&gt; &amp;A)
+<pre><code class="language-cpp">std::pair&lt;LL, LL&gt; crt(const std::vector&lt;std::pair&lt;LL, LL&gt;&gt;&amp; A)
 // n = A.size(), a[i] = A[i].first, m[i] = A[i].second, 
 </code></pre>
 <blockquote>
@@ -407,7 +407,7 @@ std::cout &lt;&lt; C(4, 2) &lt;&lt; '\n'; // the answer is 6
 </ul>
 <h2 id="lagrange">Lagrange</h2>
 <pre><code class="language-cpp">template&lt;typename valT&gt;
-valT Lagrange(const std::vector&lt;valT&gt; &amp;f, int m)
+valT Lagrange(const std::vector&lt;valT&gt;&amp; f, int m)
 </code></pre>
 <p>Calculate <script type="math/tex">f(m)</script> where <script type="math/tex">f</script> is the Lagrange interpolation on <script type="math/tex">f(0), f(1), \cdots, f(n - 1)</script>
 </p>
@@ -422,7 +422,7 @@ valT Lagrange(const std::vector&lt;valT&gt; &amp;f, int m)
 <li>BinomModp</li>
 </ul>
 <h2 id="powsum">powSum</h2>
-<pre><code class="language-cpp">valT powSum(int n, int k, const std::vector&lt;int&gt; &amp;sp)
+<pre><code class="language-cpp">valT powSum(int n, int k, const std::vector&lt;int&gt;&amp; sp)
 </code></pre>
 <p>
 <script type="math/tex">\displaystyle \text{powSum}(n, k) = \sum_{i = 0}^n i^k</script>,  where<code>sp[x]</code> is smallest prime factor of <script type="math/tex">x</script>
@@ -475,7 +475,7 @@ valT Lagrange(const std::vector&lt;valT&gt; &amp;f, int m)
 </li>
 </ul>
 <h2 id="berlekampmasseyevery-useful">BerlekampMassey(every useful)</h2>
-<pre><code class="language-cpp">static std::vector&lt;valT&gt; BerlekampMassey(const std::vector&lt;valT&gt; &amp;a)
+<pre><code class="language-cpp">static std::vector&lt;valT&gt; BerlekampMassey(const std::vector&lt;valT&gt;&amp; a)
 </code></pre>
 <p>It return shortest recursive relational formula of <script type="math/tex">a</script>.</p>
 <p><strong>Complexity</strong></p>
