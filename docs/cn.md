@@ -78,6 +78,8 @@
 ### 杂类
 
 - 快速暴力 $n$ 个集合中选 $k$ 个，二进制为 1 的表示选择
+- KnuthShuffle
+- uniformChoose
 - Fibonacci 数列
 - floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
 - sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
@@ -88,6 +90,16 @@
 - 任意模数多项式乘法 $O(n^{\log_2 3})$ 的 Karatsuba 算法（包括并行版）
 - 线性规划
 - FirstInRange：求最小的 $x$ 使得 $l \leq a x \mod m \leq r$。类似 exgcd 的处理：求最小非负整数 $x$ 使得 $l \leq ax - m y \leq r$ 等价于 $l \leq (az - m)y - a(yz - x) \leq r$，注意到我们要始终保持 $a < m$，因此当 $2a > m$ 时需要特判一下。转化成 $m - r \leq (m - a) x - m(x - y - 1) \leq m - l$
+
+#### KnuthShuffle 和 uniformChoose 原理
+
+我们从后往前搞($a[x] = x$)，假设当前要处理 $i$ 位置，那么 $i$ 位置前的位置不可能有交换的情况，即不可能 $j < k \leq i$, $a[j] = k$ 或者 $a[k] = j$, 这是因为一但某个位置被换到后面之后就不会再变化了。
+
+注意到上面这一点，就可以发现 $i$ 后面的每个位置每个数出现的概率均等，且对于 $j \leq i$, $a[j] = j$ 的概率为 $\frac{i}{n}$，为 $i + 1, i + 2, \cdots, n$ 的概率为 $\frac{1}{n}$
+
+所以 $n$ 步之后所有位置概率都为 $\frac{1}{n}$
+
+根据上述推理，我们在 $n$ 个数中等概率的选取不同的 m 个数，显然只需要搞 $m$ 步，后面的 $m$ 个数为答案。然后默认 $a[i] = i$，所以用一个 map 保存所有 $a[i]$ 不一定为 $i$ 的位置的值
 
 
 ### 多项式（[多项式全家桶](https://www.luogu.com.cn/training/3015#problems) 已全部 AC）

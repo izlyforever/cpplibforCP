@@ -26,6 +26,27 @@ void GospersHackS(int n, int k) {
   }
 }
 
+template<typename T>
+void KnuthShuffle(std::vector<T>& a) {
+  std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
+  for (int i = a.size() - 1; i > 0; --i) {
+    std::swap(a[i], a[rnd() % (i + 1)]);
+  }
+}
+// choose m distinct elements from [0, n) with equal probability
+std::vector<int> uniformChoose(int n, int m) {
+  std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
+  std::map<int, int> mp;
+  std::vector<int> ans;
+  ans.reserve(m);
+  for (int i = 0; i < m; ++i) {
+    int x = rnd() % (n - i);
+    ans.emplace_back(mp.count(x) ? mp[x] : x);
+    mp[x] = mp.count(i) ? mp[i] : i;
+  }
+  return ans;
+}
+
 // Fibonacci[n] % M
 int Fib(int n, int M) {
   int a = 0, b = 1, c = 1, d = 0;

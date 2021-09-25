@@ -26,6 +26,35 @@ brute-force all case: $n$ choose $k$, 1 stand for choosen
 - $O(\binom{n}{k})$
 
 
+## KnuthShuffle
+
+``` cpp
+template<typename T>
+void KnuthShuffle(std::vector<T>& a)
+```
+
+Knuth Shuffle Algorithm
+
+**Complexity**
+
+- $O(n)$
+
+## uniformChoose
+
+``` cpp
+std::vector<int> uniformChoose(int n, int m)
+```
+
+Choose $m$ distinct elements from $[0, n)$ with equal probability using the ideal of **Knuth Shuffle Algorithm** 
+
+
+**Complexity**
+
+- $O(m \log m)$
+
+**Constraints**
+
+- $m \leq n$
 
 ## Fib
 
