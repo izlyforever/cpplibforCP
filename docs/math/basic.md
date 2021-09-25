@@ -35,8 +35,8 @@ $\text{ceil}(a, n) = \lceil \frac{a}{n} \rceil$
 
 **Constraints**
 
-- $n > 0$
-- $T$ can be (unsigned) `int`, `LL`
+- $n \neq 0$
+- $T$ can be (unsigned) `int`, `LL` an so on
 
 **Complexity**
 

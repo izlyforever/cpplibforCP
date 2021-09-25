@@ -147,9 +147,6 @@ class PolyS : public std::vector<int> {
   PolyS& operator%=(const PolyS& rhs) {
     return (*this) -= (*this) / rhs * rhs;
   }
-  PolyS& operator%=(PolyS&& rhs) {
-    return (*this) -= (*this) / rhs * std::move(rhs);
-  }
   PolyS operator+(const PolyS& rhs) const {
     return PolyS(*this) += rhs;
   }
@@ -159,22 +156,13 @@ class PolyS : public std::vector<int> {
   PolyS operator*(const PolyS& rhs) const {
     return PolyS(*this) *= rhs;
   }
-  PolyS operator*(PolyS&& rhs) const {
-    return PolyS(*this) *= std::move(rhs);
-  }
   PolyS operator/(const PolyS& rhs) const {
     return PolyS(*this) /= rhs;
-  }
-  PolyS operator/(PolyS&& rhs) const {
-    return PolyS(*this) /= std::move(rhs);
   }
   PolyS operator%(const PolyS& rhs) const {
     return PolyS(*this) %= rhs;
   }
-  PolyS operator%(PolyS&& rhs) const {
-    return PolyS(*this) %= std::move(rhs);
-  }
-  PolyS powModPoly(int n, PolyS p) {
+  PolyS powModPoly(int n, PolyS p) const {
     PolyS r(1), x(*this);
     while (n) {
       if (n&1) (r *= x) %= p;
@@ -182,7 +170,7 @@ class PolyS : public std::vector<int> {
     }
     return r;
   }
-  int inner(const PolyS& rhs) {
+  int inner(const PolyS& rhs) const {
     int r = 0, n = std::min(size(), rhs.size());
     for (int i = 0; i < n; ++i) {
       r = (r + 1LL * (*this)[i] * rhs[i]) % M;
@@ -240,13 +228,6 @@ class PolyS : public std::vector<int> {
     }
     return x.modXnR(n);
   }
-  // transpose convolution {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
-  PolyS mulT(PolyS&& rhs) const {
-    if (rhs.size() == 0) return PolyS();
-    int n = rhs.size();
-    std::reverse(rhs.begin(), rhs.end());
-    return ((*this) * rhs).divXn(n - 1);
-  }
   int eval(int x) const {
     int r = 0, t = 1;
     for (int i = 0, n = size(); i < n; ++i) {
@@ -254,6 +235,13 @@ class PolyS : public std::vector<int> {
       t = 1LL * t * x % M;
     }
     return r;
+  }
+  // transpose convolution {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
+  PolyS mulT(PolyS&& rhs) const {
+    if (rhs.size() == 0) return PolyS();
+    int n = rhs.size();
+    std::reverse(rhs.begin(), rhs.end());
+    return ((*this) * rhs).divXn(n - 1);
   }
   // multi-evaluation(new tech)
   std::vector<int> evals(const std::vector<int>& x) const {

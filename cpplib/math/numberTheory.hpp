@@ -607,17 +607,11 @@ std::vector<std::tuple<int, int, int>> lcmPair(int n) {
       ed.emplace_back(j, i);
     }
   }
-  std::vector<int> deg(n + 1);
   std::vector<std::tuple<int, int, int>> edge;
-  auto addedge = [&](int i, int j, int d) {
-    ++deg[i];
-    ++deg[j];
-    edge.emplace_back(i, j, d);
-  };
   for (auto [u, v] : ed) {
     int uv = u * v;
     for (int i = u, j = v, d = uv; d <= n; i += u, j += v, d += uv) {
-      addedge(i, j, d);
+      edge.emplace_back(i, j, d);
     }
   }
   return edge;

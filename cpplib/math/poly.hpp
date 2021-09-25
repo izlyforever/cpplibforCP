@@ -4,18 +4,15 @@
 #include "basic.hpp"
 using LL = long long;
 
-// using valT = decltype(T::a)::value_type;
+// many function will fail for the case n > mod
+// using valT = decltype(T::a)::value_type;template<typename T, typename valT>
 template<typename T, typename valT>
 class Poly : public T {
-  // many function will fail for the case n > mod
-  static inline const valT COMPLEXI = pow(valT(3), (valT::mod() - 1) / 4);
   static inline const valT INV2 = (valT::mod() + 1) / 2;
   static inline const int MAXN = 1e6 + 2;  // assume size(a) < MAXN
   static inline const auto& BINOM = BinomModp<valT>::Instance(MAXN);
  public:
   using T::T;
-  Poly (const T& x) : T(x) {}
-  Poly (T&& x) : T(std::forward<T>(x)) {}
   // never use it if valT = MINT<M>, this method is awesome
   static void setMod(LL p, int n = MAXN) {
     valT::setMod(p);
@@ -64,14 +61,8 @@ class Poly : public T {
   Poly operator*(const Poly& rhs) const {
     return this->mul(rhs);
   }
-  Poly operator*(Poly&& rhs) const {
-    return this->mul(std::forward<Poly>(rhs));
-  }
   Poly& operator*=(const Poly& rhs) {
     return (*this) = (*this) * rhs;
-  }
-  Poly& operator*=(Poly&& rhs) {
-    return (*this) = (*this) * std::forward<Poly>(rhs);
   }
   // assume a[0] \neq 0
   Poly inv(int n) const {
@@ -97,20 +88,11 @@ class Poly : public T {
   Poly operator/(const Poly& rhs) const {
     return Poly(*this) /= rhs;
   }
-  Poly operator/(Poly&& rhs) const {
-    return Poly(*this) /= std::forward<Poly>(rhs);
-  }
   Poly& operator%=(const Poly& rhs) {
     return *this -= (*this) / rhs * rhs;
   }
-  Poly& operator%=(Poly&& rhs) {
-    return *this -= (*this) / rhs * std::forward<Poly>(rhs);
-  }
   Poly operator%(const Poly& rhs) const {
     return Poly(*this) %= rhs;
-  }
-  Poly operator%(Poly&& rhs) const {
-    return Poly(*this) %= std::forward<Poly>(rhs);
   }
   Poly powModPoly(LL n, const Poly& p) const {
     Poly r(1), x(*this);
@@ -155,6 +137,8 @@ class Poly : public T {
     return x.modXnR(n);
   }
   Poly sin(int n) const {
+    // 3 should be primitive root of valT::mod() = 4 x + 1
+    static const valT COMPLEXI = pow(valT(3), (valT::mod() - 1) / 4);
     auto A = *this;
     for (auto& x : A) x *= COMPLEXI;
     A = A.exp(n);
@@ -164,6 +148,8 @@ class Poly : public T {
     return A;
   }
   Poly cos(int n) const {
+    // 3 should be primitive root of valT::mod() = 4 x + 1
+    static const valT COMPLEXI = pow(valT(3), (valT::mod() - 1) / 4);
     auto A = *this;
     for (auto& x : A) x *= COMPLEXI;
     A = A.exp(n);
@@ -195,13 +181,6 @@ class Poly : public T {
       x = x.modXnR(k) * INV2;
     }
     return x.modXnR(n);
-  }
-  // transpose {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
-  Poly mulT(Poly&& rhs) const {
-    if (rhs.size() == 0) return Poly();
-    int n = rhs.size();
-    rhs.reverse();
-    return ((*this) * rhs).divXn(n - 1);
   }
   // compose poly common algorithm F(A(x)) in $O(n^2)$, however Brent-Kung algorithm with $(n \log n)^{1.5}$ may be slower.
   Poly compose(Poly A, int n) const {
@@ -276,6 +255,13 @@ class Poly : public T {
       t *= x;
     }
     return r;
+  }
+  // transpose {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
+  Poly mulT(Poly&& rhs) const {
+    if (rhs.size() == 0) return Poly();
+    int n = rhs.size();
+    rhs.reverse();
+    return ((*this) * rhs).divXn(n - 1);
   }
   // multi-evaluation(new tech)
   std::vector<valT> evals(const std::vector<valT>& x) const {

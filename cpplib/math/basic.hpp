@@ -12,11 +12,19 @@ int powMod(int x, int n, int M) {
 }
 
 template<typename T>
-T floor(T a, T n) { // n > 0
+T floor(T a, T n) {
+  if (n < 0) {
+    n = -n;
+    a = -a;
+  }
   return a < 0 ? (a - n + 1) / n : a / n;
 }
 template<typename T>
-T ceil(T a, T n) { // n > 0
+T ceil(T a, T n) {
+  if (n < 0) {
+    n = -n;
+    a = -a;
+  }
   return a < 0 ? a / n : (a + n - 1) / n;
 }
 
@@ -37,8 +45,8 @@ __int128 read(){
   return negative ?  -x : x;
 }
 
-void printS(__int128 x){
-  if (x > 9) printS(x / 10);
+void printCore(__int128 x){
+  if (x > 9) printCore(x / 10);
   putchar(x % 10 + '0');
 }
 void print(__int128 x){
@@ -46,7 +54,7 @@ void print(__int128 x){
     putchar('-');
     x = -x;
   }
-  printS(x);
+  printCore(x);
 }
 } // namespace int128
 
@@ -79,7 +87,7 @@ std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2) {
   assert((a2 - a1) % d == 0);
   LL m = m1 / d * m2;
   LL ans = (a1 + (a2 - a1) / d * t1 % m2 * m1) % m;
-  return std::make_pair(ans < 0 ? ans + m: ans, m);
+  return {ans < 0 ? ans + m: ans, m};
 }
 
 std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>>& A) {
@@ -118,12 +126,11 @@ class Binom {
   }
  public:
   Binom(const Binom&) = delete;
-  // Binom& operator=(const Binom&) = delete; // can be erase
   static Binom& Instance() {
     static Binom instance_;
     return instance_;
   }
-  LL operator()(const int& m, const int& n) {
+  LL operator()(int m, int n) const {
     assert(n < N && m < N);
     return C_[m][n];
   }
@@ -149,12 +156,12 @@ class BinomModp {
     if (N) instance_.init(N);
     return instance_;
   }
-  valT binom(int n, int k) {
+  valT binom(int n, int k) const {
     if (n < 0 || n < k) return valT(0);
     return fac_[n] * ifac_[k] * ifac_[n - k];
   }
   // M is a small prime number in this case
-  valT lucas(int n, int k) {
+  valT lucas(int n, int k) const {
     valT r(1);
     const int M = valT::mod();
     while (n && k) {
@@ -223,25 +230,41 @@ class Matrix {
       }
     }
   }
-  Matrix operator+(const Matrix& A) const {
-    Matrix R(n_);
+  Matrix& operator+=(const Matrix& rhs) {
     for (int i = 0; i < n_; ++i) {
       for (int j = 0; j < n_; ++j) {
-        R.a_[i][j] += a_[i][j];
+        a_[i][j] += rhs.a_[i][j];
       }
     }
-    return R;
+    return (*this);
   }
-  Matrix operator*(const Matrix& A) const {
+  Matrix operator+(const Matrix& rhs) const {
+    return Matrix(this) += rhs;
+  }
+  Matrix& operator-=(const Matrix& rhs) {
+    for (int i = 0; i < n_; ++i) {
+      for (int j = 0; j < n_; ++j) {
+        a_[i][j] -= rhs.a_[i][j];
+      }
+    }
+    return (*this);
+  }
+  Matrix operator-(const Matrix& rhs) const {
+    return Matrix(this) -= rhs;
+  }
+  Matrix operator*(const Matrix& rhs) const {
     Matrix R(n_);
     for (int i = 0; i < n_; ++i) {
       for (int k = 0; k < n_; ++k) {
         for (int j = 0; j < n_; ++j) {
-          R.a_[i][j] += a_[i][k] * A.a_[k][j];
+          R.a_[i][j] += a_[i][k] * rhs.a_[k][j];
         }
       }
     }
     return R;
+  }
+  Matrix operator*=(const Matrix& rhs) {
+    return (*this) = (*this) * rhs;
   }
   void print() {
     for (int i = 0; i < n_; ++i) {

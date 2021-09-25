@@ -3,7 +3,6 @@
 #include "ntt.hpp"
 #include "poly.hpp"
 
-
 class PolyBaseMFT4 : public PolyBase<ModLL> {
  public:
   static inline constexpr int M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353;
