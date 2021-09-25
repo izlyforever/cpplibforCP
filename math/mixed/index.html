@@ -136,6 +136,14 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#knuthshuffle" class="nav-link">KnuthShuffle</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#uniformchoose" class="nav-link">uniformChoose</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#fib" class="nav-link">Fib</a>
               <ul class="nav flex-column">
               </ul>
@@ -215,6 +223,33 @@
 <ul>
 <li>
 <script type="math/tex">O(\binom{n}{k})</script>
+</li>
+</ul>
+<h2 id="knuthshuffle">KnuthShuffle</h2>
+<pre><code class="language-cpp">template&lt;typename T&gt;
+void KnuthShuffle(std::vector&lt;T&gt;&amp; a)
+</code></pre>
+<p>Knuth Shuffle Algorithm</p>
+<p><strong>Complexity</strong></p>
+<ul>
+<li>
+<script type="math/tex">O(n)</script>
+</li>
+</ul>
+<h2 id="uniformchoose">uniformChoose</h2>
+<pre><code class="language-cpp">std::vector&lt;int&gt; uniformChoose(int n, int m)
+</code></pre>
+<p>Choose <script type="math/tex">m</script> distinct elements from <script type="math/tex">[0, n)</script> with equal probability using the ideal of <strong>Knuth Shuffle Algorithm</strong> </p>
+<p><strong>Complexity</strong></p>
+<ul>
+<li>
+<script type="math/tex">O(m \log m)</script>
+</li>
+</ul>
+<p><strong>Constraints</strong></p>
+<ul>
+<li>
+<script type="math/tex">m \leq n</script>
 </li>
 </ul>
 <h2 id="fib">Fib</h2>

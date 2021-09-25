@@ -230,6 +230,8 @@
 <h3 id="_4">杂类</h3>
 <ul>
 <li>快速暴力 <script type="math/tex">n</script> 个集合中选 <script type="math/tex">k</script> 个，二进制为 1 的表示选择</li>
+<li>KnuthShuffle</li>
+<li>uniformChoose</li>
 <li>Fibonacci 数列</li>
 <li>floorSum：<script type="math/tex">\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor</script>
 </li>
@@ -244,6 +246,13 @@
 <li>FirstInRange：求最小的 <script type="math/tex">x</script> 使得 <script type="math/tex">l \leq a x \mod m \leq r</script>。类似 exgcd 的处理：求最小非负整数 <script type="math/tex">x</script> 使得 <script type="math/tex">l \leq ax - m y \leq r</script> 等价于 <script type="math/tex">l \leq (az - m)y - a(yz - x) \leq r</script>，注意到我们要始终保持 <script type="math/tex">a < m</script>，因此当 <script type="math/tex">2a > m</script> 时需要特判一下。转化成 <script type="math/tex">m - r \leq (m - a) x - m(x - y - 1) \leq m - l</script>
 </li>
 </ul>
+<h4 id="knuthshuffle-uniformchoose">KnuthShuffle 和 uniformChoose 原理</h4>
+<p>我们从后往前搞(<script type="math/tex">a[x] = x</script>)，假设当前要处理 <script type="math/tex">i</script> 位置，那么 <script type="math/tex">i</script> 位置前的位置不可能有交换的情况，即不可能 <script type="math/tex">j < k \leq i</script>, <script type="math/tex">a[j] = k</script> 或者 <script type="math/tex">a[k] = j</script>, 这是因为一但某个位置被换到后面之后就不会再变化了。</p>
+<p>注意到上面这一点，就可以发现 <script type="math/tex">i</script> 后面的每个位置每个数出现的概率均等，且对于 <script type="math/tex">j \leq i</script>, <script type="math/tex">a[j] = j</script> 的概率为 <script type="math/tex">\frac{i}{n}</script>，为 <script type="math/tex">i + 1, i + 2, \cdots, n</script> 的概率为 <script type="math/tex">\frac{1}{n}</script>
+</p>
+<p>所以 <script type="math/tex">n</script> 步之后所有位置概率都为 <script type="math/tex">\frac{1}{n}</script>
+</p>
+<p>根据上述推理，我们在 <script type="math/tex">n</script> 个数中等概率的选取不同的 m 个数，显然只需要搞 <script type="math/tex">m</script> 步，后面的 <script type="math/tex">m</script> 个数为答案。然后默认 <script type="math/tex">a[i] = i</script>，所以用一个 map 保存所有 <script type="math/tex">a[i]</script> 不一定为 <script type="math/tex">i</script> 的位置的值</p>
 <h3 id="ac">多项式（<a href="https://www.luogu.com.cn/training/3015#problems">多项式全家桶</a> 已全部 AC）</h3>
 <ul>
 <li>仅包含乘法的四大多项式底层基类分别为：PolyBaseNTT, PolyBaseMFT3(弃用，被后面两个淘汰了), PolyBaseMFT4, PolyBaseFFT</li>
