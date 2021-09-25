@@ -616,6 +616,7 @@ std::vector<std::tuple<int, int, int>> lcmPair(int n) {
   }
   return edge;
 }
+// https://ac.nowcoder.com/acm/contest/view-submission?submissionId=48024221&returnHomeType=1&uid=437678882
 
 // $O(n \log n)$
 template<typename T>
