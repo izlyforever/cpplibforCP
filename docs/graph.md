@@ -19,6 +19,7 @@ Notation: $n$(numbers of vertex), $m$(numbers of edges)
 
 - Floyd
 - BellmanFord
+- Dijkstra
 - spfa
 
 ## Connectivity

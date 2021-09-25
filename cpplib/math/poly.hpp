@@ -85,7 +85,7 @@ class Poly : public T {
     this->reverse();
     return *this;
   }
-  Poly operator/(const Poly& rhs) const {
+  Poly operator/(Poly rhs) const {
     return Poly(*this) /= rhs;
   }
   Poly& operator%=(const Poly& rhs) {

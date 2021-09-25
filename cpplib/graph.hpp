@@ -237,7 +237,7 @@ std::vector<int> getPath(int x, int y) {
 }
 } // namespace Floyd
 
-std::vector<LL> Dijkstra(int s, const std::vector<edge>& e) {
+std::vector<LL> Dijkstra(const std::vector<edge>& e, int s) {
   std::priority_queue<std::pair<LL, int>> Q;
   std::vector<LL> d(e.size(), INT64_MAX);
   d[s] = 0;
@@ -254,9 +254,9 @@ std::vector<LL> Dijkstra(int s, const std::vector<edge>& e) {
   return d;
 }
 
-bool BellmanFord(std::vector<Edge>& e, int n, int x = 0) {
+bool BellmanFord(std::vector<Edge>& e, int n, int s = 0) {
   std::vector<int> dist(n + 1, INT_MAX);
-  dist[x] = 0;
+  dist[s] = 0;
   for (int i = 0; i <= n; ++i) {
     bool judge = false;
     for (auto [u, v, w] : e) if (dist[u] != INT_MAX) {
@@ -270,14 +270,14 @@ bool BellmanFord(std::vector<Edge>& e, int n, int x = 0) {
   return false;
 }
 
-bool spfa(std::vector<edge>& e, int x = 0) {
+bool spfa(std::vector<edge>& e, int s = 0) {
   int n = e.size();
   std::queue<int> Q;
   std::vector<int> dist(n, INT_MAX), cnt(n), inQ(n);
-  Q.push(x);
-  inQ[x] = 1;
-  dist[x] = 0;
-  ++cnt[x];
+  Q.push(s);
+  inQ[s] = 1;
+  dist[s] = 0;
+  ++cnt[s];
   while (!Q.empty()) {
     int u = Q.front();
     Q.pop();

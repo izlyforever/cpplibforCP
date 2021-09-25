@@ -326,7 +326,6 @@ class PstSegTree {
       pushUp(q);
     }
   }
-
   LL query(int L, int R, int l, int r, int p) {
     if (L <= l && R >= r) return tree_[p].val;
     int m = (l + r) / 2;
