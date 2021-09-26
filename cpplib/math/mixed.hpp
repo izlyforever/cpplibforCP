@@ -26,6 +26,12 @@ void GospersHackS(int n, int k) {
   }
 }
 
+// |(i, j) : 0 < i, j < n, i + j = d|
+int twoSumCount(int n, int d) {
+  return std::max(0, std::min(d - 1, 2 * n - d - 1));
+}
+// https://atcoder.jp/contests/abc220/tasks/abc220_e
+
 template<typename T>
 void KnuthShuffle(std::vector<T>& a) {
   std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());

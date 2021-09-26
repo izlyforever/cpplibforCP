@@ -26,6 +26,15 @@ brute-force all case: $n$ choose $k$, 1 stand for choosen
 - $O(\binom{n}{k})$
 
 
+## twoSumCount
+
+``` cpp
+int twoSumCount(int n, int d)
+```
+
+return $|\{(i, j) : 0 < i, j < n, i + j = d\}|$
+
+
 ## KnuthShuffle
 
 ``` cpp
