@@ -32,6 +32,7 @@ int twoSumCount(int n, int d) {
 }
 // https://atcoder.jp/contests/abc220/tasks/abc220_e
 
+// knuth Shuffle: you may use std::shuffle instead
 template<typename T>
 void KnuthShuffle(std::vector<T>& a) {
   std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
