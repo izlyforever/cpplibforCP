@@ -41,10 +41,10 @@
 
 比 `__builtin_popcount` 更快的做法
 
-1. bitCountTable 查表法很快，但是第一次会很慢，因此  `__builtin_popcount` 并未采用次方法
+1. bitCountTable 查表法很快，但是第一次会很慢，因此  `__builtin_popcount` 并未采用此方法
 
    ``` cpp
-    int bitCountTable(unsigned int n) { 
+    int bitCountTable(unsigned n) { 
       static int table[256] =  { 
         0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
         1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
