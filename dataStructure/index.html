@@ -144,6 +144,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#inverse-order-count" class="nav-link">inverse Order Count</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#segmenttree" class="nav-link">SegmentTree</a>
               <ul class="nav flex-column">
               </ul>
@@ -239,6 +243,10 @@ int main() {
 <li>Bitree: origin version(provide binary search)</li>
 <li>BitreePlus: plus version(support segment add)</li>
 </ul>
+<h2 id="inverse-order-count">inverse Order Count</h2>
+<pre><code class="language-cpp">LL inverseOrderCount(std::vector&lt;int&gt; a);
+</code></pre>
+<p>use discrite and Bit tree, we can solve it in <script type="math/tex">O(n \log n)</script>, where <script type="math/tex">n</script> is the size of <script type="math/tex">a</script>.</p>
 <h2 id="segmenttree">SegmentTree</h2>
 <p>There are two versions: sum and <code>min/max</code></p>
 <p><code>min/max</code> version slightly hard: you should record <code>min/max</code>, and second <code>min/max</code> value: <a href="https://codeforces.com/gym/102992/problem/J">https://codeforces.com/gym/102992/problem/J</a></p>
