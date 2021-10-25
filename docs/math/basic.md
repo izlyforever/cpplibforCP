@@ -23,9 +23,9 @@ $\text{powMod}(x, n, M) = x^n \mod p$
 we may use `__builtin_popcount`, or `__builtin_popcountll` in g++(but not in clang++), but it is slower than the following methods
 
 ``` cpp
-int bitCount(unsigned int n);  
+int bitCount(unsigned n);  
 int bitCountll(unsigned long long n); // The fastest so far for 64bit
-int BitCountTable(unsigned int n);    // The fastest so far for 32bit
+int BitCountTable(unsigned n);    // The fastest so far for 32bit
 int BitCountTablell(unsigned long long n);
 ```
 

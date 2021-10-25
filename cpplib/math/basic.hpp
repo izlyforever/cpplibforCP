@@ -12,10 +12,11 @@ int powMod(int x, int n, int M) {
 }
 
 // MIT HAKMEM: about two times faster than __builtin_popcount()
-int bitCount(unsigned int n) {
-  unsigned int tmp = n - ((n >> 1) & 033333333333) - ((n >> 2) & 011111111111);
+int bitCount(unsigned n) {
+  unsigned tmp = n - ((n >> 1) & 033333333333) - ((n >> 2) & 011111111111);
   return ((tmp + (tmp >> 3)) & 030707070707) % 63;
 }
+
 // MIT HAKMEM: about two times faster than __builtin_popcountll(), run with 64bit
 int bitCountll(unsigned long long n) {
   unsigned long long tmp = n - ((n >> 1) & 0x7777777777777777ULL)
@@ -26,7 +27,7 @@ int bitCountll(unsigned long long n) {
 // https://www.cnblogs.com/lukelouhao/archive/2012/06/12/2546267.html
 
 // faster than bitCount
-int BitCountTable(unsigned int n) { 
+int bitCountTable(unsigned n) { 
   static int table[256] =  { 
     0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
     1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
@@ -49,8 +50,8 @@ int BitCountTable(unsigned int n) {
          table[(n >> 16) & 0xff] + table[n >> 24];
 }
 // slow than bitCountll
-int BitCountTableLL(unsigned long long n) {
-  return BitCountTable(n >> 32) + BitCountTable(n & 0xffffffff);
+int bitCountTableLL(unsigned long long n) {
+  return bitCountTable(n >> 32) + bitCountTable(n & 0xffffffff);
 }
 // https://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html
 
