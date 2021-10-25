@@ -11,6 +11,49 @@ int powMod(int x, int n, int M) {
   return r;
 }
 
+// MIT HAKMEM: about two times faster than __builtin_popcount()
+int bitCount(unsigned int n) {
+  unsigned int tmp = n - ((n >> 1) & 033333333333) - ((n >> 2) & 011111111111);
+  return ((tmp + (tmp >> 3)) & 030707070707) % 63;
+}
+// MIT HAKMEM: about two times faster than __builtin_popcountll(), run with 64bit
+int bitCountll(unsigned long long n) {
+  unsigned long long tmp = n - ((n >> 1) & 0x7777777777777777ULL)
+                             - ((n >> 2) & 0x3333333333333333ULL)
+                             - ((n >> 3) & 0x1111111111111111ULL);
+  return ((tmp + (tmp >> 4)) & 0x0f0f0f0f0f0f0f0fULL) % 255;
+}
+// https://www.cnblogs.com/lukelouhao/archive/2012/06/12/2546267.html
+
+// faster than bitCount
+int BitCountTable(unsigned int n) { 
+  static int table[256] =  { 
+    0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+    4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8, 
+  }; 
+  return table[n & 0xff] + table[(n >> 8) & 0xff] +
+         table[(n >> 16) & 0xff] + table[n >> 24];
+}
+// slow than bitCountll
+int BitCountTableLL(unsigned long long n) {
+  return BitCountTable(n >> 32) + BitCountTable(n & 0xffffffff);
+}
+// https://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html
+
 template<typename T>
 T floor(T a, T n) {
   if (n < 0) {

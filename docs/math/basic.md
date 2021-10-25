@@ -18,7 +18,18 @@ $\text{powMod}(x, n, M) = x^n \mod p$
 
 - $O(\log n)$
 
+## bitCount
 
+we may use `__builtin_popcount`, or `__builtin_popcountll` in g++(but not in clang++), but it is slower than the following methods
+
+``` cpp
+int bitCount(unsigned int n);  
+int bitCountll(unsigned long long n); // The fastest so far for 64bit
+int BitCountTable(unsigned int n);    // The fastest so far for 32bit
+int BitCountTablell(unsigned long long n);
+```
+
+`bitCountTable` use static Table of length 256, and `bitCount` and `bitCountll` use MIT HAKMEM, since $2^6 = 64 > 32$, and $2^8 = 256 > 64$
 
 ## floor  and ceil
 
