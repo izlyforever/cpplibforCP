@@ -438,6 +438,18 @@ class BitPstSegTree {
 };
 // https://www.luogu.com.cn/problem/P2617
 
+LL inverseOrderCount(std::vector<int> a) {
+  discrete(a);
+  Bitree<int> A(*std::max_element(a.begin(), a.end()) + 1);
+  LL ans = 0;
+  for (int i = a.size() - 1; i >= 0; --i) {
+    ans += A.sum(a[i]);
+    A.add(a[i] + 1, 1);
+  }
+  return ans;
+}
+// https://codeforces.com/contest/1602/problem/E
+
 // length of longest increasing subsquence
 int LIS(std::vector<int>& a) {
   std::vector<int> b;

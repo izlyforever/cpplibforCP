@@ -76,6 +76,15 @@ int main() {
 - Bitree: origin version(provide binary search)
 - BitreePlus: plus version(support segment add)
 
+## inverse Order Count 
+
+``` cpp
+LL inverseOrderCount(std::vector<int> a);
+```
+
+use discrite and Bit tree, we can solve it in $O(n \log n)$, where $n$ is the size of $a$.
+
+
 ## SegmentTree
 
 There are two versions: sum and `min/max`
