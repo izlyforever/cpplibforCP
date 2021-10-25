@@ -195,10 +195,10 @@
 <h4 id="bitcount">BitCount</h4>
 <p>比 <code>__builtin_popcount</code> 更快的做法</p>
 <ol>
-<li>bitCountTable 查表法很快，但是第一次会很慢，因此  <code>__builtin_popcount</code> 并未采用次方法</li>
+<li>bitCountTable 查表法很快，但是第一次会很慢，因此  <code>__builtin_popcount</code> 并未采用此方法</li>
 </ol>
 <p><code>cpp
-    int bitCountTable(unsigned int n) { 
+    int bitCountTable(unsigned n) { 
       static int table[256] =  { 
         0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
         1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
