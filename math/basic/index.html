@@ -132,6 +132,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#bitcount" class="nav-link">bitCount</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#floor-and-ceil" class="nav-link">floor  and ceil</a>
               <ul class="nav flex-column">
               </ul>
@@ -228,6 +232,15 @@
 <script type="math/tex">O(\log n)</script>
 </li>
 </ul>
+<h2 id="bitcount">bitCount</h2>
+<p>we may use <code>__builtin_popcount</code>, or <code>__builtin_popcountll</code> in g++(but not in clang++), but it is slower than the following methods</p>
+<pre><code class="language-cpp">int bitCount(unsigned int n);  
+int bitCountll(unsigned long long n); // The fastest so far for 64bit
+int BitCountTable(unsigned int n);    // The fastest so far for 32bit
+int BitCountTablell(unsigned long long n);
+</code></pre>
+<p><code>bitCountTable</code> use static Table of length 256, and <code>bitCount</code> and <code>bitCountll</code> use MIT HAKMEM, since <script type="math/tex">2^6 = 64 > 32</script>, and <script type="math/tex">2^8 = 256 > 64</script>
+</p>
 <h2 id="floor-and-ceil">floor  and ceil</h2>
 <pre><code class="language-cpp">template&lt;typename T&gt;
 T floor(T a, T n)
