@@ -94,6 +94,22 @@ class ECC {
   bool solve() { return dfs(k_); }
 };
 
+template<typename T>
+class RingBuffer {
+  int m_, id_;
+  std::vector<T> a_;
+ public: 
+  RingBuffer(int m) : m_(m), a_(m, -1), id_(0) {};
+  T getCurrent() {
+    return a_[id_];
+  }
+  void insert(T x) {
+    a_[id_++] = x;
+    if (id_ == m_) id_ = 0;
+  }
+};
+// https://codeforces.com/gym/103274/problem/G
+
 // Returns the original value corresponding to the array value after discretization
 template <typename T>
 std::vector<T> discrete(std::vector<T>& a) {

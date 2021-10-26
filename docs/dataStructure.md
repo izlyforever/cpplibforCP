@@ -22,6 +22,14 @@ for example `bruteForceBinom(2, 4)` will get
 and It can be used in `ECC`
 
 
+### RingBuffer
+
+template class RingBuffer 
+``` cpp
+template<typename T>
+class RingBuffer;
+```
+
 ### discrete
 
 ``` cpp
