@@ -7,6 +7,6 @@ class Timer {
   Timer() : start(std::chrono::steady_clock::now()) {}
   void show(std::string s = {}) {
     auto elapsedTime = std::chrono::steady_clock::now() - start;
-    std::cerr << "Time used[" << s << "]: " << elapsedTime.count() / 1000000 << "ms\n";
+    std::cerr << "[Time used: " << s << "] " << elapsedTime.count() / 1'000'000 << "ms\n";
   }
 };
