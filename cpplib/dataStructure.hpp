@@ -99,8 +99,8 @@ class RingBuffer {
   int m_, id_;
   std::vector<T> a_;
  public: 
-  RingBuffer(int m) : m_(m), a_(m, -1), id_(0) {};
-  T getCurrent() {
+  RingBuffer(int m) : m_(m), id_(0), a_(m, -1) {};
+  T getCurrent() const {
     return a_[id_];
   }
   void insert(T x) {
