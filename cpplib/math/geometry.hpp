@@ -21,7 +21,9 @@ double dist(const Point& p, const Point& q) {
 };
 
 std::vector<Point> convexHull(std::vector<Point> p) {
-  std::sort(p.begin(), p.end());
+  // note: parameter passing for argument of type 'std::pair<double, double>' 
+  // when C++17 is enabled changed to match C++14 in GCC 10.1
+  std::sort(p.begin(), p.end()); // compare with double stl_heap.h will change
   p.erase(std::unique(p.begin(), p.end()), p.end());
   int n = p.size();
   std::vector<Point> q(n + 1);
