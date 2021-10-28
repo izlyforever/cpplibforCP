@@ -41,93 +41,90 @@
 
 比 `__builtin_popcount` 更快的做法
 
-1. bitCountTable 查表法很快，但是第一次会很慢，因此  `__builtin_popcount` 并未采用此方法
+bitCountTable 查表法很快，但是第一次会很慢，因此  `__builtin_popcount` 并未采用此方法
 
-   ``` cpp
-    int bitCountTable(unsigned n) { 
-      static int table[256] =  { 
-        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
-        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
-        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
-        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
-        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
-        1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
-        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
-        2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
-        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
-        3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
-        4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8, 
-      }; 
-      return table[n & 0xff] + table[(n >> 8) & 0xff] +
-            table[(n >> 16) & 0xff] + table[n >> 24];
-    }
-   ```
+``` cpp
+int bitCountTable(unsigned n) { 
+  static int table[256] =  { 
+    0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+    1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+    2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+    3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 
+    4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8, 
+  }; 
+  return table[n & 0xff] + table[(n >> 8) & 0xff] +
+        table[(n >> 16) & 0xff] + table[n >> 24];
+}
+```
 
+`__builtin_popcount` 我猜测实现为如下（实测运行时间一致）
+
+``` cpp
+int bitCount0(unsigned x) {
+  static const unsigned mask = 0x01010101;
+  return  ((mask & x) + (mask & (x >> 1))
+  + (mask & (x >> 2)) + (mask & (x >> 3))
+  + (mask & (x >> 4)) + (mask & (x >> 5))
+  + (mask & (x >> 6)) + (mask & (x >> 7))) % 255;
+}
+```
+
+也就是说每隔 8 个 bit 一个 1，然后一个个的加上去（分成 4 组），最后这 4 组的答案加起来等价于模 255
+
+注意到其实对于 unsigned，结果的最大值为 32，因此我们可以用 6 个bit 就能存下所有的答案，于是我们其实可以每隔 6 个 bit 一个 1（所以用 8 进制更合理），然后同样一个个的加（分成 6 组），最后这 6 组加起来等价于模 63
+
+``` cpp
+int bitCount1(unsigned x) {
+  static const unsigned mask = 010101010101;
+  return  ((mask & x) + (mask & (x >> 1))
+  + (mask & (x >> 2)) + (mask & (x >> 3))
+  + (mask & (x >> 4)) + (mask & (x >> 5))) % 63;
+}
+```
+
+但其实可以更近一步，我们可以先 3 个 bit 一个 1，然后把 2 个 3bit 合成一个 6 bit
+
+``` cpp
+int bitCount2(unsigned x) {
+  static const unsigned mask = 011111111111;
+  unsigned tmp = (mask & x) + (mask & (x >> 1)) + (mask & (x >> 2));
+  return  ((tmp + (tmp >> 3)) & 030707070707) % 63;
+}
+```
+
+然后可以再近一步，注意到 $(a00)_2 - (a0)_2 - (a)_2 = a$, 所以 $(abc)_2 - (ab)_2 - (a) = a + b + c$，这样可以省一次 `&` 操作
+
+``` cpp
+int bitCount(unsigned n) {
+  unsigned tmp = n - ((n >> 1) & 033333333333) - ((n >> 2) & 011111111111);
+  return ((tmp + (tmp >> 3)) & 030707070707) % 63;
+}
+```
    
+当然了我们还需要处理 unsigned long long，做法同理，对于 Table 法可以选取更大的 table，或者直接套用两次 bitCountTable，而对于 bitCount 此时就应该选择 4/8 bit 一次的做法了
 
-2. `__builtin_popcount` 我猜测实现为如下（实测运行时间一致）
-
-   ``` cpp
-    int bitCount0(unsigned x) {
-      static const unsigned mask = 0x01010101;
-      return  ((mask & x) + (mask & (x >> 1))
-      + (mask & (x >> 2)) + (mask & (x >> 3))
-      + (mask & (x >> 4)) + (mask & (x >> 5))
-      + (mask & (x >> 6)) + (mask & (x >> 7))) % 255;
-    }
-   ```
-
-   也就是说每隔 8 个 bit 一个 1，然后一个个的加上去（分成 4 组），最后这 4 组的答案加起来等价于模 255
-
-3. 注意到其实对于 unsigned，结果的最大值为 32，因此我们可以用 6 个bit 就能存下所有的答案，于是我们其实可以每隔 6 个 bit 一个 1（所以用 8 进制更合理），然后同样一个个的加（分成 6 组），最后这 6 组加起来等价于模 63
-
-   ``` cpp
-    int bitCount1(unsigned x) {
-      static const unsigned mask = 010101010101;
-      return  ((mask & x) + (mask & (x >> 1))
-      + (mask & (x >> 2)) + (mask & (x >> 3))
-      + (mask & (x >> 4)) + (mask & (x >> 5))) % 63;
-    }
-   ```
-
-4. 但其实可以更近一步，我们可以先 3 个 bit 一个 1，然后把 2 个 3bit 合成一个 6 bit
-
-   ``` cpp
-    int bitCount2(unsigned x) {
-      static const unsigned mask = 011111111111;
-      unsigned tmp = (mask & x) + (mask & (x >> 1)) + (mask & (x >> 2));
-      return  ((tmp + (tmp >> 3)) & 030707070707) % 63;
-    }
-   ```
-
-5. 然后可以再近一步，注意到 $(a00)_2 - (a0)_2 - (a)_2 = a$, 所以 $(abc)_2 - (ab)_2 - (a) = a + b + c$，这样可以省一次 `&` 操作
-
-   ``` cpp
-    int bitCount(unsigned n) {
-      unsigned tmp = n - ((n >> 1) & 033333333333) - ((n >> 2) & 011111111111);
-      return ((tmp + (tmp >> 3)) & 030707070707) % 63;
-    }
-   ```
-   
-6. 当然了我们还需要处理 unsigned long long，做法同理，对于 Table 法可以选取更大的 table，或者直接套用两次 bitCountTable，而对于 bitCount 此时就应该选择 4/8 bit 一次的做法了
-
-   ``` cpp
-    int bitCountTableLL(unsigned long long n) {
-      return bitCountTable(n >> 32) + bitCountTable(n & 0xffffffff);
-    }
-    int bitCountll(unsigned long long n) {
-      unsigned long long tmp = n - ((n >> 1) & 0x7777777777777777ULL)
-                                - ((n >> 2) & 0x3333333333333333ULL)
-                                - ((n >> 3) & 0x1111111111111111ULL);
-      return ((tmp + (tmp >> 4)) & 0x0f0f0f0f0f0f0f0fULL) % 255;
-    }
-   ```
-
+``` cpp
+int bitCountTableLL(unsigned long long n) {
+  return bitCountTable(n >> 32) + bitCountTable(n & 0xffffffff);
+}
+int bitCountll(unsigned long long n) {
+  unsigned long long tmp = n - ((n >> 1) & 0x7777777777777777ULL)
+                            - ((n >> 2) & 0x3333333333333333ULL)
+                            - ((n >> 3) & 0x1111111111111111ULL);
+  return ((tmp + (tmp >> 4)) & 0x0f0f0f0f0f0f0f0fULL) % 255;
+}
+```
 
 
 ### mod.hpp
