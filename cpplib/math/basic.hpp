@@ -63,7 +63,7 @@ float acosFast(float x) {
   float now = sqrt(1.0 - x) * (((0.0742610f - 0.0187293f * x) * x - 0.2121144f) * x + 1.5707288f);
   return flag ? 3.14159265358979f - now : now;
 }
-// 
+// Absolute error <= 6.7e-5
 float asinFast(float x) {
   bool flag = (x < 0);
   x = abs(x);
