@@ -31,6 +31,8 @@ int BitCountTablell(unsigned long long n);
 
 `bitCountTable` use static Table of length 256, and `bitCount` and `bitCountll` use MIT HAKMEM, since $2^6 = 64 > 32$, and $2^8 = 256 > 64$
 
+## acos, asin
+
 ## floor  and ceil
 
 ``` cpp

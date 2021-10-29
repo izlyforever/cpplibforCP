@@ -55,6 +55,23 @@ int bitCountTableLL(unsigned long long n) {
 }
 // https://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html
 
+// Handbook of Mathematical Functions by M. Abramowitz and I.A. Stegun, Ed.
+// Absolute error <= 6.7e-5
+float acosFast(float x) {
+  bool flag = (x < 0);
+  x = abs(x);
+  float now = sqrt(1.0 - x) * (((0.0742610f - 0.0187293f * x) * x - 0.2121144f) * x + 1.5707288f);
+  return flag ? 3.14159265358979f - now : now;
+}
+// 
+float asinFast(float x) {
+  bool flag = (x < 0);
+  x = abs(x);
+  float now = sqrt(1.0 - x) * (((0.0742610f - 0.0187293f * x) * x - 0.2121144f) * x + 1.5707288f);
+  return flag ? now - 1.5707963267949f : 1.5707963267949f - now;
+}
+// https://developer.download.nvidia.cn/cg
+
 template<typename T>
 T floor(T a, T n) {
   if (n < 0) {
