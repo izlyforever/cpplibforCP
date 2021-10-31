@@ -168,6 +168,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#recseq" class="nav-link">RecSeq</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#gauss" class="nav-link">Gauss</a>
               <ul class="nav flex-column">
               </ul>
@@ -337,6 +341,11 @@ void KnuthShuffle(std::vector&lt;T&gt;&amp; a)
 <script type="math/tex">O(\log m)</script>
 </li>
 </ul>
+<h2 id="recseq">RecSeq</h2>
+<pre><code class="language-cpp">template&lt;typename T&gt; // use ModInt, MInt, ModLL
+class RecSeq : public std::vector&lt;T&gt;;
+</code></pre>
+<p>It is used to avoid use matrix multiplication in dp</p>
 <h2 id="gauss">Gauss</h2>
 <pre><code class="language-cpp">std::vector&lt;double&gt; Gauss(std::vector&lt;std::vector&lt;double&gt;&gt; A, std::vector&lt;double&gt; b)
 </code></pre>
