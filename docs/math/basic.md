@@ -270,7 +270,6 @@ It is a class template, contains matrix add, multiplication, and pow
 - `pow(A, n)`: $O(N^3 \log n)$
 
 
-
 ## MEX
 
 It is a class contains static const int $B = 20$ and set $S$, you can Insert/erase element to $S$, and
@@ -285,7 +284,9 @@ $\text{MEX.solve}(x) = MEX_{a_i \in S} (a_i \oplus x)$
 
 - $O(|S| \log |S|)$
 
+## MEXS
 
+the maximal value should not too large
 
 ## trans
 

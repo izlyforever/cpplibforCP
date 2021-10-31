@@ -336,7 +336,7 @@ class Matrix {
     }
   }
   friend Matrix pow(Matrix A, int n) {
-    Matrix R(A.n, valT(1));
+    Matrix R(A.n_, valT(1));
     while (n) {
       if (n&1) R = R * A;
       n >>= 1; A = A * A;
@@ -365,6 +365,53 @@ void quickSort(std::vector<T>& a) {
   };
   qSort(0, a.size() - 1);
 }
+
+class MexS {
+  static inline const int B = 64; // submit use 64bit
+  using ULL = unsigned long long;
+  std::vector<LL> cnt_;
+  std::vector<std::vector<ULL>> a_;
+  int ans_;
+ public: 
+  // the answer is at most n
+  MexS(int n) : cnt_(n + 1), ans_(-1) {
+    int x = cnt_.size();
+    while (x > B) {
+      a_.emplace_back(std::vector<ULL>((x + B - 1) / B, -1ULL));
+      x /= B;
+    }
+    a_.emplace_back(std::vector<ULL>{-1ULL});
+  }
+  void insert(int id) {
+    if (id < 0 || id >= cnt_.size() || cnt_[id]++) return;
+    if (id == ans_) ans_ = -1;
+    for (auto &x : a_) {
+      int tid = id / B;
+      x[tid] ^= 1ULL << id - tid * B;
+      if (x[tid]) return;
+      id = tid;
+    }
+  }
+  void erase(int id) { // make sure there is an element in this set
+    if (id < 0 || id >= cnt_.size() || --cnt_[id]) return;
+    if (id <= ans_) ans_ = id;
+    for (auto &x : a_) {
+      int tid = id / B;
+      x[tid] ^= 1ULL << id - tid * B;
+      if (x[tid] != -1ULL) return;
+      id = tid;
+    }
+  }
+  int solve() {
+    if (ans_ == -1) {
+      ans_ = 0;
+      for (auto it = a_.crbegin(); it != a_.crend(); ++it) {
+        ans_ = ans_ * B + __builtin_ctzll((*it)[ans_]);
+      }
+    }
+    return ans_;
+  }
+};
 
 class MEX {
   // B may need to be bigger
