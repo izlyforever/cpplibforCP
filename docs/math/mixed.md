@@ -144,7 +144,14 @@ finds min $x$ s.t. $l \leq a x \mod m \leq r$ (or -1 if it does not exist)
 
 - $O(\log m)$
 
+## RecSeq
 
+``` cpp
+template<typename T> // use ModInt, MInt, ModLL
+class RecSeq : public std::vector<T>;
+```
+
+It is used to avoid use matrix multiplication in dp
 
 ## Gauss
 
@@ -157,7 +164,6 @@ Gauss-Jordan Elimination $Ax = b$, float version, Inspire by [spookywooky](https
 **Complexity**
 
 - $O(n^3)$
-
 
 
 ## GaussModp

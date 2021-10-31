@@ -142,6 +142,41 @@ int FirstInRange(int a, int m, int l, int r) { // 0 <= L <= R < M, 0 < a < M
   return dfs(a, m).first;
 }
 
+template<typename T> // use ModInt, MInt, ModLL
+class RecSeq : public std::vector<T> {
+  // x^n = c_0 + c_1 x + \cdots c_{n - 1} x^{n - 1}
+  static inline std::vector<T> c_; 
+public:
+  using std::vector<T>::vector;
+  static void setRec(std::vector<T> c) { c_ = std::move(c);}
+	RecSeq operator*(const RecSeq& A) const {
+    int n = this->size(), m = A.size();
+		RecSeq R(n + m - 1);
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < m; ++j) {
+        R[i + j] += (*this)[i] * A[j];
+      }
+    }
+		for (int i = n + m - 2, cn = c_.size(); i >= cn; --i) {
+      for (int j = 0; j < cn; ++j) {
+        R[i - cn + j] += R[i] * c_[j];
+      }
+		}
+    if (R.size() > c_.size()) {
+      R.resize(c_.size());
+      R.shrink_to_fit();
+    }
+		return R;
+	}
+  friend RecSeq pow(RecSeq A, int n) {
+    RecSeq R{1};
+    while (n) {
+      if (n & 1) R = R * A;
+      n >>= 1;   A = A * A;
+    }
+    return R;
+  }
+};
 
 // Gauss-Jordan Elimination $Ax = b$, float version
 std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double> b) {
