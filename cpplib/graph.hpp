@@ -297,21 +297,10 @@ bool spfa(std::vector<edge>& e, int s = 0) {
 }
 
 // Kosaraju: Strongly Connected Components
-struct Scc {
+class Scc {
   int n_, nScc_;
   std::vector<int> vis_, color_, order_;
   std::vector<std::vector<int>> e_, e2_;
-  Scc(int n) : n_(n * 2) {
-    nScc_ = 0;
-    e_.resize(n_);
-    e2_.resize(n_);
-    vis_.resize(n_);
-    color_.resize(n_);
-  }
-  void addEdge(int u, int v) {
-    e_[u].emplace_back(v);
-    e2_[v].emplace_back(u);
-  }
   void dfs(int u) {
     vis_[u] = true;
     for (auto v : e_[u]) if (!vis_[v]) dfs(v);
@@ -327,6 +316,23 @@ struct Scc {
       ++nScc_;
       dfs2(*it);
     }
+  }
+ public:
+  Scc(int n) : n_(n) {
+    nScc_ = 0;
+    e_.resize(n_);
+    e2_.resize(n_);
+    vis_.resize(n_);
+    color_.resize(n_);
+  }
+  void addEdge(int u, int v) {
+    nScc_ = 0;
+    e_[u].emplace_back(v);
+    e2_[v].emplace_back(u);
+  }
+  int solve() {
+    if (nScc_ == 0) Kosaraju();
+    return nScc_;
   }
 };
 
