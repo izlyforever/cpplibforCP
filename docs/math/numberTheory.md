@@ -37,7 +37,6 @@ $$
 
 ``` cpp
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 #include "cpplib/math/numberTheory.hpp"
 
@@ -46,7 +45,7 @@ int main() {
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto start = std::clock();
   auto& prime = Prime::Instance();
-  std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
+  std::cerr << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
 
   LL n = prime.primePi(123456789012LL);
   std::cout << n << '\n';
@@ -57,7 +56,7 @@ int main() {
   // It must the same as n
   std::cout << prime.primePi(x) << '\n';
 
-  std::clog << "Total time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
+  std::cerr << "Total time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
   return 0;
 }
 ```
@@ -88,7 +87,7 @@ int main() {
   auto start = std::clock();
   auto& euler = Euler::Instance();
   auto& Mobius = Mobius::Instance();
-  std::clog << "Init time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
+  std::cerr << "Init time used: " << (std::clock() - start) / 1000 << "ms" << '\n';
 
   int n = 1e9 + 7;
   clog(euler.getPhi(n));
@@ -98,7 +97,7 @@ int main() {
   clog(Mobius.getSumMu(n));
   clog(Mobius.getAbsSum(n));
 
-  std::clog << "Total time used: " << (std::clock() - start) / 1000 << "ms" << std::endl;
+  std::cerr << "Total time used: " << (std::clock() - start) / 1000 << "ms" << '\n';
   return 0;
 }
 ```
@@ -265,7 +264,6 @@ $$
 ``` cpp
 // docs/test/math/DirichletTest1.cpp
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 #include "../../cpplib/math/numberTheory.hpp"
 using UL = unsigned long long;

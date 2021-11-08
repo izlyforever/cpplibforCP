@@ -66,7 +66,6 @@ for i in sorted(ans):
 
 ``` cpp
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 #include "cpplib/math.hpp"
 
