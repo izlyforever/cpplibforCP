@@ -219,7 +219,6 @@
 </ul>
 <h3 id="example">Example</h3>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define clog(x) std::clog &lt;&lt; (#x) &lt;&lt; &quot; is &quot; &lt;&lt; (x) &lt;&lt; '\n';
 using LL = long long;
 #include &quot;cpplib/math/numberTheory.hpp&quot;
 
@@ -228,7 +227,7 @@ int main() {
   std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
   auto start = std::clock();
   auto&amp; prime = Prime::Instance();
-  std::clog &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
+  std::cerr &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
 
   LL n = prime.primePi(123456789012LL);
   std::cout &lt;&lt; n &lt;&lt; '\n';
@@ -239,7 +238,7 @@ int main() {
   // It must the same as n
   std::cout &lt;&lt; prime.primePi(x) &lt;&lt; '\n';
 
-  std::clog &lt;&lt; &quot;Total time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
+  std::cerr &lt;&lt; &quot;Total time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
   return 0;
 }
 </code></pre>
@@ -264,7 +263,7 @@ int main() {
   auto start = std::clock();
   auto&amp; euler = Euler::Instance();
   auto&amp; Mobius = Mobius::Instance();
-  std::clog &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
+  std::cerr &lt;&lt; &quot;Init time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; '\n';
 
   int n = 1e9 + 7;
   clog(euler.getPhi(n));
@@ -274,7 +273,7 @@ int main() {
   clog(Mobius.getSumMu(n));
   clog(Mobius.getAbsSum(n));
 
-  std::clog &lt;&lt; &quot;Total time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; std::endl;
+  std::cerr &lt;&lt; &quot;Total time used: &quot; &lt;&lt; (std::clock() - start) / 1000 &lt;&lt; &quot;ms&quot; &lt;&lt; '\n';
   return 0;
 }
 </code></pre>
@@ -431,7 +430,6 @@ LL PollardRho::gpf(LL n, LL mxf = 1)
 <h3 id="dirichletproduct-test">DirichletProduct Test</h3>
 <pre><code class="language-cpp">// docs/test/math/DirichletTest1.cpp
 #include &lt;bits/stdc++.h&gt;
-#define clog(x) std::clog &lt;&lt; (#x) &lt;&lt; &quot; is &quot; &lt;&lt; (x) &lt;&lt; '\n';
 using LL = long long;
 #include &quot;../../cpplib/math/numberTheory.hpp&quot;
 using UL = unsigned long long;
