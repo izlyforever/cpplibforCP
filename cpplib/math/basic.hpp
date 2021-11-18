@@ -80,7 +80,7 @@ bool parity(unsigned n) {
   n = n ^ n >> 2;
   return (n ^ n >> 1) & 1U;
 }
-bool parityll(unsigned long long n) { 
+bool parityll(unsigned long long n) { // slow than parityMIT
   n = n ^ n >> 32;
   n = n ^ n >> 16;
   n = n ^ n >> 8;
@@ -88,7 +88,7 @@ bool parityll(unsigned long long n) {
   n = n ^ n >> 2;
   return (n ^ n >> 1) & 1U;
 }
-bool parityTable(unsigned n) { 
+bool parityTable(unsigned n) { // slow than __builtin_parity
   static bool table[256] =  { 
     0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
     1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
@@ -108,9 +108,9 @@ bool parityTable(unsigned n) {
     0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 
   };
   n = n ^ n >> 16;
-  return table[(n ^ n >> 8) & 0xffUL];
+  return table[(n ^ n >> 8) & 0xffU];
 }
-bool parityTablell(unsigned long long n) {
+bool parityTablell(unsigned long long n) { // slow than __builtin_parityll
   static bool table[256] =  { 
     0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0,
     1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1,
@@ -133,7 +133,7 @@ bool parityTablell(unsigned long long n) {
   n = n ^ n >> 16;
   return table[(n ^ n >> 8) & 0xffULL];
 }
-bool parityMIT(unsigned n) { 
+bool parityMIT(unsigned n) {  // slow than parity
   n = (n ^ n >> 1) & 0x55555555U;
   return (((n ^ n >> 2) & 0x11111111U) % 15U) & 1U;
 }
