@@ -76,7 +76,7 @@ class Poly : public T {
     return x.modXnR(n);
   }
   Poly& operator/=(Poly rhs) {
-    int n = this->size(), m = rhs.size();
+    int n = (int)this->size(), m = rhs.size();
     if (n < m) return (*this) = Poly();
     this->reverse();
     rhs.reverse();
@@ -104,20 +104,20 @@ class Poly : public T {
   }
   valT inner(const Poly& rhs) const {
     valT r(0);
-    int n = std::min(this->size(), rhs.size());
+    int n = (int)std::min(this->size(), rhs.size());
     for (int i = 0; i < n; ++i) r += (*this)[i] * rhs[i];
     return r;
   }
   Poly derivation() const {
     if (this->empty()) return Poly();
-    int n = this->size();
+    int n = (int)this->size();
     std::vector<valT> r(n - 1);
     for (int i = 1; i < n; ++i) r[i - 1] = (*this)[i] * valT(i);
     return Poly(std::forward<Poly>(r));
   }
   Poly integral() const {
     if (this->empty()) return Poly();
-    int n = this->size();
+    int n = (int)this->size();
     std::vector<valT> r(n + 1);
     for (int i = 0; i < n; ++i) r[i + 1] = (*this)[i] * BINOM.inv_[i + 1];
     return Poly(std::forward<Poly>(r));
@@ -230,7 +230,7 @@ class Poly : public T {
     return Poly(std::forward<Poly>(ans));
   }
   Poly toFallingPowForm() {
-    int n = this->size();
+    int n = (int)this->size();
     std::vector<valT> x(n);
     for (int i = 0; i < n; ++i) x[i] = i;
     auto y = this->evals(x);
@@ -240,7 +240,7 @@ class Poly : public T {
     return A.modXnR(n);
   }
   Poly fromFallingPowForm() {
-    int n = this->size();
+    int n = (int)this->size();
     Poly A = ((*this) * Poly(BINOM.ifac_)).modXnR(n);
     std::vector<valT> x(n), y = A;
     for (int i = 0; i < n; ++i) x[i] = i;
@@ -250,7 +250,7 @@ class Poly : public T {
   }
   valT eval(valT x) const {
     valT r(0), t(1);
-    for (int i = 0, n = this->size(); i < n; ++i) {
+    for (int i = 0, n = (int)this->size(); i < n; ++i) {
       r += (*this)[i] * t;
       t *= x;
     }
@@ -265,8 +265,8 @@ class Poly : public T {
   }
   // multi-evaluation(new tech)
   std::vector<valT> evals(const std::vector<valT>& x) const {
-    if (this->size() == 0) return std::vector<valT>(x.size());
-    int n = x.size();
+    if ((int)this->size() == 0) return std::vector<valT>(x.size());
+    int n = (int)x.size();
     std::vector<valT> ans(n);
     std::vector<Poly> g(4 * n);
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
@@ -289,7 +289,7 @@ class Poly : public T {
         solve(m, r, 2 * p + 1, f.mulT(std::move(g[2 * p])).modXnR(r - m));
       }
     };
-    solve(0, n, 1, mulT(g[1].inv(this->size())).modXnR(n));
+    solve(0, n, 1, mulT(g[1].inv((int)this->size())).modXnR(n));
     return ans;
   } // https://www.luogu.com.cn/problem/P5050
 
@@ -311,7 +311,7 @@ class Poly : public T {
 
   // compute $h(m), \cdots, h(m + cnt - 1)$ accroding to $h(0), h(1), \cdots, h(d)$
   static std::vector<valT> valToVal(std::vector<valT> h, valT m, int cnt) { // m > h.size()
-    int d = h.size() - 1;
+    int d = (int)h.size() - 1;
     for (int i = 0; i <= d; ++i) {
       h[i] *= BINOM.ifac_[i] * BINOM.ifac_[d - i];
       if ((d - i) & 1) h[i] = -h[i];
@@ -342,7 +342,7 @@ class Poly : public T {
       int m = (l + r) / 2;
       return mulP(l, m) * mulP(m, r);
     };
-    int n = x.size();
+    int n = (int)x.size();
     auto A = mulP(0, n).derivation();
     auto z = A.evals(x);
     for (int i = 0; i < n; ++i) y[i] /= z[i];
@@ -363,7 +363,7 @@ class Poly : public T {
   // find n-th term of The recursive formula for the constant coefficient of order k in $O(k \log k \log n)$
   static valT linearRecursion(const std::vector<valT>& a, std::vector<valT> f, LL n) {
     if (n < (int)a.size()) return a[n];
-    int m = f.size();
+    int m = (int)f.size();
     std::reverse(f.begin(), f.end());
     std::vector<valT> g(m);
     g.emplace_back(1);
@@ -405,9 +405,9 @@ class Poly : public T {
         now *= k;
       }
       auto B = A;
-      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.fac_[i];
+      for (int i = 0, nb = (int)B.size(); i < nb; ++i) B[i] *= BINOM.fac_[i];
       B = B.mulT(tmp).modXnR(k + 1);
-      for (int i = 0, nb = B.size(); i < nb; ++i) B[i] *= BINOM.ifac_[i];
+      for (int i = 0, nb = (int)B.size(); i < nb; ++i) B[i] *= BINOM.ifac_[i];
       A *= B;
       if (2 * k != n) {
         B = A;

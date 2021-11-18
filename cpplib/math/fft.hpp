@@ -7,7 +7,7 @@ using C = std::complex<double>;
 std::vector<int> rev;
 std::vector<C> roots{C(0, 0), C(1, 0)};
 void dft(std::vector<C>& a) {
-  int n = a.size();
+  int n = (int)a.size();
   if ((int)rev.size() != n) {
     int k = __builtin_ctz(n) - 1;
     rev.resize(n);
@@ -41,7 +41,7 @@ void dft(std::vector<C>& a) {
   }
 }
 void idft(std::vector<C>& a) {
-  int n = a.size();
+  int n = (int)a.size();
   std::reverse(a.begin() + 1, a.end());
   dft(a);
   for (auto& x : a) x /= n;

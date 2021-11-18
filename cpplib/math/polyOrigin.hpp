@@ -11,7 +11,7 @@ class PolyBaseOrigin : public PolyBase<T> {
  protected:
   PolyBaseOrigin mul(const PolyBaseOrigin& rhs) const {
     std::vector<T> ans(this->size() + rhs.size() - 1);
-    for (int i = 0, sn = this->size(); i < sn; ++i) {
+    for (int i = 0, sn = (int)this->size(); i < sn; ++i) {
       for (int j = 0, rsn = rhs.size(); j < rsn; ++j) {
         ans[i + j] += (*this)[i] * rhs[j];
       }

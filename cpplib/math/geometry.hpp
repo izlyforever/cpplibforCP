@@ -25,7 +25,7 @@ std::vector<Point> convexHull(std::vector<Point> p) {
   // when C++17 is enabled changed to match C++14 in GCC 10.1
   std::sort(p.begin(), p.end()); // compare with double stl_heap.h will change
   p.erase(std::unique(p.begin(), p.end()), p.end());
-  int n = p.size();
+  int n = (int)p.size();
   std::vector<Point> q(n + 1);
   int top = 0;
   for (int i = 0; i < n; ++i) {
@@ -46,7 +46,7 @@ double diameter(std::vector<Point> p) {
   auto q = convexHull(p);
   if (q.size() < 2) return 0;
   if (q.size() == 2) return dist2(q[0], q[1]);
-  int n = q.size();
+  int n = (int)q.size();
   q.emplace_back(q[0]);
   double ans = 0;
   for (int i = 0, j = 2; i < n; ++i) {
@@ -59,7 +59,7 @@ double diameter(std::vector<Point> p) {
 
 double minDist(std::vector<Point> a) {
   double d = DBL_MAX;
-  int n = a.size();
+  int n = (int)a.size();
   if (n <= 1) return d;
   std::sort(a.begin(), a.end());
   std::function<void(int, int)> merge = [&](int l, int r) {
@@ -79,7 +79,7 @@ double minDist(std::vector<Point> a) {
       p.emplace_back(a[i].second, a[i].first);
     }
     std::sort(p.begin(), p.end());
-    for (int i = 0, np = p.size(); i < np; ++i) {
+    for (int i = 0, np = (int)p.size(); i < np; ++i) {
       for (int j = i + 1; j < np && p[j].first - p[i].first < d; ++j) {
         d = std::min(d, dist(p[i], p[j]));
       }
@@ -92,7 +92,7 @@ double minDist(std::vector<Point> a) {
 
 // a is k * n matrix: has n k-dimension vectors, return r[i]: number of vector less than i
 std::vector<int> partialOrder(std::vector<std::vector<int>>& a) {
-  int k = a.size(), n = a[0].size();
+  int k = (int)a.size(), n = a[0].size();
   using Node = std::vector<std::pair<int, int>>;
   std::vector<Node> f(k, Node(n));
   for (int i = 0; i < k; ++i) {

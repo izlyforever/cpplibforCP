@@ -38,7 +38,6 @@ using LL = long long;
 #include "cpplib/all.hpp"
 
 int main() {
-  // freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::vector<int> a{-12, 232, 12, 23};
   auto b = discrete(a);
@@ -62,7 +61,6 @@ using LL = long long;
 #include "cpplib/all.hpp"
 
 int main() {
-  // freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::vector<std::pair<int, int>> a{{-12, 2}, {2, 4}, {1, 3}, {5, 8}};
   disjointInterval(a);

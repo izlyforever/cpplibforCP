@@ -76,7 +76,6 @@ void debug(std::vector<T> a){
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
 
   std::vector<int> a{1, 2, 3, 4};

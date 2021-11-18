@@ -9,7 +9,7 @@ class NTT {
  public:
   static inline const MInt<M> g = 3;
   void dft(std::vector<MInt<M>>& a) {
-    int n = a.size();
+    int n = (int)a.size();
     if ((int)rev_.size() != n) {
       int k = __builtin_ctz(n) - 1;
       rev_.resize(n);
@@ -43,7 +43,7 @@ class NTT {
     }
   }
   void idft(std::vector<MInt<M>>& a) {
-    int n = a.size();
+    int n = (int)a.size();
     std::reverse(a.begin() + 1, a.end());
     dft(a);
     auto inv = pow(MInt<M>(n), M - 2);

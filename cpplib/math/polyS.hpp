@@ -13,7 +13,7 @@ class PolyS : public std::vector<int> {
     return r;
   }
   void dft() {
-    int n = size();
+    int n = (int)size();
     if ((int)rev_.size() != n) {
       int k = __builtin_ctz(n) - 1;
       rev_.resize(n);
@@ -51,7 +51,7 @@ class PolyS : public std::vector<int> {
     }
   }
   void idft() {
-    int n = size();
+    int n = (int)size();
     std::reverse(begin() + 1, end());
     dft();
     int invN = powMod(n, M - 2);
@@ -115,7 +115,7 @@ class PolyS : public std::vector<int> {
     return *this;
   }
   PolyS& operator*=(PolyS&& rhs) {
-    int n = size(), m = rhs.size(), tot = std::max(1, n + m - 1);
+    int n = (int)size(), m = rhs.size(), tot = std::max(1, n + m - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
     resize(sz);
     rhs.resize(sz);
@@ -129,7 +129,7 @@ class PolyS : public std::vector<int> {
     return *this;
   }
   PolyS& operator/=(PolyS&& rhs) {
-    int n = size(), m = rhs.size();
+    int n = (int)size(), m = rhs.size();
     if (n < m) return (*this) = PolyS();
     reverse();
     rhs.reverse();
@@ -179,14 +179,14 @@ class PolyS : public std::vector<int> {
   }
   PolyS derivation() const {
     if (empty()) return PolyS();
-    int n = size();
+    int n = (int)size();
     std::vector<int> r(n - 1);
     for (int i = 1; i < n; ++i) r[i - 1] =  1LL * (*this)[i] * i % M;
     return PolyS(r);
   }
   PolyS integral() const {
     if (empty()) return PolyS();
-    int n = size();
+    int n = (int)size();
     std::vector<int> r(n + 1), inv(n + 1, 1);
     for (int i = 2; i <= n; ++i) inv[i] = 1LL * (M - M / i) * inv[M % i] % M;
     for (int i = 0; i < n; ++i) r[i + 1] = 1LL * (*this)[i] * inv[i + 1] % M;
@@ -230,7 +230,7 @@ class PolyS : public std::vector<int> {
   }
   int eval(int x) const {
     int r = 0, t = 1;
-    for (int i = 0, n = size(); i < n; ++i) {
+    for (int i = 0, n = (int)size(); i < n; ++i) {
       r = (r + 1LL * (*this)[i] * t) % M;
       t = 1LL * t * x % M;
     }
@@ -246,7 +246,7 @@ class PolyS : public std::vector<int> {
   // multi-evaluation(new tech)
   std::vector<int> evals(const std::vector<int>& x) const {
     if (size() == 0) return std::vector<int>(x.size());
-    int n = x.size();
+    int n = (int)x.size();
     std::vector<int> ans(n);
     std::vector<PolyS> g(4 * n);
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {

@@ -137,7 +137,7 @@ class FusionTree {
 // https://www.luogu.com.cn/problem/P6018
 
 std::vector<int> prefixFunction(std::string s) {
-  int n = s.size();
+  int n = (int)s.size();
   std::vector<int> p(n);
   for (int i = 1; i < n; ++i) {
     int j = p[i - 1];
@@ -151,7 +151,7 @@ std::vector<int> prefixFunction(std::string s) {
 // KMP based on prefixFunction. return all match postion in t
 std::vector<int> kmp(std::string s, std::string t) {
   std::vector<int> ans;
-  int n = s.size(), m = t.size();
+  int n = (int)s.size(), m = (int)t.size();
   if (n > m) return ans;
   auto p = prefixFunction(s);
   for (int i = 0, j = 0; i < m; ++i) {
@@ -164,7 +164,7 @@ std::vector<int> kmp(std::string s, std::string t) {
 // ans[i] = count(s[0, ..., i] occur in s)
 std::vector<int> countPrefix(std::string s) {
   auto p = prefixFunction(s);
-  int n = s.size();
+  int n = (int)s.size();
   std::vector<int> ans(n + 1);
   for (auto x : p) ++ans[x];
   for (int i = n - 1; i > 0; --i) ans[p[i - 1]] += ans[i];
@@ -174,7 +174,7 @@ std::vector<int> countPrefix(std::string s) {
 // / ans[i] = count(s[0, ..., i] occur in t)
 std::vector<int> countPrefix(std::string s, std::string t) {
   auto p = prefixFunction(s);
-  int n = s.size(), m = t.size();
+  int n = (int)s.size(), m = (int)t.size();
   std::vector<int> ans(n + 1);
   for (int i = 0, j = 0; i < m; ++i) {
     while (j > 0 && t[i] != s[j]) j = p[j - 1];
@@ -189,7 +189,7 @@ std::vector<int> countPrefix(std::string s, std::string t) {
 
 // z[i] = longest common prefix of s and s[i,...,n - 1], z[0] = 0.
 std::vector<int> zFunction(std::string s) {
-  int n = s.size();
+  int n = (int)s.size();
   std::vector<int> z(n);
   for (int i = 1, l = 0, r = 0; i < n; ++i) {
     if (i <= r && z[i - l] < r - i + 1) {
@@ -210,7 +210,7 @@ std::vector<int> zFunction(std::string s) {
 // KMP based on zFunction. return all match postion in t
 std::vector<int> kmpZ(std::string s, std::string t) {
   std::vector<int> ans;
-  int n = s.size(), m = t.size();
+  int n = (int)s.size(), m = (int)t.size();
   if (n > m) return ans;
   auto z = zFunction(s);
   for (int i = 0, l = 0, r = -1; i < m; ++i) {
@@ -295,7 +295,7 @@ class Automaton {
 // assume a.back() = 0 and other elements are small postiove integral
 std::vector<int> SAIS(std::vector<int> a) {
   enum TYPE {L, S};
-  int n = a.size() - 1, mx = *std::max_element(a.begin(), a.end()) + 1;
+  int n = (int)a.size() - 1, mx = *std::max_element(a.begin(), a.end()) + 1;
   std::vector<int> SA(n + 1, -1);
   std::vector<int> bucket(mx), lbucket(mx), sbucket(mx);
   for (auto x : a) ++bucket[x];
@@ -394,7 +394,7 @@ std::vector<int> SAIS(const std::string& s) {
 // https://www.luogu.com.cn/problem/P3809
 
 std::vector<int> getHeight(const std::string& s) {
-  int n = s.size();
+  int n = (int)s.size();
   auto sa = SAIS(s);
   std::vector<int> rk(n);
   for (int i = 0; i < n; ++i) rk[sa[i]] = i;
@@ -412,7 +412,7 @@ std::vector<int> getHeight(const std::string& s) {
 }
 
 LL diffSubstringCount(const std::string& s) {
-  int n = s.size();
+  int n = (int)s.size();
   auto ht = getHeight(s);
   return 1LL * (n + 1) * n / 2 - std::accumulate(ht.begin(), ht.end(), 0LL);
 }
@@ -420,7 +420,7 @@ LL diffSubstringCount(const std::string& s) {
 
 template<typename T>
 int minPresent(std::vector<T>& a) {
-  int k = 0, i = 0, j = 1, n = a.size();
+  int k = 0, i = 0, j = 1, n = (int)a.size();
   while (k < n && i < n && j < n) {
     if (a[(i + k) % n] == a[(j + k) % n]) {
       ++k;
@@ -436,7 +436,7 @@ int minPresent(std::vector<T>& a) {
 // Lyndon decomposition using Duval algorithm
 std::vector<std::string> duval(const std::string& s) {
   std::vector<std::string> r;
-  int n = s.size(), i = 0;
+  int n = (int)s.size(), i = 0;
   while (i < n) {
     int j = i + 1, k = i;
     while (j < n && s[k] <= s[j]) {
@@ -455,7 +455,7 @@ std::vector<std::string> duval(const std::string& s) {
 
 // s(i - ans[i], i + ans[i])  is longest Palindrome
 std::vector<int> Manacher(std::string s) {
-  int n = s.size(); // assume n is odd
+  int n = (int)s.size(); // assume n is odd
   std::vector<int> d(n);
   for (int i = 0, l = 0, r = -1; i < n; ++i) {
     int k = i > r ? 1 : std::min(d[l + r - i], r - i);

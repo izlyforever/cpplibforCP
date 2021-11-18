@@ -4,7 +4,6 @@ using LL = long long;
 #include "../../cpplib/math/mixed.hpp"
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
 
   std::vector<std::vector<double>> A{{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}};

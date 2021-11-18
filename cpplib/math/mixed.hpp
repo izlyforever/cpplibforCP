@@ -36,7 +36,7 @@ int twoSumCount(int n, int d) {
 template<typename T>
 void KnuthShuffle(std::vector<T>& a) {
   std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
-  for (int i = a.size() - 1; i > 0; --i) {
+  for (int i = (int)a.size() - 1; i > 0; --i) {
     std::swap(a[i], a[rnd() % (i + 1)]);
   }
 }
@@ -150,7 +150,7 @@ public:
   using std::vector<T>::vector;
   static void setRec(std::vector<T> c) { c_ = std::move(c);}
 	RecSeq operator*(const RecSeq& A) const {
-    int n = this->size(), m = A.size();
+    int n = (int)this->size(), m = (int)A.size();
 		RecSeq R(n + m - 1);
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < m; ++j) {
@@ -180,7 +180,7 @@ public:
 
 // Gauss-Jordan Elimination $Ax = b$, float version
 std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double> b) {
-  int n = A.size(), m = A[0].size();
+  int n = (int)A.size(), m = A[0].size();
   std::vector<double> x(m);
   std::vector<int> p(m);
   std::iota(p.begin(), p.end(), 0);
@@ -236,7 +236,7 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
 
 template<typename valT>
 std::vector<valT> GaussModp(std::vector<std::vector<valT>> A, std::vector<valT> b) {
-  int n = A.size(), m = A[0].size();
+  int n = (int)A.size(), m = A[0].size();
   std::vector<valT> x(m), p(m);
   std::iota(p.begin(), p.end(), 0);
   auto triangleGauss = [&](int sz) { // A[i][i] = 1
@@ -292,7 +292,7 @@ const double eps = 1e-10;
 const double inf = 1e10;
 // make sure that A = (I, A') and b >= 0, compute max cx
 VD simplexCore(VD c, std::vector<VD> A, VD b) {
-  int n = A.size(), m = c.size();
+  int n = (int)A.size(), m = (int)c.size();
   std::vector<int> p(m);
   std::iota(p.begin(), p.end(), 0);
   for (int i = 0; i < n; ++i) A[i].emplace_back(b[i]);
@@ -344,7 +344,7 @@ VD simplex(VD c, std::vector<VD> Aq, VD bq, std::vector<VD> Alq, VD blq) {
   assert(Aq.size() == bq.size());
   assert(Alq.size() == blq.size());
   int n = Aq.size() + Alq.size();
-  int m = c.size();
+  int m = (int)c.size();
   for (int i = 0, nb = bq.size(); i < nb; ++i) if (bq[i] < -eps) {
     for (auto& x : Aq[i]) x = -x;
     bq[i] = -bq[i];
@@ -370,7 +370,7 @@ VD simplex(VD c, std::vector<VD> Aq, VD bq, std::vector<VD> Alq, VD blq) {
     }
     b[i + Aq.size()] = fabs(blq[i]);
   }
-  for (int i = 0, nc = c.size(); i < nc; ++i) f[n + i] = c[i];
+  for (int i = 0, nc = (int)c.size(); i < nc; ++i) f[n + i] = c[i];
   auto x = simplexCore(f, A, b);
   return VD(x.begin() + n, x.begin() + n + c.size());
 }
@@ -381,7 +381,7 @@ using VL = std::vector<LL>;
 VL Karatsuba(VL a, VL b, LL p) {
   if (a.size() < b.size()) std::swap(a, b);
   auto mulS = [&](VL a, VL b) {
-    int n = a.size(), m = b.size(), sz = n + m - 1;
+    int n = (int)a.size(), m = (int)b.size(), sz = n + m - 1;
     std::vector<__int128> c(sz);
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < m; ++j) {
@@ -415,7 +415,7 @@ VL Karatsuba(VL a, VL b, LL p) {
     for (int i = 0; i < n1; ++i) if ((r[i + n2] += a2b[i]) >= p) r[i + n2] -= p;
     return r;
   };
-  int n = a.size(), m = b.size(), tot = std::max(1, n + m - 1);
+  int n = (int)a.size(), m = (int)b.size(), tot = std::max(1, n + m - 1);
   if (m < N || n / m * 2 > m) return mulS(a, b);
   int sz = 1 << std::__lg(tot * 2 - 1);
   while (sz < n) sz *= 2;
@@ -431,7 +431,7 @@ VL Karatsuba(VL a, VL b, LL p) {
 // VL KaratsubaParallel(VL a, VL b, LL p) {
 //   if (a.size() < b.size()) std::swap(a, b);
 //   auto mulS = [&](VL a, VL b) {
-//     int n = a.size(), m = b.size(), sz = n + m - 1;
+//     int n = (int)a.size(), m = (int)b.size(), sz = n + m - 1;
 //     std::vector<__int128> c(sz);
 //     for (int i = 0; i < n; ++i) {
 //       for (int j = 0; j < m; ++j) {
@@ -466,7 +466,7 @@ VL Karatsuba(VL a, VL b, LL p) {
 //     for (int i = 0; i < n1; ++i) if ((r[i + n2] += a2b[i]) >= p) r[i + n2] -= p;
 //     return r;
 //   };
-//   int n = a.size(), m = b.size(), tot = std::max(1, n + m - 1);
+//   int n = (int)a.size(), m = (int)b.size(), tot = std::max(1, n + m - 1);
 //   if (m < N || n / m * 8 > m) return mulS(a, b);
 //   int sz = 1 << std::__lg(tot * 2 - 1);
 //   a.resize(sz), b.resize(sz);

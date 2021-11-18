@@ -141,7 +141,7 @@ $$
 
 ``` cpp
 std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>>& A)
-// n = A.size(), a[i] = A[i].first, m[i] = A[i].second, 
+// n = (int)A.size(), a[i] = A[i].first, m[i] = A[i].second, 
 ```
 
 > use `crt2` above $n - 1$ times,  we have

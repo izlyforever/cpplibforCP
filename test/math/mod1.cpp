@@ -5,7 +5,6 @@ constexpr int M = 998244353;
 using mod = MInt<M>;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int a, b;
   std::cin >> a >> b;

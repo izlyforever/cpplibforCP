@@ -86,7 +86,7 @@ class LCA {
 // Minimum Spanning Tree
 LL Prim(const std::vector<edge>& e) {
   LL r = 0;
-  int n = e.size(), cnt = 0;
+  int n = (int)e.size(), cnt = 0;
   std::priority_queue<std::pair<int, int>> Q;
   std::vector<int> vis(n);
   Q.push({0, 0});
@@ -155,7 +155,7 @@ LL LiuZhu(std::vector<Edge> e, int n, int rt) { // e has no self-loop
 std::vector<int> TopSort(std::vector<std::set<int>>& e) {
   std::vector<int> r;
   std::priority_queue<int> Q;
-  int n = e.size();
+  int n = (int)e.size();
   std::vector<int> in(n);
   for (auto& x : e) for (auto i : x) ++in[i];
   for (int i = 0; i < n; ++i) if (in[i] == 0) Q.push(-i);
@@ -189,7 +189,7 @@ std::stack<int> EulerPathS(std::vector<std::multiset<int>> e) {
     }
     ans.push(u);
   };
-  for (int i = 0, ne = e.size(); i < ne; ++i) {
+  for (int i = 0, ne = (int)e.size(); i < ne; ++i) {
     if (!e[i].empty() && ((e[i].size() & 1) || (cnt == 0))) {
       Hierholzer(i);
       break;
@@ -271,7 +271,7 @@ bool BellmanFord(std::vector<Edge>& e, int n, int s = 0) {
 }
 
 bool spfa(std::vector<edge>& e, int s = 0) {
-  int n = e.size();
+  int n = (int)e.size();
   std::queue<int> Q;
   std::vector<int> dist(n, INT_MAX), cnt(n), inQ(n);
   Q.push(s);
@@ -385,7 +385,7 @@ struct twoSAT {
 };
 
 std::vector<int> cutVertex(std::vector<std::vector<int>>& e) {
-  int n = e.size(), cnt = 0;
+  int n = (int)e.size(), cnt = 0;
   std::vector<int> dfs(n), low(n), flag(n), r;
   std::function<void(int, int)> Tarjan = [&](int u, int fa) -> void {
     low[u] = dfs[u] = ++cnt;

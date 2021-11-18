@@ -153,7 +153,7 @@ std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2) {
 
 std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>>& A) {
   auto ans = A[0];
-  for (int i = 1, na = A.size(); i < na; ++i) {
+  for (int i = 1, na = (int)A.size(); i < na; ++i) {
     ans = crt2(ans.first, ans.second, A[i].first, A[i].second);
   }
   return ans;
@@ -167,7 +167,7 @@ std::vector<int> spf(int N) {
   for (int i = 1; i < N; i += 2) sp[i] = i;
   for (int i = 3; i < N; i += 2) {
     if (sp[i] == i) p.emplace_back(i);
-    for (int j = 2, np = p.size(); j < np && p[j] <= sp[i] && i * p[j] < N; ++j) {
+    for (int j = 2, np = (int)p.size(); j < np && p[j] <= sp[i] && i * p[j] < N; ++j) {
       sp[i * p[j]] = p[j]; // Note that sp[x] is assigned only once foreach x
     }
   }
@@ -238,7 +238,7 @@ class BinomModp {
 // Calculate f(m) where f is the Lagrange interpolation on $f(0), f(1), \cdots, f(n - 1)$
 template<typename valT>
 valT Lagrange(const std::vector<valT>& f, int m) {
-  int n = f.size();
+  int n = (int)f.size();
   if (m < n) return f[m];
   auto& B = BinomModp<valT>::Instance(n);
   std::vector<valT> AP(n), BP(n);
@@ -261,11 +261,11 @@ valT powSum(int n, int k, const std::vector<int>& sp) {
   if (k == 0) return valT(n);
   std::vector<valT> f(k + 2);
   f[1] = valT(1);
-  for (int i = 2, nf = f.size(); i < nf; ++i) {
+  for (int i = 2, nf = (int)f.size(); i < nf; ++i) {
     if (sp[i] == i) f[i] = pow(valT(i), k);
     else f[i] = f[sp[i]] * f[i / sp[i]];
   }
-  for (int i = 1, nf = f.size(); i < nf; ++i) f[i] += f[i - 1];
+  for (int i = 1, nf = (int)f.size(); i < nf; ++i) f[i] += f[i - 1];
   return Lagrange(f, n);
 }
 // https://codeforces.com/problemset/problem/622/F
@@ -454,7 +454,7 @@ class MEX {
 // transform vector<int> to vector<valT>
 template<typename valT>
 std::vector<valT> trans(const std::vector<int>& a) {
-  int n = a.size();
+  int n = (int)a.size();
   std::vector<valT> ans(n);
   for (int i = 0; i < n; ++i) ans[i] = valT(a[i]);
   return ans;
@@ -465,7 +465,7 @@ template<typename valT>
 static std::vector<valT> BerlekampMassey(const std::vector<valT>& a) {
   std::vector<valT> ans, lst;
   valT delta = 0;
-  for (int i = 0, w = -1, n = a.size(); i < n; ++i) {
+  for (int i = 0, w = -1, n = (int)a.size(); i < n; ++i) {
     valT t = 0;
     for (int j = 0, na = ans.size(); j < na; ++j) {
       t += ans[j] * a[i - 1 - j];

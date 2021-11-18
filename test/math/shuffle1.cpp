@@ -2,7 +2,6 @@
 #include "../../cpplib/math/mixed.hpp"
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
 
   std::vector<int> a{1, 2, 5, 6, 8, 17};

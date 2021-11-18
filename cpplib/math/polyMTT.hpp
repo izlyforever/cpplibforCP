@@ -30,7 +30,7 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
     std::vector<MInt<M1>> a1(sz), b1(sz);
     std::vector<MInt<M2>> a2(sz), b2(sz);
     std::vector<MInt<M3>> a3(sz), b3(sz);
-    for (int i = 0, ns = this->size(); i < ns; ++i) {
+    for (int i = 0, ns = (int)this->size(); i < ns; ++i) {
       LL tmp = (*this)[i];
       a0[i] = tmp; a1[i] = tmp; a2[i] = tmp; a3[i] = tmp;
     }

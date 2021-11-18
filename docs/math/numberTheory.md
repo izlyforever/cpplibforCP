@@ -41,7 +41,6 @@ using LL = long long;
 #include "cpplib/math/numberTheory.hpp"
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto start = std::clock();
   auto& prime = Prime::Instance();
@@ -82,7 +81,6 @@ using LL = long long;
 #include "cpplib/math/numberTheory.hpp"
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto start = std::clock();
   auto& euler = Euler::Instance();
@@ -270,7 +268,6 @@ using UL = unsigned long long;
 std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n = 1e5;
   std::vector<UL> a(n + 1), e(n + 1, 1), mu(n + 1);

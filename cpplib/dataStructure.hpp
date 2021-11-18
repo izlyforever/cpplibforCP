@@ -4,7 +4,7 @@ using LL = long long;
 
 // a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$
 bool nextBinom(std::vector<int>& a, int mx) {
-  int n = a.size(), i = 1;
+  int n = (int)a.size(), i = 1;
   while (i <= n && a[n - i] == mx - i) ++i;
   if (i > n) return false;
   ++a[n - i];
@@ -128,7 +128,7 @@ void disjointInterval(std::vector<std::pair<int, int>>& a) {
   std::vector<std::pair<int, int>> b;
   std::sort(a.begin(), a.end());
   int l = a[0].first, r = a[0].second;
-  for (int i = 1, n_ = a.size(); i < n_; ++i) {
+  for (int i = 1, n_ = (int)a.size(); i < n_; ++i) {
     if (a[i].first <= r) {
       r = std::max(r, a[i].second);
     } else {
@@ -298,7 +298,7 @@ class SegmentTree {
  public:
   SegmentTree(int n) : n_(n) { resize(); }
   SegmentTree(const std::vector<LL>& a) {
-    n_ = a.size();
+    n_ = (int)a.size();
     resize();
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {
@@ -458,7 +458,7 @@ LL inverseOrderCount(std::vector<int> a) {
   discrete(a);
   Bitree<int> A(*std::max_element(a.begin(), a.end()) + 1);
   LL ans = 0;
-  for (int i = a.size() - 1; i >= 0; --i) {
+  for (int i = (int)a.size() - 1; i >= 0; --i) {
     ans += A.sum(a[i]);
     A.add(a[i] + 1, 1);
   }
@@ -492,7 +492,7 @@ int LNDS(std::vector<int>& a) {
 auto LISP(std::vector<int>& a) {
   std::vector<int> b, pb, pa(a.size());
   std::iota(pa.begin(), pa.end(), 0);
-  for (int i = 0, na = a.size(); i < na; ++i) {
+  for (int i = 0, na = (int)a.size(); i < na; ++i) {
     if (auto it = std::upper_bound(b.begin(), b.end(), a[i]);
       it == b.end()) {
       if (!pb.empty()) pa[i] = pb.back();
@@ -519,7 +519,7 @@ auto LISP(std::vector<int>& a) {
 std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
   std::vector<int> r;
   std::deque<int> Q;
-  for (int i = 0, na = a.size(); i < na; ++i) {
+  for (int i = 0, na = (int)a.size(); i < na; ++i) {
     if (!Q.empty() && i - Q.front() >= m) Q.pop_front();
     // change > to < if you want monicDequeMin
     while (!Q.empty() && a[i] > a[Q.back()]) Q.pop_back();
@@ -531,7 +531,7 @@ std::vector<int> monicDequeMax(std::vector<int>& a, int m) {
 
 // f is index of a such that $a_{f_0} < a_{f_1} < a_{f_m}$
 std::vector<int> monicStack(const std::vector<int>& a) {
-  int n = a.size();
+  int n = (int)a.size();
   std::vector<int> f(n);
   std::stack<int> S;
   for (int i = 0; i < n; ++i) {
@@ -579,7 +579,7 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
   std::vector<int> ans(a.size());
   std::sort(a.begin(), a.end());
   int last = 0;
-  for (int i = 1, na = a.size(); i < na; ++i) {
+  for (int i = 1, na = (int)a.size(); i < na; ++i) {
     if (a[i].x != a[i - 1].x || a[i].y != a[i - 1].y ||
       a[i].z != a[i - 1].z) {
       int t = i - last - 1;
@@ -591,12 +591,12 @@ std::vector<int> cdq(std::vector<cdqNode>& a, int k) {
       last = i;
     }
   }
-  int t = a.size() - last - 1;
-  for (int i = last, na = a.size(); i < na; ++i) {
+  int t = (int)a.size() - last - 1;
+  for (int i = last, na = (int)a.size(); i < na; ++i) {
     ans[a[i].id] = t;
     a[i].w = 0;
   }
-  a.back().w = a.size() - last;
+  a.back().w = (int)a.size() - last;
   Bitree<LL> A(k);
   auto cmpy = [](const cdqNode& lhs, const cdqNode& rhs) {
     return lhs.y < rhs.y;
