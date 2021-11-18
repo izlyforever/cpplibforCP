@@ -18,6 +18,15 @@ $\text{powMod}(x, n, M) = x^n \mod p$
 
 - $O(\log n)$
 
+## ctz
+
+``` cpp
+int ctz32(unsigned x);
+int ctz64(unsigned long long x);
+```
+
+Slow than __builtin_ctz and __builtin_ctzll but funny.
+
 ## bitCount
 
 we may use `__builtin_popcount`, or `__builtin_popcountll` in g++(but not in clang++), but it is slower than the following methods

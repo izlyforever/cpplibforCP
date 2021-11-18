@@ -11,6 +11,23 @@ int powMod(int x, int n, int M) {
   return r;
 }
 
+// slow than __builtin_ctz and __builtin_ctzll but funny
+int ctz32(unsigned x) {
+  union {
+    float f;
+    unsigned i;
+  } v = {.f = x & ~x + 1};
+  return (v.i >> 23) - 127;
+}
+int ctz64(unsigned long long x) {
+  union {
+    double f;
+    unsigned long long i;
+  } v = {.f = x & ~x + 1};
+  return (v.i >> 52) - 1023;
+}
+// https://xr1s.me/2018/08/23/gcc-builtin-implementation/
+
 // MIT HAKMEM: about two times faster than __builtin_popcount()
 int bitCount(unsigned n) {
   unsigned tmp = n - ((n >> 1) & 033333333333) - ((n >> 2) & 011111111111);
