@@ -623,8 +623,8 @@ template<typename T>
 std::vector<T> DirichletProduct(const std::vector<T>& a, const std::vector<T>& b, int n) {
   std::vector<T> c(n + 1);
   for (int i = 1; i <= n; ++i) {
-    for (int j = 1; i * j <= n; ++j) {
-      c[i * j] += a[i] * b[j];
+    for (int j = 1, ij = i; ij <= n; ij += i, ++j) {
+      c[ij] += a[i] * b[j];
     }
   }
   return c;
@@ -663,8 +663,8 @@ template<typename T>
 std::vector<T> DirichletRevProduct(const std::vector<T>& a, const std::vector<T>& b, int n) {
   std::vector<T> c(n + 1);
   for (int i = 1; i <= n; ++i) {
-    for (int j = 1; i * j <= n; ++j) {
-      c[i] += a[i * j] * b[j];
+    for (int j = 1, ij = i; ij <= n; ij += i, ++j) {
+      c[i] += a[ij] * b[j];
     }
   }
   return c;
