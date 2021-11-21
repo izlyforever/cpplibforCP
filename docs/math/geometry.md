@@ -31,3 +31,10 @@ partial order of dimension $k$ (optimed by bitset)
 
 - $O(\frac{n^2}{w})$ where $w = 32,\;64$
 
+## rectangleUnion
+
+using dynamic segment tree
+
+**Complexity**:
+
+- $O(n \log n)$

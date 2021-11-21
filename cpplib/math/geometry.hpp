@@ -127,3 +127,90 @@ std::vector<int> partialOrder(std::vector<std::vector<int>>& a) {
   }
   return r;
 } // http://cogs.pro:8081/cogs/problem/problem.php?pid=vSJzQVejP
+
+namespace rectangleUnion {
+class SegTree {
+  static inline const int INF = 1e9 + 2;
+  struct Node {
+    int l = 0, r = 0, val = 0, mn = 0;
+  };
+  std::vector<Node> tree;
+  int newNode() {
+    int sz = tree.size();
+    tree.emplace_back(Node());
+    return sz;
+  }
+  void pushUp(int p) {
+    tree[p].mn = std::min(tree[tree[p].l].mn, tree[tree[p].r].mn);
+  }
+  void updateNode(int p, int x) {
+    tree[p].val += x;
+    tree[p].mn += x;
+  }
+  void pushDown(int p) {
+    if (tree[p].l) updateNode(tree[p].l, tree[p].val);
+    if (tree[p].r) updateNode(tree[p].r, tree[p].val);
+    tree[p].val = 0;
+  }
+  void add(int L, int R, int val, int l, int r, int p) {
+    if (L <= l && r <= R) {
+      updateNode(p, val);
+      return;
+    }
+    auto m = (l + r) / 2;
+    if (m > L) {
+      if (tree[p].l == 0) tree[p].l = newNode();
+      add(L, R, val, l, m, tree[p].l);
+    }
+    if (m < R) {
+      if (tree[p].r == 0) tree[p].r = newNode();
+      add(L, R, val, m, r, tree[p].r);
+    }
+  }
+  int query(int l, int r, int p) {
+    if (tree[p].mn) return r - l;
+    auto m = (l + r) / 2;
+    int ans = 0;
+    if (tree[p].l) ans += query(l, m, tree[p].l);
+    if (tree[p].r) ans += query(m, r, tree[p].r);
+    return ans;
+  }
+ public:
+  SegTree() {
+    newNode();
+  }
+  void add(int L, int R, int val) {
+    add(L, R, val, -INF, INF, 0);
+  }
+  int query() {
+    return query(-INF, INF, 0);
+  }
+};
+
+struct Edge {
+  int x, l, r, val;
+  bool operator<(const Edge& A) const {
+    return x < A.x;
+  }
+};
+LL rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectangle) {
+  std::vector<Edge> a;
+  a.reserve(2 * rectangle.size());
+  // make sure x1 < x2, y1 < y2
+  for (auto [x1, y1, x2, y2] : rectangle) {
+    a.push_back({x1, y1, y2, 1});
+    a.push_back({x2, y1, y2, -1});
+  }
+  std::sort(a.begin(), a.end());
+  SegTree A;
+  A.add(a[0].l, a[0].r, a[0].val);
+  LL ans = 0;
+  for (int i = 1, n = a.size(); i < n; ++i) {
+    if (a[i].x != a[i - 1].x) {
+      ans += 1LL * (a[i].x - a[i - 1].x) * A.query();
+    }
+    A.add(a[i].l, a[i].r, a[i].val);
+  }
+  return ans;
+}
+} // namespace rectangleUnion
