@@ -212,5 +212,5 @@ LL rectangleUnion(const std::vector<std::tuple<int, int, int, int>>& rectangle) 
     A.add(a[i].l, a[i].r, a[i].val);
   }
   return ans;
-}
+} // https://www.luogu.com.cn/problem/T110664
 } // namespace rectangleUnion
