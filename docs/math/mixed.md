@@ -293,3 +293,14 @@ LL solve(LL n, int k) { return nthPalindrome(k + Palindrome(n)); }
 
 return $k$-th Palindrome Number greater than or equal to $n$
 
+## fast powMod
+
+``` cpp
+unsigned fastPowMod998244353(unsigned x, unsigned n);
+unsigned fastPowMod1000000007(unsigned x, unsigned n);
+unsigned fastPowMod1000000009(unsigned x, unsigned n);
+```
+
+however only `fastPowMod998244353` faster than 20%
+
+
