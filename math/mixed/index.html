@@ -200,6 +200,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#fast-powmod" class="nav-link">fast powMod</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -473,7 +477,13 @@ VL Karatsuba(VL a, VL b, LL p)
 <pre><code class="language-cpp">LL solve(LL n, int k) { return nthPalindrome(k + Palindrome(n)); }
 </code></pre>
 <p>return <script type="math/tex">k</script>-th Palindrome Number greater than or equal to <script type="math/tex">n</script>
-</p></div>
+</p>
+<h2 id="fast-powmod">fast powMod</h2>
+<pre><code class="language-cpp">unsigned fastPowMod998244353(unsigned x, unsigned n);
+unsigned fastPowMod1000000007(unsigned x, unsigned n);
+unsigned fastPowMod1000000009(unsigned x, unsigned n);
+</code></pre>
+<p>however only <code>fastPowMod998244353</code> faster than 20%</p></div>
             </div>
         </div>
 
