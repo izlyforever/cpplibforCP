@@ -4,13 +4,23 @@ using LL = long long;
 
 class PolyS : public std::vector<int> {
   static inline std::vector<int> rev_, roots_{0, 1};
-  static int powMod(int x, int n) {
-    int r(1);
+  using ULL = unsigned long long;
+  static unsigned powMod(unsigned x, unsigned n) {
+    static const unsigned m = 998244353U;
+    static const unsigned mr = 998244351U;
+    static const unsigned m1 = 301989884U;
+    static const unsigned m1inv = 232013824U;
+    unsigned xx = (ULL(x) << 32) % m, rr = m1;
     while (n) {
-      if (n&1) r = 1LL * r * x % M;
-      n >>= 1; x = 1LL * x * x % M;
+      if (n & 1) {
+        ULL t = ULL(rr) * xx;
+        rr = (t + ULL(unsigned(t) * mr) * m) >> 32;
+      }
+      ULL t = ULL(xx) * xx;
+      xx = (t + ULL(unsigned(t) * mr) * m) >> 32;
+      n >>= 1;
     }
-    return r;
+    return ULL(rr) * m1inv % m;
   }
   void dft() {
     int n = (int)size();
