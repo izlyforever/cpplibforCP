@@ -576,7 +576,7 @@ using ULL = unsigned long long;
 // 40% faster
 unsigned fastPowMod998244353(unsigned x, unsigned n) {
   static const unsigned m = 998244353U;
-  static const unsigned mr = 3296722945U;
+  static const unsigned mr = 998244351U;
   static const unsigned m1 = 301989884U;
   static const unsigned m1inv = 232013824U;
   unsigned xx = (ULL(x) << 32) % m, rr = m1;
@@ -595,7 +595,7 @@ unsigned fastPowMod998244353(unsigned x, unsigned n) {
 // 18% faster
 unsigned fastPowMod1000000007(unsigned x, unsigned n) {
   static const unsigned m = 1000000007U;
-  static const unsigned mr = 2068349879U;
+  static const unsigned mr = 2226617417U;
   static const unsigned m1 = 294967268U;
   static const unsigned m1inv = 518424770U;
   unsigned xx = (ULL(x) << 32) % m, rr = m1;
@@ -614,7 +614,7 @@ unsigned fastPowMod1000000007(unsigned x, unsigned n) {
 // 18% faster
 unsigned fastPowMod1000000009(unsigned x, unsigned n) {
   static const unsigned m = 1000000009U;
-  static const unsigned mr = 3557942329U;
+  static const unsigned mr = 737024967U;
   static const unsigned m1 = 294967260U;
   static const unsigned m1inv = 171601999U;
   unsigned xx = (ULL(x) << 32) % m, rr = m1;
