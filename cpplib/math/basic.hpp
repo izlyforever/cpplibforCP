@@ -250,6 +250,7 @@ std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>>& A) {
 // $O(N)$ smallest prime factor
 std::vector<int> spf(int N) {
   std::vector<int> sp(N), p{0, 2};
+  p.reserve(N);
   for (int i = 2; i < N; i += 2) sp[i] = 2;
   for (int i = 1; i < N; i += 2) sp[i] = i;
   for (int i = 3; i < N; i += 2) {

@@ -10,6 +10,7 @@ class Prime {
   std::vector<int> p_{0, 2}, pi_;
   // $O(N \log \log N)$ but faster when N < 1e9
   void initPrime() {
+    p_.reserve(N);
     isp_[2] = true;
     for (int i = 3; i < N; i += 2) isp_[i] = true;
     int sq = int(std::sqrt(N + 0.1)) | 1; // make sure it is odd number
@@ -21,6 +22,7 @@ class Prime {
   }
   // $O(N)$ but slower when N < 1e9
   std::vector<int> initPrimeS() {
+    p_.reserve(N);
     isp_[2] = true;
     for (int i = 3; i < N; i += 2) isp_[i] = true;
     for (int i = 3; i < N; i += 2) {
@@ -244,6 +246,7 @@ class Mobius{
     }
   }
   void initMu() {
+    p_.reserve(N);
     for (int i = 1; i < N; i += 2) mu_[i] = i;
     for (int i = 3; i < N; i += 2) {
       if (mu_[i] == i) mu_[i] = -1, p_.emplace_back(i);
@@ -302,15 +305,16 @@ class Mobius{
 
 // init numbers of (multi) prime factors less than N in $O(N)$
 std::pair<std::vector<int>, std::vector<int>> npf(int N) {
-  std::vector<int> np(N, 1), nps(N, 1), p_{0, 2};
+  std::vector<int> np(N, 1), nps(N, 1), p{0, 2};
+  p.reserve(N);
   nps[0] = nps[1] = 0;
   np[0] = np[1] = 0;
   for (int i = 3; i < N; i += 2) {
-    if (nps[i] == 1) p_.emplace_back(i);
-    for (int j = 2, t, pSize = p_.size(); j < pSize && (t = i * p_[j]) < N; ++j) {
+    if (nps[i] == 1) p.emplace_back(i);
+    for (int j = 2, t, pSize = p.size(); j < pSize && (t = i * p[j]) < N; ++j) {
       nps[t] = nps[i] + 1;
       np[t] = np[i];
-      if (i % p_[j] == 0) break;
+      if (i % p[j] == 0) break;
       ++np[t];
     }
   }

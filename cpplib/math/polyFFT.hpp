@@ -66,6 +66,7 @@ int factorialS(int n, int p) {
   int sn = std::sqrt(n);
   auto A = PolyFFTDynamic::prod(sn);
   std::vector<ModInt> x;
+  x.reserve(n  / sn);
   for (int i = sn; i <= n; i += sn) x.emplace_back(i - sn + 1);
   auto y = A.evals(x);
   ModInt r(1);
