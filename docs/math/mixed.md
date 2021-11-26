@@ -296,11 +296,8 @@ return $k$-th Palindrome Number greater than or equal to $n$
 ## fast powMod
 
 ``` cpp
-unsigned fastPowMod998244353(unsigned x, unsigned n);
-unsigned fastPowMod1000000007(unsigned x, unsigned n);
-unsigned fastPowMod1000000009(unsigned x, unsigned n);
+unsigned fastPowMod998244353(unsigned x, unsigned n);  // 40% faster
+unsigned fastPowMod1000000007(unsigned x, unsigned n); // 18% faster
+unsigned fastPowMod1000000009(unsigned x, unsigned n); // 18% faster
 ```
-
-however only `fastPowMod998244353` faster than 20%
-
 

@@ -573,10 +573,10 @@ class PalindromeNumber {
 // https://ac.nowcoder.com/acm/contest/11191/C
 
 using ULL = unsigned long long;
-// 20% faster
+// 40% faster
 unsigned fastPowMod998244353(unsigned x, unsigned n) {
   static const unsigned m = 998244353U;
-  static const unsigned mr = 998244351U;
+  static const unsigned mr = 3296722945U;
   static const unsigned m1 = 301989884U;
   static const unsigned m1inv = 232013824U;
   unsigned xx = (ULL(x) << 32) % m, rr = m1;
@@ -584,19 +584,18 @@ unsigned fastPowMod998244353(unsigned x, unsigned n) {
     if (n & 1) {
       ULL t = ULL(rr) * xx;
       rr = (t + ULL(unsigned(t) * mr) * m) >> 32;
-      if (rr >= m) rr -= m;
     }
     ULL t = ULL(xx) * xx;
     xx = (t + ULL(unsigned(t) * mr) * m) >> 32;
-    if (xx >= m) xx -= m;
     n >>= 1;
   }
   return ULL(rr) * m1inv % m;
 }
-// solwer ？ why
+
+// 18% faster
 unsigned fastPowMod1000000007(unsigned x, unsigned n) {
   static const unsigned m = 1000000007U;
-  static const unsigned mr = 2226617417U;
+  static const unsigned mr = 2068349879U;
   static const unsigned m1 = 294967268U;
   static const unsigned m1inv = 518424770U;
   unsigned xx = (ULL(x) << 32) % m, rr = m1;
@@ -604,32 +603,28 @@ unsigned fastPowMod1000000007(unsigned x, unsigned n) {
     if (n & 1) {
       ULL t = ULL(rr) * xx;
       rr = (t + ULL(unsigned(t) * mr) * m) >> 32;
-      if (rr >= m) rr -= m;
     }
     ULL t = ULL(xx) * xx;
     xx = (t + ULL(unsigned(t) * mr) * m) >> 32;
-    if (xx >= m) xx -= m;
     n >>= 1;
   }
   return ULL(rr) * m1inv % m;
 }
-// solwer ？ why
+
+// 18% faster
 unsigned fastPowMod1000000009(unsigned x, unsigned n) {
   static const unsigned m = 1000000009U;
-  static const unsigned mr = 737024967U;
+  static const unsigned mr = 3557942329U;
   static const unsigned m1 = 294967260U;
   static const unsigned m1inv = 171601999U;
   unsigned xx = (ULL(x) << 32) % m, rr = m1;
   while (n) {
-    // asm may help
     if (n & 1) {
       ULL t = ULL(rr) * xx;
       rr = (t + ULL(unsigned(t) * mr) * m) >> 32;
-      if (rr >= m) rr -= m;
     }
     ULL t = ULL(xx) * xx;
     xx = (t + ULL(unsigned(t) * mr) * m) >> 32;
-    if (xx >= m) xx -= m;
     n >>= 1;
   }
   return ULL(rr) * m1inv % m;
