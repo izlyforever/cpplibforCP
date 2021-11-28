@@ -12,6 +12,7 @@ nav:
     - Introduction: index.md
   - Math:
     - basic: math/basic.md
+    - builtin: math/builtin.md
     - primary: math/primary.md
     - numberTheory: math/numberTheory.md
     - mod: math/mod.md

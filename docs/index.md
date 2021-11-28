@@ -1,6 +1,6 @@
 # Document
 
-- Useage: `C++17` is required, `O2` is suggested, `g++` is needed since some builtin functions have been used
+- Useage: `C++17` is required, `O2` is suggested, ~~`g++` is needed since some builtin functions have been used~~(clang also support it)
 - Categories: math, date structure, graph theory, geometry, mixed
 - Index: begin with 0, unless otherwise state
 - Categories: [Math](math/basic.md), [Data Structure](dataStructure.md), [Graph Theory](graph.md), [String](string.md)

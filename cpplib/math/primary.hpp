@@ -1,4 +1,5 @@
 #include "basic.hpp"
+#include "builtin.hpp"
 #include "mod.hpp"
 #include "ntt.hpp"
 #include "fft.hpp"
