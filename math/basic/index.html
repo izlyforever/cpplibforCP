@@ -51,6 +51,10 @@
 </li>
                                     
 <li>
+    <a href="../builtin/" class="dropdown-item">builtin</a>
+</li>
+                                    
+<li>
     <a href="../primary/" class="dropdown-item">primary</a>
 </li>
                                     
@@ -101,7 +105,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../primary/" class="nav-link">
+                                <a rel="next" href="../builtin/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -129,22 +133,6 @@
             <li class="nav-item" data-level="1"><a href="#baischpp" class="nav-link">baisc.hpp</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#powmod" class="nav-link">powMod</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#ctz" class="nav-link">ctz</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#bitcount" class="nav-link">bitCount</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#parity" class="nav-link">parity</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#acos-asin" class="nav-link">acos, asin</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -248,30 +236,6 @@
 <script type="math/tex">O(\log n)</script>
 </li>
 </ul>
-<h2 id="ctz">ctz</h2>
-<pre><code class="language-cpp">int ctz32(unsigned x);
-int ctz64(unsigned long long x);
-</code></pre>
-<p>Slow than __builtin_ctz and __builtin_ctzll but funny.</p>
-<h2 id="bitcount">bitCount</h2>
-<p>we may use <code>__builtin_popcount</code>, or <code>__builtin_popcountll</code> in g++(but not in clang++), but it is slower than the following methods</p>
-<pre><code class="language-cpp">int bitCount(unsigned n);  
-int bitCountll(unsigned long long n); // The fastest so far for 64bit
-int BitCountTable(unsigned n);    // The fastest so far for 32bit
-int BitCountTablell(unsigned long long n);
-</code></pre>
-<p><code>bitCountTable</code> use static Table of length 256, and <code>bitCount</code> and <code>bitCountll</code> use MIT HAKMEM, since <script type="math/tex">2^6 = 64 > 32</script>, and <script type="math/tex">2^8 = 256 > 64</script>
-</p>
-<h2 id="parity">parity</h2>
-<pre><code class="language-cpp">bool parity(unsigned n);
-bool parityll(unsigned long long n);
-bool parityTable(unsigned n);
-bool parityTablell(unsigned long long n);
-bool parityMIT(unsigned n);
-bool parityMITll(unsigned long long n);
-</code></pre>
-<p>All above are sightly slow than __builtin_parity and __builtin_parityll</p>
-<h2 id="acos-asin">acos, asin</h2>
 <h2 id="floor-and-ceil">floor  and ceil</h2>
 <pre><code class="language-cpp">template&lt;typename T&gt;
 T floor(T a, T n)
