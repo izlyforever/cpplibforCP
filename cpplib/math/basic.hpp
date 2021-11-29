@@ -12,7 +12,7 @@ int powMod(int x, int n, int M) {
   return r;
 }
 
-template<typename U, typename T, typename T2, typename enable = TwiceT<T,T2>>
+template<typename U, typename T, typename T2, typename enable = TwiceT<T, T2>>
 T powModT(T x, U n, T M) {
   T r = 1;
   while (n) {
