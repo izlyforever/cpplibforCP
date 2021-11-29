@@ -2,11 +2,12 @@
 #pragma once
 #include <bits/stdc++.h>
 #include "basic.hpp"
+#include "template.hpp"
 using LL = long long;
 
 // many function will fail for the case n > mod
 // using valT = decltype(T::a)::value_type;template<typename T, typename valT>
-template<typename T, typename valT>
+template<typename T, typename valT, typename enable = ModT<valT>>
 class Poly : public T {
   static inline const valT INV2 = (valT::mod() + 1) / 2;
   static inline const int MAXN = 1e6 + 2;  // assume size(a) < MAXN
@@ -467,7 +468,7 @@ class Poly : public T {
 }; // https://www.luogu.com.cn/training/3015#information
 
 
-template<typename valT>
+template<typename valT, typename enable = ModT<valT>>
 class PolyBase : public std::vector<valT> {
  protected:
   void standard() {

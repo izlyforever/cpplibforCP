@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+#include "template.hpp"
 using LL = long long;
 
 int powMod(int x, int n, int M) {
@@ -7,6 +8,16 @@ int powMod(int x, int n, int M) {
   while (n) {
     if (n&1) r = 1LL * r * x % M;
     n >>= 1; x = 1LL * x * x % M;
+  }
+  return r;
+}
+
+template<typename T, typename T2, typename enable = TwiceT<T,T2>>
+T powModT(T x, T n, T M) {
+  T r = 1;
+  while (n) {
+    if (n&1) r = T2(r) * x % M;
+    n >>= 1; x = T2(x) * x % M;
   }
   return r;
 }
@@ -74,7 +85,7 @@ LL gcd(LL a, LL b) {
 // https://cp-algorithms.com/algebra/euclid-algorithm.html
 
 // ax + by = gcd(a,b)
-template<typename T>
+template<typename T, typename enable = SignedT<T>>
 std::tuple<T, T, T> exGcd(T a, T b) {
   if (b == 0) return {a, 1, 0};
   auto [d, y, x] = exGcd(b, a % b);
@@ -137,7 +148,7 @@ class Binom {
   }
 };
 
-template<typename valT>
+template<typename valT, typename enable = ModT<valT>>
 class BinomModp {
   static inline constexpr int N = 1e6 + 2;
   BinomModp() { fac_.reserve(N), ifac_.reserve(N), inv_.reserve(N);}
@@ -176,7 +187,7 @@ class BinomModp {
 };
 
 // Calculate f(m) where f is the Lagrange interpolation on $f(0), f(1), \cdots, f(n - 1)$
-template<typename valT>
+template<typename valT, typename enable = ModT<valT>>
 valT Lagrange(const std::vector<valT>& f, int m) {
   int n = (int)f.size();
   if (m < n) return f[m];
@@ -196,7 +207,7 @@ valT Lagrange(const std::vector<valT>& f, int m) {
 // Simplies $f(m) = \sum_{i = 0}^{n - 1} (-1)^{n - 1 - i} f_i \binom{m}{i} \binom{m - i - 1}{n - 1 - i}$
 
 // Calculate powSum in $O(k)$ based on Lagrange interpolation
-template<typename valT>
+template<typename valT, typename enable = ModT<valT>>
 valT powSum(int n, int k, const std::vector<int>& sp) {
   if (k == 0) return valT(n);
   std::vector<valT> f(k + 2);
@@ -211,7 +222,7 @@ valT powSum(int n, int k, const std::vector<int>& sp) {
 // https://codeforces.com/problemset/problem/622/F
 
 
-template<typename valT>
+template<typename valT, typename enable = ModT<valT>>
 class Matrix {
   static inline constexpr int N = 1003;
   int n_;
@@ -392,7 +403,7 @@ class MEX {
 
 
 // transform vector<int> to vector<valT>
-template<typename valT>
+template<typename valT, typename enable = ModT<valT>>
 std::vector<valT> trans(const std::vector<int>& a) {
   int n = (int)a.size();
   std::vector<valT> ans(n);
@@ -401,7 +412,7 @@ std::vector<valT> trans(const std::vector<int>& a) {
 }
 
 // Shortest recursive relational formula: https://cmwqf.github.io/2020/07/18/%E6%B5%85%E8%B0%88Berlekamp-Massey%E7%AE%97%E6%B3%95/
-template<typename valT>
+template<typename valT, typename enable = ModT<valT>>
 static std::vector<valT> BerlekampMassey(const std::vector<valT>& a) {
   std::vector<valT> ans, lst;
   valT delta = 0;

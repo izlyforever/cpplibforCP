@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+#include "math/template.hpp"
 using LL = long long;
 
 // Trie build by lowercase characters(change charToInt for other charset)
@@ -418,7 +419,7 @@ LL diffSubstringCount(const std::string& s) {
 }
 // https://www.luogu.com.cn/problem/P2408
 
-template<typename T>
+template<typename T, typename enable = IntLongT<T>>
 int minPresent(std::vector<T>& a) {
   int k = 0, i = 0, j = 1, n = (int)a.size();
   while (k < n && i < n && j < n) {

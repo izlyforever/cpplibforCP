@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+#include "template.hpp"
 using LL = long long;
 
 // n choose k: 1 stand for choosen
@@ -234,7 +235,7 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
   return x;
 }
 
-template<typename valT>
+template<typename valT, typename enable = ModT<valT>>
 std::vector<valT> GaussModp(std::vector<std::vector<valT>> A, std::vector<valT> b) {
   int n = (int)A.size(), m = A[0].size();
   std::vector<valT> x(m), p(m);

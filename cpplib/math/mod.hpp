@@ -11,7 +11,7 @@ class ModInt {
     return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
   }
  public:
-  template <typename T>
+  template<typename T>
    operator T() const {
     return static_cast<T>(n_);
   }
@@ -126,7 +126,7 @@ class ModLL {
     return x == 1 ? x : __int128(M - M / x) * inv(M % x) % M;
   }
  public:
-  template <typename T>
+  template<typename T>
    operator T() const {
     return static_cast<T>(n_);
   }
@@ -245,7 +245,7 @@ class MInt {
     return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
   }
  public:
-  template <typename T>
+  template<typename T>
    operator T() const {
     return static_cast<T>(n_);
   }

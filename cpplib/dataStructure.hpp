@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+#include "math/template.hpp"
 using LL = long long;
 
 // a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$
@@ -94,7 +95,7 @@ class ECC {
   bool solve() { return dfs(k_); }
 };
 
-template<typename T>
+template<typename T, typename enable = IntLongT<T>>
 class RingBuffer {
   int m_, id_;
   std::vector<T> a_;
@@ -111,7 +112,7 @@ class RingBuffer {
 // https://codeforces.com/gym/103274/problem/G
 
 // Returns the original value corresponding to the array value after discretization
-template <typename T>
+template<typename T, typename enable = IntLongT<T>>
 std::vector<T> discrete(std::vector<T>& a) {
   auto r = a;
   std::sort(r.begin(), r.end());
@@ -158,7 +159,7 @@ class DSU {
 
 
 // Bit Tree Mininal version
-template<typename T>
+template<typename T, typename enable = IntLongT<T>>
 struct BitreeMin {
   std::vector<T> s_;
   BitreeMin() {}
@@ -182,7 +183,7 @@ struct BitreeMin {
   }
 };
 
-template<typename T>
+template<typename T, typename enable = IntLongT<T>>
 struct Bitree {
   std::vector<T> s_;
   Bitree() {}
@@ -217,7 +218,7 @@ struct Bitree {
   }
 };
 
-template<typename T>
+template<typename T, typename enable = IntLongT<T>>
 class BitreePlus {
   int n_;
   // c[i] = a[i] - a[i - 1], b_i = (i - 1) * c_i
@@ -316,6 +317,70 @@ class SegmentTree {
   LL query(int L, int R) { return query(--L, R, 0, n_, 1); }
 };
 // https://www.luogu.com.cn/problem/P3372
+class SegmentTreeAddCountMin {
+  int n_;
+  std::vector<int> mx, tag;
+  void pull(int p) { 
+    mx[p] = std::min(mx[p << 1], mx[p << 1 | 1]);
+  }
+  void pushTag(int x, int l, int r, int p) {
+    tag[p] += x;
+    mx[p] += x;
+  }
+  void push(int l, int r, int p) {
+    if (tag[p]) {
+      int m = (l + r) / 2;
+      pushTag(tag[p], l, m, p << 1);
+      pushTag(tag[p], m, r, p << 1 | 1);
+      tag[p] = 0;
+    }
+  }
+  void rangeAdd(int L, int R, int x, int l, int r, int p) {
+    if (L <= l && R >= r) {
+      pushTag(x, l, r, p);
+      return;
+    }
+    push(l, r, p);
+    int m = (l + r) / 2;
+    if (L < m) rangeAdd(L, R, x, l, m, p << 1);
+    if (R > m) rangeAdd(L, R, x, m, r, p << 1 | 1);
+    pull(p);
+  }
+  // you should implement it to meet for needs
+  int query(int L, int R, int l, int r, int p) {
+    if (L <= l && R >= r) return mx[p];
+    push(l, r, p);
+    LL ans = 0;
+    int m = (l + r) / 2;
+    if (L < m) ans += query(L, R, l, m, p << 1);
+    if (R > m) ans += query(L, R, m, r, p << 1 | 1);
+    return ans;
+  }
+  void resize() {
+    tag.resize(4 * n_);
+    mx.resize(4 * n_);
+  }
+ public:
+  SegmentTreeAddCountMin(int n) : n_(n) { resize(); }
+  SegmentTreeAddCountMin(const std::vector<int>& a) {
+    n_ = (int)a.size();
+    resize();
+    std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+      if (r - l == 1) {
+        mx[p] = a[l];
+        return;
+      }
+      int m = (l + r) / 2;
+      build(l, m, p << 1);
+      build(m, r, p << 1 | 1);
+      pull(p);
+    };
+    build(0, n_, 1);
+  }
+  void add(int L, int R, int v) { rangeAdd(L, R, v, 0, n_, 1); }
+  int query(int L, int R) { return query(L, R, 0, n_, 1); }
+};
+
 
 // Persistent Segment Tree, reference: https://zhuanlan.zhihu.com/p/250565583
 class PstSegTree {
