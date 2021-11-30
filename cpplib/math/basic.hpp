@@ -91,6 +91,7 @@ std::tuple<T, T, T> exGcd(T a, T b) {
   auto [d, y, x] = exGcd(b, a % b);
   return {d, x, y - a / b * x};
 }
+// |x| <= max(1, b), |y| <= a ===> |y - a / b * x| <= a % b + a / b * b = a 
 
 // Chinese remainder theorem: x = ai mod mi, m_i > 0, 0 <= a_i < m_i
 std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2) {

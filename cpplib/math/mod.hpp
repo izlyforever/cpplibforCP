@@ -6,9 +6,16 @@ using LL = long long;
 class ModInt {
   static inline int M = 998244353;
   int n_;
-  // assume gcd(x, M) = 1;
-  static int inv(int x) {
-    return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
+// |x| <= max(1, b), |y| <= a ===> |y - a / b * x| <= a % b + a / b * b = a 
+  static std::tuple<int, int, int> exGcdInternal(int a, int b) {
+    if (b == 0) return {a, 1, 0};
+    auto [d, y, x] = exGcdInternal(b, a % b);
+    return {d, x, y - a / b * x};
+  }
+  static int inv(int a) {
+    auto [d, x, y] = exGcdInternal(a, M);
+    // assert(d == 1);
+    return x < 0 ? x + M : x;
   }
  public:
   template<typename T>
@@ -121,9 +128,16 @@ class ModInt {
 class ModLL {
   static inline LL M = 998244353;
   LL n_;
-  // assume gcd(x, M) = 1;
-  static LL inv(LL x) {
-    return x == 1 ? x : __int128(M - M / x) * inv(M % x) % M;
+// |x| <= max(1, b), |y| <= a ===> |y - a / b * x| <= a % b + a / b * b = a 
+  static std::tuple<LL, LL, LL> exGcdInternal(LL a, LL b) {
+    if (b == 0) return {a, 1, 0};
+    auto [d, y, x] = exGcdInternal(b, a % b);
+    return {d, x, y - a / b * x};
+  }
+  static LL inv(LL a) {
+    auto [d, x, y] = exGcdInternal(a, M);
+    // assert(d == 1);
+    return x < 0 ? x + M : x;
   }
  public:
   template<typename T>
@@ -240,9 +254,16 @@ template<int N>
 class MInt {
   static inline constexpr int M = N;
   int n_;
-  // assume gcd(x, M) = 1;
-  static int inv(int x) {
-    return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
+// |x| <= max(1, b), |y| <= a ===> |y - a / b * x| <= a % b + a / b * b = a 
+  static std::tuple<int, int, int> exGcdInternal(int a, int b) {
+    if (b == 0) return {a, 1, 0};
+    auto [d, y, x] = exGcdInternal(b, a % b);
+    return {d, x, y - a / b * x};
+  }
+  static int inv(int a) {
+    auto [d, x, y] = exGcdInternal(a, M);
+    // assert(d == 1);
+    return x < 0 ? x + M : x;
   }
  public:
   template<typename T>

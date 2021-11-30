@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
-// slow than __builtin_ctz and __builtin_ctzll but funny
+// slow than __builtin_ctz and __builtin_ctzll but funny, you may use -Wno-narrowing when complier
 int ctz32(unsigned x) {
   union {
     float f;
