@@ -1,5 +1,5 @@
 #pragma once
-#include <type_traits>
+#include <bits/stdc++.h>
 #include "mod.hpp"
 
 template<typename T, typename T2>
@@ -10,16 +10,19 @@ using IntLongT = std::enable_if_t<
     std::is_same_v<int32_t, T>  ||
     std::is_same_v<uint32_t, T> ||
     std::is_same_v<int64_t, T>  ||
-    std::is_same_v<uint64_t, T>>;
+    std::is_same_v<uint64_t, T> ||
+    std::is_same_v<__int128, T> ||
+    std::is_same_v<__uint128, T>;
+
 
 template<typename T>
 using ArithT = std::enable_if_t<std::is_arithmetic_v<T>>;
 
 template<typename T>
-using SignedT = std::enable_if_t<std::is_signed_v<T>>;
+using SignedT = std::enable_if_t<std::is_signed_v<T> || std::is_same_v<__int128, T>>;
 
 template<typename T>
-using UnsignedT = std::enable_if_t<std::is_unsigned_v<T>>;
+using UnsignedT = std::enable_if_t<std::is_unsigned_v<T> || std::is_same_v<__uint128, T>>;
 
 // valT
 template<class T>
