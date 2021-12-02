@@ -46,7 +46,7 @@ class NTT {
     int n = (int)a.size();
     std::reverse(a.begin() + 1, a.end());
     dft(a);
-    auto inv = pow(MInt<M>(n), M - 2);
+    auto inv = MInt<M>::raw(M - (M - 1) / n);
     for (auto& x : a) x *= inv;
   }
 };
