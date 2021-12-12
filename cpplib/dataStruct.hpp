@@ -1,0 +1,7 @@
+#include "dataStruct/basic.hpp"
+#include "dataStruct/block.hpp"
+#include "dataStruct/cdqConquer.hpp"
+#include "dataStruct/dsu.hpp"
+#include "dataStruct/fenwick.hpp"
+#include "dataStruct/mixed.hpp"
+#include "dataStruct/segmentTree.hpp"

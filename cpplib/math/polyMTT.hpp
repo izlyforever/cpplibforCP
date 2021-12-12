@@ -7,7 +7,7 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
  public:
   static inline constexpr int M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353;
   static inline constexpr LL M01 = 1LL * M0 * M1, M23 = 1LL * M2 * M3;
-  static inline constexpr __int128 M0123 = __int128(M01) * M23;
+  static inline constexpr __int128_t M0123 = __int128_t(M01) * M23;
   static inline constexpr int t01 = 538269027, t23 = 415935157;
   static inline constexpr LL t0123 = 341204425684314487LL;
   static inline NTT<M0> ntt0;
@@ -19,7 +19,7 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
   static ModLL crt(int a0, int a1, int a2, int a3) {
     LL ans1 = a0 + LL(a1 - a0) * t01 % M1 * M0;
     LL ans2 = a2 + LL(a3 - a2) * t23 % M3 * M2;
-    __int128 ans = ans1 + __int128(ans2 - ans1) * t0123 % M23 * M01;
+    __int128_t ans = ans1 + __int128_t(ans2 - ans1) * t0123 % M23 * M01;
     if (ans < 0) ans += M0123;
     return ModLL(ans);
   }

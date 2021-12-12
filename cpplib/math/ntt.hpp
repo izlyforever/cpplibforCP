@@ -46,6 +46,7 @@ class NTT {
     int n = (int)a.size();
     std::reverse(a.begin() + 1, a.end());
     dft(a);
+    // not that n is power of 2, and M = 1 + c 2^x 
     auto inv = MInt<M>::raw(M - (M - 1) / n);
     for (auto& x : a) x *= inv;
   }

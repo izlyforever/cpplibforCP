@@ -1,6 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "template.hpp"
+#include "mod.hpp"
 using LL = long long;
 
 // n choose k: 1 stand for choosen
@@ -383,7 +383,7 @@ VL Karatsuba(VL a, VL b, LL p) {
   if (a.size() < b.size()) std::swap(a, b);
   auto mulS = [&](VL a, VL b) {
     int n = (int)a.size(), m = (int)b.size(), sz = n + m - 1;
-    std::vector<__int128> c(sz);
+    std::vector<__int128_t> c(sz);
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < m; ++j) {
         c[i + j] += a[i] * b[j];
@@ -433,7 +433,7 @@ VL Karatsuba(VL a, VL b, LL p) {
 //   if (a.size() < b.size()) std::swap(a, b);
 //   auto mulS = [&](VL a, VL b) {
 //     int n = (int)a.size(), m = (int)b.size(), sz = n + m - 1;
-//     std::vector<__int128> c(sz);
+//     std::vector<__int128_t> c(sz);
 //     for (int i = 0; i < n; ++i) {
 //       for (int j = 0; j < m; ++j) {
 //         c[i + j] += a[i] * b[j];

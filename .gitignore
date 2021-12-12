@@ -1,6 +1,6 @@
+.DS_Store
+.vscode
 main*
 *.exe
 *.out
-.vscode
 site/
-.DS_Store

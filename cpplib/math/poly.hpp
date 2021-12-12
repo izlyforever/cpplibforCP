@@ -2,7 +2,7 @@
 #pragma once
 #include <bits/stdc++.h>
 #include "basic.hpp"
-#include "template.hpp"
+#include "mod.hpp"
 using LL = long long;
 
 // many function will fail for the case n > mod

@@ -17,6 +17,10 @@ class ModInt {
     // assert(d == 1);
     return x < 0 ? x + M : x;
   }
+  // assum M is prime
+  static int invP(int x) {
+    return x == 1 ? x : 1LL * (M - M / x) * invP(M % x) % M;
+  }
  public:
   template<typename T>
    operator T() const {
@@ -104,6 +108,9 @@ class ModInt {
   ModInt inv() const {
     return inv(n_);
   }
+  ModInt invP() const {
+    return invP(n_);
+  }
   friend ModInt pow(ModInt A, int n) {
     ModInt R(1);
     while (n) {
@@ -139,6 +146,10 @@ class ModLL {
     // assert(d == 1);
     return x < 0 ? x + M : x;
   }
+  // assum M is prime
+  static LL invP(LL x) {
+    return x == 1 ? x : __int128_t(M - M / x) * invP(M % x) % M;
+  }
  public:
   template<typename T>
    operator T() const {
@@ -163,7 +174,7 @@ class ModLL {
   ModLL(const LL& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
-  ModLL(const __int128& x) : n_(x % M) {
+  ModLL(const __int128_t& x) : n_(x % M) {
     if (n_ < 0) n_ += M;
   }
   ModLL operator-() const {
@@ -188,7 +199,7 @@ class ModLL {
     return (*this);
   }
   ModLL& operator*=(const ModLL& A) {
-    n_ = __int128(n_) * A.n_ % M;
+    n_ = __int128_t(n_) * A.n_ % M;
     return (*this);
   }
   ModLL& operator/=(const ModLL& A) {
@@ -208,7 +219,7 @@ class ModLL {
   }
   ModLL operator<<(int x) const {
     static constexpr int bits = 64;
-    __int128 r = n_;
+    __int128_t r = n_;
     while (x > bits) {
       x -= bits;
       r <<= bits;
@@ -228,6 +239,9 @@ class ModLL {
   }
   ModLL inv() const {
     return inv(n_);
+  }
+  ModLL invP() const {
+    return invP(n_);
   }
   friend ModLL pow(ModLL A, LL n) {
     ModLL R(1);
@@ -254,7 +268,7 @@ template<int N>
 class MInt {
   static inline constexpr int M = N;
   int n_;
-// |x| <= max(1, b), |y| <= a ===> |y - a / b * x| <= a % b + a / b * b = a 
+  // |x| <= max(1, b), |y| <= a ===> |y - a / b * x| <= a % b + a / b * b = a 
   static std::tuple<int, int, int> exGcdInternal(int a, int b) {
     if (b == 0) return {a, 1, 0};
     auto [d, y, x] = exGcdInternal(b, a % b);
@@ -264,6 +278,10 @@ class MInt {
     auto [d, x, y] = exGcdInternal(a, M);
     // assert(d == 1);
     return x < 0 ? x + M : x;
+  }
+  // assum M is prime
+  static int invP(int x) {
+    return x == 1 ? x : 1LL * (M - M / x) * invP(M % x) % M;
   }
  public:
   template<typename T>
@@ -352,6 +370,9 @@ class MInt {
   MInt inv() const {
     return inv(n_);
   }
+  MInt invP() const {
+    return invP(n_);
+  }
   friend MInt pow(MInt A, int n) {
     MInt R(1);
     while (n) {
@@ -371,3 +392,16 @@ class MInt {
     return out;
   }
 };
+
+// valT
+template<class T>
+struct is_MInt : std::false_type {};
+
+template<int M>
+struct is_MInt<MInt<M>> : std::true_type {};
+
+template<class T>
+inline constexpr bool is_mint_v = is_MInt<T>::value;
+
+template<typename T>
+using ModT = std::enable_if_t<std::is_same_v<ModLL, T> || std::is_same_v<ModInt, T> || is_mint_v<T>>;

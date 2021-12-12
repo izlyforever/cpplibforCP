@@ -1,5 +1,5 @@
 #include "math.hpp"
-#include "dataStructure.hpp"
+#include "dataStruct.hpp"
 #include "graph.hpp"
 #include "string.hpp"
 #include "timer.hpp"

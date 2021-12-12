@@ -434,8 +434,8 @@ std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count(
 LL powModll(LL x, LL n, LL p) {
   LL r = 1;
   while (n) {
-    if (n&1) r = __int128(r) * x % p;
-    n >>= 1; x = __int128(x) * x % p;
+    if (n&1) r = __int128_t(r) * x % p;
+    n >>= 1; x = __int128_t(x) * x % p;
   }
   return r;
 }
@@ -445,7 +445,7 @@ bool witness(LL a, LL n, LL m, int t) {
   LL x = powModll(a, m, n);
   if (x == 1 || x == n - 1) return false;
   while (t--) {
-    x = __int128(x) * x %  n;
+    x = __int128_t(x) * x %  n;
     if (x == n - 1) return false;
   }
   return true;
@@ -467,8 +467,8 @@ bool rabin(LL n) {
 LL pollardrho(LL n) {
   LL x = 0, y = 0, z = 1, i = 1, k = 2, c = rnd64() % (n - 1) + 1;
   while (true) {
-    x = (__int128(x) * x + c) % n;
-    z = __int128(y - x + n) * z % n;
+    x = (__int128_t(x) * x + c) % n;
+    z = __int128_t(y - x + n) * z % n;
     // optim times of compute gcd
     if (++i == k) {
       LL d = std::gcd(z, n);

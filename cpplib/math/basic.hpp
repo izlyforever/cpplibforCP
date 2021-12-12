@@ -1,6 +1,7 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "template.hpp"
+#include "../template.hpp"
+#include "mod.hpp"
 using LL = long long;
 
 int powMod(int x, int n, int M) {
@@ -39,36 +40,37 @@ T ceil(T a, T n) {
   return a < 0 ? a / n : (a + n - 1) / n;
 }
 
-// never mixed it with cin and cout
-namespace int128 {
-__int128 read(){
-  __int128 x = 0;
-  bool negative = false;
-  char ch = getchar();
-  while (ch < '0' || ch > '9'){
-    if (ch == '-') negative = true;
-    ch = getchar();
+// never mixed it with cin and cout, useful for int128
+template<typename T, typename enable = IntegerT<T>>
+class FastIO {
+ public:
+  static T read(){
+    T x = 0;
+    bool negative = false;
+    char ch = getchar();
+    while (ch < '0' || ch > '9'){
+      if (ch == '-') negative = true;
+      ch = getchar();
+    }
+    while (ch >= '0' && ch <= '9') {
+      x = x * 10 + ch - '0';
+      ch = getchar();
+    }
+    return negative ?  -x : x;
   }
-  while (ch >= '0' && ch <= '9') {
-    x = x * 10 + ch - '0';
-    ch = getchar();
+  static void print(T x){
+    if (x < 0) {
+      putchar('-');
+      x = -x;
+    }
+    printCore(x);
   }
-  return negative ?  -x : x;
-}
-
-void printCore(__int128 x){
-  if (x > 9) printCore(x / 10);
-  putchar(x % 10 + '0');
-}
-void print(__int128 x){
-  if (x < 0) {
-    putchar('-');
-    x = -x;
+ private:
+  static void printCore(T x){
+    if (x > 9) printCore(x / 10);
+    putchar(x % 10 + '0');
   }
-  printCore(x);
-}
-} // namespace int128
-
+};
 
 // slightly faster than std::gcd
 LL gcd(LL a, LL b) {

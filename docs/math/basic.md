@@ -42,11 +42,11 @@ $\text{ceil}(a, n) = \lceil \frac{a}{n} \rceil$
 
 
 
-## `__int128` : input and output
+## FastIO class: input and output
 
 ``` cpp
-__int128 int128::read()
-void int128::print()
+T FastIO::read()
+void FastIO::print()
 ```
 
 **Constraints**
@@ -56,7 +56,6 @@ void int128::print()
 **Complexity**
 
 - $O(\log n)$
-
 
 
 ## gcd 
