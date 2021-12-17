@@ -1,6 +1,6 @@
 #pragma once
-#include "poly.hpp"
 #include "mod.hpp"
+#include "poly.hpp"
 
 template<typename T>
 class PolyBaseOrigin : public PolyBase<T> {

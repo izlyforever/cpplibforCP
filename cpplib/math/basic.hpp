@@ -1,7 +1,7 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "../template.hpp"
 #include "mod.hpp"
+#include "../template.hpp"
 using LL = long long;
 
 int powMod(int x, int n, int M) {
