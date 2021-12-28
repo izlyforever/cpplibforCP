@@ -58,11 +58,11 @@ void FastIO::print()
 - $O(\log n)$
 
 
-## gcd 
+## gcd
 
 ``` cpp
 // Binary GCD: slightly faster than std::gcd
-LL gcd(LL a, LL b) 
+LL gcd(LL a, LL b)
 ```
 
 **Complexity**
@@ -99,7 +99,7 @@ where $d = \gcd(a, b) = ax + by$
 
 ``` cpp
 std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2)
-// auto [a, m] = crt2(a1, m1, a2, m2) 
+// auto [a, m] = crt2(a1, m1, a2, m2)
 ```
 
 The Chinese Remainder Theorem shows that
@@ -125,7 +125,7 @@ $$
 
 ``` cpp
 std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>>& A)
-// n = (int)A.size(), a[i] = A[i].first, m[i] = A[i].second, 
+// n = (int)A.size(), a[i] = A[i].first, m[i] = A[i].second,
 ```
 
 > use `crt2` above $n - 1$ times,  we have
@@ -160,13 +160,32 @@ std::vector<int> spf(int N)
 // auto sp = spf(N)
 ```
 
-where `sp[x]` is smallest prime factor of $x$ 
+where `sp[x]` is smallest prime factor of $x$
 
 **Complexity**
 
-- $O(\log N)$
+- $O(N)$
+
+``` cpp
+std::vector<int> spfS(int N)
+// auto sp = spfS(N)
+```
+
+**Complexity**
+
+- $O(N \log N)$
 
 
+## non square factor
+
+``` cpp
+std::vector<int> nsf(int N);
+// auto sf = nsf(N) // sf[i] = sf[i * j * j]
+```
+
+**Complexity**
+
+- $O(N)$
 
 ## Binom
 
@@ -197,7 +216,7 @@ It is a ~~singleton~~ template class, with typename `valT`
 **Constraints**
 
 - `valT` should be `MInt`, `ModInt` or `ModLL` defined in [mod.hpp](mod.md)
-- $valT::mod() \geq n$ 
+- $valT::mod() \geq n$
 
 **Complexity**
 
@@ -250,7 +269,7 @@ It is a class template, contains matrix add, multiplication, and pow
 **Complexity**
 
 - `+`: $O(N^2)$
-- `*`: $O(N^3)$ 
+- `*`: $O(N^3)$
 - `pow(A, n)`: $O(N^3 \log n)$
 
 

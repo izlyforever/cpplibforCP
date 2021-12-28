@@ -93,7 +93,7 @@ std::tuple<T, T, T> exGcd(T a, T b) {
   auto [d, y, x] = exGcd(b, a % b);
   return {d, x, y - a / b * x};
 }
-// |x| <= max(1, b), |y| <= a ===> |y - a / b * x| <= a % b + a / b * b = a 
+// |x| <= max(1, b), |y| <= a ===> |y - a / b * x| <= a % b + a / b * b = a
 
 // Chinese remainder theorem: x = ai mod mi, m_i > 0, 0 <= a_i < m_i
 std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2) {
@@ -113,6 +113,18 @@ std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>>& A) {
 }
 // https://www.luogu.com.cn/problem/P1495
 
+// O(N \log N) smalleset prime factor(may be faster)
+std::vector<int> spfS(int N) {
+  std::vector<int> sp(N);
+  std::iota(sp.begin(), sp.end(), 0);
+  for(int i = 2; i * i < N; ++i) if(sp[i] == i) {
+    for(int j = i * i; j < N; j += i) if(sp[j] == j) {
+      sp[j] = i;
+    }
+  }
+  return sp;
+}
+
 // $O(N)$ smallest prime factor
 std::vector<int> spf(int N) {
   std::vector<int> sp(N), p{0, 2};
@@ -126,6 +138,30 @@ std::vector<int> spf(int N) {
     }
   }
   return sp;
+}
+
+// O(N) none square factor
+std::vector<int> nsf(int N) {
+  std::vector<int> ans(N);
+  std::iota(ans.begin(), ans.end(), 0);
+  for (int i = 1; i < N; ++i) if (ans[i] == i) {
+    for (int j = 2; i * j * j < N; ++j) {
+      ans[i * j * j] = i;
+    }
+  }
+  return ans;
+}
+
+// O(N) none square factor
+std::vector<int> nsfS(int N) {
+  auto sp = spf(N);
+  std::vector<int> ans(N);
+  ans[1] = 1;
+  for (int i = 2; i < N; ++i) {
+    int si = i / sp[i];
+    ans[i] = si % sp[i] == 0 ? ans[si / sp[i]] : ans[si] * sp[i];
+  }
+  return ans;
 }
 
 class Binom {
@@ -326,7 +362,7 @@ class MexS {
   std::vector<LL> cnt_;
   std::vector<std::vector<ULL>> a_;
   int ans_;
- public: 
+ public:
   // the answer is at most n
   MexS(int n) : cnt_(n + 1), ans_(-1) {
     int x = cnt_.size();
