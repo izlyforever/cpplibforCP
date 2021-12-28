@@ -140,7 +140,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#__int128-input-and-output" class="nav-link">__int128 : input and output</a>
+            <li class="nav-item" data-level="2"><a href="#fastio-class-input-and-output" class="nav-link">FastIO class: input and output</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -161,6 +161,10 @@
               </ul>
             </li>
             <li class="nav-item" data-level="2"><a href="#spf-foundmental-important" class="nav-link">spf (foundmental important)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#non-square-factor" class="nav-link">non square factor</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -262,9 +266,9 @@ T ceil(T a, T n)
 <script type="math/tex">O(1)</script>
 </li>
 </ul>
-<h2 id="__int128-input-and-output"><code>__int128</code> : input and output</h2>
-<pre><code class="language-cpp">__int128 int128::read()
-void int128::print()
+<h2 id="fastio-class-input-and-output">FastIO class: input and output</h2>
+<pre><code class="language-cpp">T FastIO::read()
+void FastIO::print()
 </code></pre>
 <p><strong>Constraints</strong></p>
 <ul>
@@ -278,7 +282,7 @@ void int128::print()
 </ul>
 <h2 id="gcd">gcd</h2>
 <pre><code class="language-cpp">// Binary GCD: slightly faster than std::gcd
-LL gcd(LL a, LL b) 
+LL gcd(LL a, LL b)
 </code></pre>
 <p><strong>Complexity</strong></p>
 <ul>
@@ -310,7 +314,7 @@ std::tuple&lt;T, T, T&gt; exGcd(T a, T b)
 </ul>
 <h2 id="crt2">crt2</h2>
 <pre><code class="language-cpp">std::pair&lt;LL, LL&gt; crt2(LL a1, LL m1, LL a2, LL m2)
-// auto [a, m] = crt2(a1, m1, a2, m2) 
+// auto [a, m] = crt2(a1, m1, a2, m2)
 </code></pre>
 <p>The Chinese Remainder Theorem shows that
 <script type="math/tex; mode=display">
@@ -336,7 +340,7 @@ x \equiv a_i \mod m_i, \quad i = 1, 2
 </ul>
 <h2 id="crt">crt</h2>
 <pre><code class="language-cpp">std::pair&lt;LL, LL&gt; crt(const std::vector&lt;std::pair&lt;LL, LL&gt;&gt;&amp; A)
-// n = (int)A.size(), a[i] = A[i].first, m[i] = A[i].second, 
+// n = (int)A.size(), a[i] = A[i].first, m[i] = A[i].second,
 </code></pre>
 <blockquote>
 <p>use <code>crt2</code> above <script type="math/tex">n - 1</script> times,  we have</p>
@@ -377,7 +381,26 @@ x \equiv a_i \mod m_i, \quad i = 1, 2, \cdots, n
 <p><strong>Complexity</strong></p>
 <ul>
 <li>
-<script type="math/tex">O(\log N)</script>
+<script type="math/tex">O(N)</script>
+</li>
+</ul>
+<pre><code class="language-cpp">std::vector&lt;int&gt; spfS(int N)
+// auto sp = spfS(N)
+</code></pre>
+<p><strong>Complexity</strong></p>
+<ul>
+<li>
+<script type="math/tex">O(N \log N)</script>
+</li>
+</ul>
+<h2 id="non-square-factor">non square factor</h2>
+<pre><code class="language-cpp">std::vector&lt;int&gt; nsf(int N);
+// auto sf = nsf(N) // sf[i] = sf[i * j * j]
+</code></pre>
+<p><strong>Complexity</strong></p>
+<ul>
+<li>
+<script type="math/tex">O(N)</script>
 </li>
 </ul>
 <h2 id="binom">Binom</h2>
