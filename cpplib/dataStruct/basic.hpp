@@ -32,12 +32,11 @@ void disjointInterval(std::vector<std::pair<int, int>>& a) {
   std::swap(a, b);
 }
 
-
 template<typename T, typename enable = IntegerT<T>>
 class RingBuffer {
   int m_, id_;
   std::vector<T> a_;
- public: 
+ public:
   RingBuffer(int m) : m_(m), id_(0), a_(m, -1) {};
   T getCurrent() const {
     return a_[id_];
@@ -48,4 +47,3 @@ class RingBuffer {
   }
 };
 // https://codeforces.com/gym/103274/problem/G
-

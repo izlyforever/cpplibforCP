@@ -1,7 +1,8 @@
 #pragma once
 #include <bits/stdc++.h>
 #include "basic.hpp"
-#include "segmentTree.hpp"
+#include "fenwick.hpp"
+
 using LL = long long;
 
 // a will becomes next lexicographical order of a, satisfies $-1 < a_0 < a_1 < \cdots, a_{n - 1} < mx$

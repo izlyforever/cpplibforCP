@@ -47,6 +47,7 @@ class FastIO {
   static T read(){
     T x = 0;
     bool negative = false;
+    // you may use buffer instead for speed
     char ch = getchar();
     while (ch < '0' || ch > '9'){
       if (ch == '-') negative = true;
