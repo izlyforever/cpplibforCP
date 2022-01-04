@@ -197,6 +197,8 @@ int cartesian_build(std::vector<cNode>& tree, int n) {
 }
 // https://codeforces.com/contest/1490/problem/D
 
+
+// we can only use the ideal of merge sort
 LL inverseOrderCount(std::vector<int> a) {
   discrete(a);
   Bitree<int> A(*std::max_element(a.begin(), a.end()) + 1);
