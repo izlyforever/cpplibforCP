@@ -8,7 +8,7 @@ struct BitreeMin {
   std::vector<T> s_;
   BitreeMin() {}
   BitreeMin(int n) : s_(n + 1, std::numeric_limits<T>::max()) {}
-  int lowbit(int n) { return n & (-n); }
+  static int lowbit(int n) { return n & (-n); }
   void modify(int id, T p) {
     int ns = s_.size();
     while (id < ns) {
@@ -32,7 +32,21 @@ struct Bitree {
   std::vector<T> s_;
   Bitree() {}
   Bitree(int n) : s_(n + 1) {}
-  int lowbit(int n) { return n & (-n); }
+  // https://codeforces.com/blog/entry/59305
+  Bitree(const std::vector<T>& a) : s_(a.size() + 1) {
+    int n = a.size();
+    for (int i = 0; i < n; ++i) s_[i + 1] = s_[i] + a[i];
+    for (int i = n; i > 0; --i) s_[i] -= s_[i - lowbit(i)];
+  }
+  std::vector<T> getOrigin() const {
+    auto a = s_;
+    int n = s_.size() - 1;
+    for (int i = 1; i <= n; ++i) a[i] += a[i - lowbit(i)];
+    std::vector<T> ans(n);
+    for (int i = n - 1; i >= 0; --i) ans[i] = a[i + 1] - a[i];
+    return ans;
+  }
+  static int lowbit(int n) { return n & (-n); }
   void add(int id, T p) {
     int ns = s_.size();
     while (id < ns) {
@@ -52,7 +66,7 @@ struct Bitree {
   T at(int id) { return sum(id, id);}
   // val must monic increase
   int lower_bound(T x) {
-    int l = 1, r = n_;
+    int l = 1, r = s_.size() - 1;
     while (l <= r) {
       int m = (l + r) / 2;
       if (at(m) >= x) r = m - 1;
@@ -62,7 +76,7 @@ struct Bitree {
   }
   // val must monic increase
   int upper_bound(T x) {
-    int l = 1, r = n_;
+    int l = 1, r = s_.size() - 1;
     while (l <= r) {
       int m = (l + r) / 2;
       if (at(m) > x) r = m - 1;
