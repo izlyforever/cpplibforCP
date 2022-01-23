@@ -146,7 +146,7 @@ int FirstInRange(int a, int m, int l, int r) { // 0 <= L <= R < M, 0 < a < M
 template<typename T> // use ModInt, MInt, ModLL
 class RecSeq : public std::vector<T> {
   // x^n = c_0 + c_1 x + \cdots c_{n - 1} x^{n - 1}
-  static inline std::vector<T> c_; 
+  static inline std::vector<T> c_;
 public:
   using std::vector<T>::vector;
   static void setRec(std::vector<T> c) { c_ = std::move(c);}
@@ -181,7 +181,8 @@ public:
 
 // Gauss-Jordan Elimination $Ax = b$, float version
 std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double> b) {
-  int n = (int)A.size(), m = A[0].size();
+  int n = (int)A.size(), m = (int)A[0].size();
+  assert(m == (int)b.size());
   std::vector<double> x(m);
   std::vector<int> p(m);
   std::iota(p.begin(), p.end(), 0);
@@ -201,7 +202,7 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
     return x;
   };
   int sz = n;
-  for (int i = 0, row; i < n; ++i) {
+  for (int i = 0, row = 0; i < n; ++i) {
     while (i < m) {
       row = findNonZero(i);
       if (row != n) break;
@@ -237,8 +238,10 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
 
 template<typename valT, typename enable = ModT<valT>>
 std::vector<valT> GaussModp(std::vector<std::vector<valT>> A, std::vector<valT> b) {
-  int n = (int)A.size(), m = A[0].size();
-  std::vector<valT> x(m), p(m);
+  int n = (int)A.size(), m = (int)A[0].size();
+  assert(m == (int)b.size());
+  std::vector<valT> x(m);
+  std::vector<int> p(m);
   std::iota(p.begin(), p.end(), 0);
   auto triangleGauss = [&](int sz) { // A[i][i] = 1
     std::vector<valT> x(sz);
@@ -254,7 +257,7 @@ std::vector<valT> GaussModp(std::vector<std::vector<valT>> A, std::vector<valT> 
     return n;
   };
   int sz = n;
-  for (int i = 0, row; i < n; ++i) {
+  for (int i = 0, row = 0; i < n; ++i) {
     while (i < m) {
       row = findNonZero(i);
       if (row != n) break;
