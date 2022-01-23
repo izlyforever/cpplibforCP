@@ -236,6 +236,60 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
   return x;
 }
 
+// xor version of Gauss-Jordan Elimination with 0-1-matrix A
+template <typename T>
+std::vector<T> GaussXor(std::vector<std::vector<T>> A, std::vector<T> b) {
+  int n = (int)A.size(), m = (int)A[0].size();
+  std::vector<T> x(m);
+  std::vector<int> p(m);
+  std::iota(p.begin(), p.end(), 0);
+  auto triangleGauss = [&](int sz) { // A[i][i] = 1
+    std::vector<T> x(sz);
+    for (int i = sz - 1; i >=0; --i) {
+      x[i] = b[i];
+      for (int row = 0; row < i; ++row) if (A[row][i]) {
+        b[row] ^= x[i];
+      }
+    }
+    x.resize(m);
+    return x;
+  };
+  auto findNonZero = [&](int i) {
+    for (int row = i; row < n; ++row) if (A[row][i]) return row;
+    return n;
+  };
+  int sz = n;
+  for (int i = 0, row = 0; i < n; ++i) {
+    while (i < m) {
+      row = findNonZero(i);
+      if (row != n) break;
+      for (int j = 0; j < n; ++j) A[j][i] = A[j][m - 1];
+      std::swap(p[i], p[--m]);
+    }
+    if (i == m) {
+      for (int row = m; row < n; ++row) if (b[row]) {
+        // std::cout << "\nNo answer\n";
+        return {};
+      }
+      sz = i;
+      break;
+    }
+    if (row != i) {
+      std::swap(A[i], A[row]);
+      std::swap(b[i], b[row]);
+    }
+    for (int row = i + 1; row < n; ++row) if (A[row][i]) {
+      b[row] ^= b[i];
+      for (int j = m - 1; j >= i; --j) A[row][j] ^= A[i][j];
+    }
+  }
+  // if (sz != m) std::cout << "\nInfinite answer\n";
+  auto xt = triangleGauss(sz);
+  for (int t = 0; t < m; ++t) x[p[t]] = xt[t];
+  return x;
+}
+
+// mod version of Gauss-Jordan Elimination
 template<typename valT, typename enable = ModT<valT>>
 std::vector<valT> GaussModp(std::vector<std::vector<valT>> A, std::vector<valT> b) {
   int n = (int)A.size(), m = (int)A[0].size();
