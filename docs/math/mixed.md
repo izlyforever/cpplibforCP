@@ -54,7 +54,7 @@ Knuth Shuffle Algorithm
 std::vector<int> uniformChoose(int n, int m)
 ```
 
-Choose $m$ distinct elements from $[0, n)$ with equal probability using the ideal of **Knuth Shuffle Algorithm** 
+Choose $m$ distinct elements from $[0, n)$ with equal probability using the ideal of **Knuth Shuffle Algorithm**
 
 
 **Complexity**
@@ -178,6 +178,18 @@ Gauss-Jordan Elimination $Ax = b$, mod version
 
 - $O(n^3)$
 
+## GaussXor
+
+``` cpp
+std::vector<valT> GaussXor(std::vector<std::vector<valT>> A, std::vector<valT> b)
+```
+
+Gauss-Jordan Elimination $Ax = b$, xor version
+
+**Complexity**
+
+- $O(n^3)$
+
 ## simplex
 
 ``` cpp
@@ -198,7 +210,7 @@ using VL = std::vector<LL>
 VL Karatsuba(VL a, VL b, LL p)
 ```
 
-Polynomial multiplication with arbitrary modulus 
+Polynomial multiplication with arbitrary modulus
 
 **Complexity**
 
