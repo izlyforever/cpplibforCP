@@ -688,3 +688,61 @@ unsigned fastPowMod1000000009(unsigned x, unsigned n) {
   return ULL(rr) * m1inv % m;
 }
 // asm may helps https://www.rieselprime.de/ziki/Montgomery_multiplication
+
+
+/*
+// Definition for a Node.
+class Node {
+public:
+  int val;
+  Node* next;
+  Node* random;
+  Node(int _val) {
+    val = _val;
+    next = NULL;
+    random = NULL;
+  }
+};
+*/
+template<typename Node>
+class Solution {
+public:
+  Node* copyRandomList(Node* head) {
+    if (head == nullptr) return nullptr;
+    // insert Node
+    auto* now = head;
+    while (now) {
+      auto p = new Node(now->val);
+      auto* nxt = now->next;
+      now->next = p;
+      p->next = nxt;
+      now = nxt;
+    }
+    // update random
+    now = head;
+    while (now) {
+      auto* cur = now->next;
+      if (now->random) {
+        cur->random = now->random->next;
+      } else {
+        cur->random = nullptr;
+      }
+      now = cur->next;
+    }
+    // get ans and make head back to origin
+    now = head;
+    auto* ans = head->next;
+    while (now) {
+      auto* cur = now->next;
+      now->next = cur->next;
+      now = now->next;
+      if (now) {
+        cur->next = now->next;
+      } else {
+        cur->next = nullptr;
+      }
+    }
+    return ans;
+  }
+};
+// https://leetcode-cn.com/submissions/detail/261932599/
