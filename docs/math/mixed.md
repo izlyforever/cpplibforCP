@@ -313,3 +313,9 @@ unsigned fastPowMod1000000007(unsigned x, unsigned n); // 18% faster
 unsigned fastPowMod1000000009(unsigned x, unsigned n); // 18% faster
 ```
 
+
+## copy Link List
+
+``` cpp
+Node* copyRandomList(Node* head)
+```

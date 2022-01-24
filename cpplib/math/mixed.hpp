@@ -705,44 +705,41 @@ public:
 };
 */
 template<typename Node>
-class Solution {
-public:
-  Node* copyRandomList(Node* head) {
-    if (head == nullptr) return nullptr;
-    // insert Node
-    auto* now = head;
-    while (now) {
-      auto p = new Node(now->val);
-      auto* nxt = now->next;
-      now->next = p;
-      p->next = nxt;
-      now = nxt;
-    }
-    // update random
-    now = head;
-    while (now) {
-      auto* cur = now->next;
-      if (now->random) {
-        cur->random = now->random->next;
-      } else {
-        cur->random = nullptr;
-      }
-      now = cur->next;
-    }
-    // get ans and make head back to origin
-    now = head;
-    auto* ans = head->next;
-    while (now) {
-      auto* cur = now->next;
-      now->next = cur->next;
-      now = now->next;
-      if (now) {
-        cur->next = now->next;
-      } else {
-        cur->next = nullptr;
-      }
-    }
-    return ans;
+Node* copyRandomList(Node* head) {
+  if (head == nullptr) return nullptr;
+  // insert Node
+  auto* now = head;
+  while (now) {
+    auto p = new Node(now->val);
+    auto* nxt = now->next;
+    now->next = p;
+    p->next = nxt;
+    now = nxt;
   }
-};
+  // update random
+  now = head;
+  while (now) {
+    auto* cur = now->next;
+    if (now->random) {
+      cur->random = now->random->next;
+    } else {
+      cur->random = nullptr;
+    }
+    now = cur->next;
+  }
+  // get ans and make head back to origin
+  now = head;
+  auto* ans = head->next;
+  while (now) {
+    auto* cur = now->next;
+    now->next = cur->next;
+    now = now->next;
+    if (now) {
+      cur->next = now->next;
+    } else {
+      cur->next = nullptr;
+    }
+  }
+  return ans;
+}
 // https://leetcode-cn.com/submissions/detail/261932599/
