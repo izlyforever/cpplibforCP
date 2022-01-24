@@ -184,6 +184,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#gaussxor" class="nav-link">GaussXor</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#simplex" class="nav-link">simplex</a>
               <ul class="nav flex-column">
               </ul>
@@ -205,6 +209,10 @@
               </ul>
             </li>
             <li class="nav-item" data-level="2"><a href="#fast-powmod" class="nav-link">fast powMod</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#copy-link-list" class="nav-link">copy Link List</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -260,7 +268,7 @@ void KnuthShuffle(std::vector&lt;T&gt;&amp; a)
 <h2 id="uniformchoose">uniformChoose</h2>
 <pre><code class="language-cpp">std::vector&lt;int&gt; uniformChoose(int n, int m)
 </code></pre>
-<p>Choose <script type="math/tex">m</script> distinct elements from <script type="math/tex">[0, n)</script> with equal probability using the ideal of <strong>Knuth Shuffle Algorithm</strong> </p>
+<p>Choose <script type="math/tex">m</script> distinct elements from <script type="math/tex">[0, n)</script> with equal probability using the ideal of <strong>Knuth Shuffle Algorithm</strong></p>
 <p><strong>Complexity</strong></p>
 <ul>
 <li>
@@ -374,6 +382,16 @@ class RecSeq : public std::vector&lt;T&gt;;
 <script type="math/tex">O(n^3)</script>
 </li>
 </ul>
+<h2 id="gaussxor">GaussXor</h2>
+<pre><code class="language-cpp">std::vector&lt;valT&gt; GaussXor(std::vector&lt;std::vector&lt;valT&gt;&gt; A, std::vector&lt;valT&gt; b)
+</code></pre>
+<p>Gauss-Jordan Elimination <script type="math/tex">Ax = b</script>, xor version</p>
+<p><strong>Complexity</strong></p>
+<ul>
+<li>
+<script type="math/tex">O(n^3)</script>
+</li>
+</ul>
 <h2 id="simplex">simplex</h2>
 <pre><code class="language-cpp">using VD = std::vector&lt;double&gt;
 VD simplex(VD c, std::vector&lt;VD&gt; Aq, VD bq, std::vector&lt;VD&gt; Alq, VD blq)
@@ -386,7 +404,7 @@ VD simplex(VD c, std::vector&lt;VD&gt; Aq, VD bq, std::vector&lt;VD&gt; Alq, VD 
 <pre><code class="language-cpp">using VL = std::vector&lt;LL&gt;
 VL Karatsuba(VL a, VL b, LL p)
 </code></pre>
-<p>Polynomial multiplication with arbitrary modulus </p>
+<p>Polynomial multiplication with arbitrary modulus</p>
 <p><strong>Complexity</strong></p>
 <ul>
 <li>
@@ -486,6 +504,9 @@ VL Karatsuba(VL a, VL b, LL p)
 <pre><code class="language-cpp">unsigned fastPowMod998244353(unsigned x, unsigned n);  // 40% faster
 unsigned fastPowMod1000000007(unsigned x, unsigned n); // 18% faster
 unsigned fastPowMod1000000009(unsigned x, unsigned n); // 18% faster
+</code></pre>
+<h2 id="copy-link-list">copy Link List</h2>
+<pre><code class="language-cpp">Node* copyRandomList(Node* head)
 </code></pre></div>
             </div>
         </div>
