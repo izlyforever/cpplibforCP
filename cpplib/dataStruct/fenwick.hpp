@@ -26,6 +26,7 @@ struct BitreeMin {
     return r;
   }
 };
+// see https://codeforces.com/contest/1635/submission/147077087 for more elegent impl
 
 template<typename T, typename enable = IntegerT<T>>
 struct Bitree {

@@ -104,8 +104,9 @@ int LIS(std::vector<int>& a) {
   for (auto x : a) {
     if (auto it = std::lower_bound(b.begin(), b.end(), x); it == b.end()) {
       b.emplace_back(x);
-    } else
+    } else {
       *it = x;
+    }
   }
   return b.size();
 }
@@ -115,34 +116,44 @@ int LNDS(std::vector<int>& a) {
   for (auto x : a) {
     if (auto it = std::upper_bound(b.begin(), b.end(), x); it == b.end()) {
       b.emplace_back(x);
-    } else
+    } else {
       *it = x;
+    }
   }
   return b.size();
 }
-// longest increasing subsquence
-auto LISP(std::vector<int>& a) {
-  std::vector<int> b, pb, pa(a.size());
-  std::iota(pa.begin(), pa.end(), 0);
-  for (int i = 0, na = (int)a.size(); i < na; ++i) {
-    if (auto it = std::upper_bound(b.begin(), b.end(), a[i]);
-      it == b.end()) {
-      if (!pb.empty()) pa[i] = pb.back();
+
+// longest non-decreasing subsquence, return choosen index
+template<typename T>
+auto LISP(const std::vector<T>& a) {
+  int n = a.size();
+  std::vector<T> b;
+  b.reserve(n);
+  // p[i] means the preview number of choosen i
+  std::vector<int> p(n);
+  std::iota(p.begin(), p.end(), 0);
+  // q[i] means current b[i] is a[q[i]]
+  std::vector<int> q;
+  q.reserve(n);
+  for (int i = 0; i < n; ++i) {
+    auto it = std::upper_bound(b.begin(), b.end(), a[i]);
+    if (it == b.end()) {
+      if (!q.empty()) p[i] = q.back();
       b.emplace_back(a[i]);
-      pb.emplace_back(i);
+      q.emplace_back(i);
     } else {
       *it = a[i];
-      int t = it - b.begin();
-      pb[t] = i;
-      if (t > 0) pa[i] = pb[t - 1];
+      auto t = it - b.begin();
+      q[t] = i;
+      if (t > 0) p[i] = q[t - 1];
     }
   }
   std::stack<int> c;
-  int now = pb.back();
-  c.push(a[now]);
-  while (now != pa[now]) {
-    now = pa[now];
-    c.push(a[now]);
+  int now = q.back();
+  c.push(now);
+  while (now != p[now]) {
+    now = p[now];
+    c.push(now);
   }
   return c;
 }

@@ -116,7 +116,7 @@ class SegmentTree {
 class SegmentTreeAddCountMin {
   int n_;
   std::vector<int> mx, tag;
-  void pull(int p) { 
+  void pull(int p) {
     mx[p] = std::min(mx[p << 1], mx[p << 1 | 1]);
   }
   void pushTag(int x, int l, int r, int p) {
