@@ -2,7 +2,32 @@
 #include <bits/stdc++.h>
 #include "../template.hpp"
 
-// Bit Tree Mininal version
+// Bit Tree Maximal version
+template<typename T>
+struct BitreeMax {
+  std::vector<T> s_;
+  BitreeMax() {}
+  BitreeMax(int n) : s_(n + 1, std::numeric_limits<T>::min()) {}
+  static int lowbit(int n) { return n & (-n); }
+  void modify(int id, T p) {
+    int ns = s_.size();
+    while (id < ns) {
+      s_[id] = std::max(s_[id], p);
+      id += lowbit(id);
+    }
+  }
+  // cal maximal value in [1, id]
+  T max(int id) {
+    T r = std::numeric_limits<T>::min();
+    while (id) {
+      r = std::max(r, s_[id]);
+      id -= lowbit(id);
+    }
+    return r;
+  }
+};
+
+// Bit Tree Minimal version
 template<typename T, typename enable = IntegerT<T>>
 struct BitreeMin {
   std::vector<T> s_;
@@ -16,7 +41,7 @@ struct BitreeMin {
       id += lowbit(id);
     }
   }
-  // cal minial value in [1, id]
+  // cal minimal value in [1, id]
   T min(int id) {
     T r = std::numeric_limits<T>::max();
     while (id) {
