@@ -317,4 +317,3 @@ It return shortest recursive relational formula of $a$.
 
 - `BerlekampMassey({1, 2, 4, 8, 16}) = {2}`
 - `BerlekampMassey({1, 1, 2, 3, 5}) = {1, 1}`
-
