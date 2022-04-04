@@ -10,3 +10,9 @@ C++17 (-O2) template for competitive programming algorithms, which contains nume
 - Mkdocs: The Document page is build with MkDocs
 
 > It's really hard to for me to give a reference for every algorithm (in English).
+
+## ToDo
+
+- Add GTest
+- support CI/CD
+- Refine factor using `last spf`
