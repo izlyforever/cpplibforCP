@@ -6,16 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="izlyforever">
-        <link rel="canonical" href="https://izlyforever.github.io/cpplibforCP/math/poly/">
-        <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>poly - izlyforever</title>
-        <link href="../../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../css/font-awesome.min.css" rel="stylesheet">
-        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="canonical" href="https://izlyforever.github.io/cpplibforCP/constexpr/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Constexpr - izlyforever</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/rainbow.min.css">
 
-        <script src="../../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
@@ -23,7 +23,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="../..">izlyforever</a>
+                <a class="navbar-brand" href="..">izlyforever</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -38,61 +38,61 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../.." class="dropdown-item">Introduction</a>
+    <a href=".." class="dropdown-item">Introduction</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Math <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../basic/" class="dropdown-item">basic</a>
+    <a href="../math/basic/" class="dropdown-item">basic</a>
 </li>
                                     
 <li>
-    <a href="../builtin/" class="dropdown-item">builtin</a>
+    <a href="../math/builtin/" class="dropdown-item">builtin</a>
 </li>
                                     
 <li>
-    <a href="../primary/" class="dropdown-item">primary</a>
+    <a href="../math/primary/" class="dropdown-item">primary</a>
 </li>
                                     
 <li>
-    <a href="../numberTheory/" class="dropdown-item">numberTheory</a>
+    <a href="../math/numberTheory/" class="dropdown-item">numberTheory</a>
 </li>
                                     
 <li>
-    <a href="../mod/" class="dropdown-item">mod</a>
+    <a href="../math/mod/" class="dropdown-item">mod</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active">poly</a>
+    <a href="../math/poly/" class="dropdown-item">poly</a>
 </li>
                                     
 <li>
-    <a href="../mixed/" class="dropdown-item">mixed</a>
+    <a href="../math/mixed/" class="dropdown-item">mixed</a>
 </li>
                                     
 <li>
-    <a href="../geometry/" class="dropdown-item">geometry</a>
+    <a href="../math/geometry/" class="dropdown-item">geometry</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="navitem">
-                                <a href="../../constexpr/" class="nav-link">Constexpr</a>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Constexpr</a>
                             </li>
                             <li class="navitem">
-                                <a href="../../dataStructure/" class="nav-link">Data Structure</a>
+                                <a href="../dataStructure/" class="nav-link">Data Structure</a>
                             </li>
                             <li class="navitem">
-                                <a href="../../graph/" class="nav-link">Graph Theory</a>
+                                <a href="../graph/" class="nav-link">Graph Theory</a>
                             </li>
                             <li class="navitem">
-                                <a href="../../string/" class="nav-link">String</a>
+                                <a href="../string/" class="nav-link">String</a>
                             </li>
                             <li class="navitem">
-                                <a href="../../cn/" class="nav-link">CN</a>
+                                <a href="../cn/" class="nav-link">CN</a>
                             </li>
                         </ul>
 
@@ -103,17 +103,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../mod/" class="nav-link">
+                                <a rel="prev" href="../math/geometry/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../mixed/" class="nav-link">
+                                <a rel="next" href="../dataStructure/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/izlyforever/cpplibforCP/edit/master/docs/math/poly.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/izlyforever/cpplibforCP/edit/master/docs/constexpr.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -133,25 +133,17 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#polyallhpp" class="nav-link">polyALL.hpp</a>
+            <li class="nav-item" data-level="1"><a href="#constexprhpp" class="nav-link">constexpr.hpp</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#how-to-choose" class="nav-link">how to choose</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#polyshpp" class="nav-link">polyS.hpp</a>
+            <li class="nav-item" data-level="2"><a href="#sieve" class="nav-link">Sieve</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#arbitrary-module" class="nav-link">Arbitrary module</a>
+            <li class="nav-item" data-level="2"><a href="#isprime" class="nav-link">isPrime</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#method" class="nav-link">Method</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#example" class="nav-link">Example</a>
+            <li class="nav-item" data-level="2"><a href="#fastsqrt" class="nav-link">fastSqrt</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -162,104 +154,17 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="polyallhpp">polyALL.hpp</h1>
-<blockquote>
-<p>The size: <script type="math/tex">N</script> should be less than <script type="math/tex">2^{22} \simeq 4 \cdot 10^6</script>, since module used in NTT are only multiples of <script type="math/tex">2^{23}</script>.</p>
-</blockquote>
-<p><code>poly.hpp</code> support almost every algorithm involved polynomial and <strong>the module number <script type="math/tex">M</script> can be any prime number</strong>.</p>
-<h2 id="how-to-choose">how to choose</h2>
-<p>There are <code>PolyNTT</code>, <code>PolyFFT</code>, <code>PolyFFTDynamic</code>, <code>PolyMFT</code> provided to suit for different module <script type="math/tex">M</script>.</p>
-<ul>
-<li>PolyMFT: <script type="math/tex">M > \text{INT_MAX}</script>
-</li>
-<li>PolyFFTDynamic: else if <script type="math/tex">M</script> is uncertain.</li>
-<li>PolyNTT: else if <script type="math/tex">M</script> is fixed NTT-friendly, such as <script type="math/tex">M = 998244353</script> or <code>PolyS</code> instead</li>
-<li>PolyFFT: else</li>
-</ul>
-<blockquote>
-<p><code>PolyOrigin</code> for testing.</p>
-</blockquote>
-<h2 id="polyshpp">polyS.hpp</h2>
-<p><code>PolyS.hpp</code> is a simple and small version of Poly.  It contains basic operators: <code>+, -, *, /</code>, log, exp, sqrt, and multi-evaluation for fiexed mod = 998244353.</p>
-<blockquote>
-<p>You may change <code>NTTS::M = 998244353</code> to other NTT-friendly prime number(and primitive root <code>NTTS::g = 3</code>).</p>
-</blockquote>
-<h2 id="arbitrary-module">Arbitrary module</h2>
-<p>However <script type="math/tex">M</script> should be bigger than the size <script type="math/tex">N</script> since some function need to assmue <script type="math/tex">1, \cdots, N - 1</script> invertible in <script type="math/tex">\mod M</script>
-</p>
-<p>Two ways to support it.</p>
-<ul>
-<li>FFT based: you should check if the precision sufficient</li>
-<li>NTT based: use 3 or 4 or more NTT-friendly modules, are then use <strong>Chinese remainder theorem</strong></li>
-</ul>
-<p>we choose <code>M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353</code> in PolyMFT using following sageMath code:</p>
-<pre><code class="language-Python">ans = []
-for i in range(23, 28):
-    for j in range(1, 1000, 2):
-        if(j * 2 ^i + 1 &lt; 2^30 and is_prime(j*2^i+1) and primitive_root(j*2^i+1) == 3):
-            ans.append(j*2^i+1)
-
-for i in sorted(ans):
-    print(i, &quot;\t = 1 + &quot;, factor(i-1))
-
-# output:
-# 167772161        = 1 +  2^25 * 5
-# 469762049        = 1 +  2^26 * 7
-# 595591169        = 1 +  2^23 * 71
-# 645922817        = 1 +  2^23 * 7 * 11
-# 897581057        = 1 +  2^23 * 107
-# 998244353        = 1 +  2^23 * 7 * 17
+<h1 id="constexprhpp">constexpr.hpp</h1>
+<p>some example for using constexpr function</p>
+<h2 id="sieve">Sieve</h2>
+<p><code>bool fast_is_prime(int n);</code></p>
+<h2 id="isprime">isPrime</h2>
+<p><code>constexpr bool isPrime(int n)</code></p>
+<pre><code class="language-cpp">template&lt;int n&gt;
+struct IsPrime;
 </code></pre>
-<h2 id="method">Method</h2>
-<ul>
-<li>elementary: <code>+, -, *, /, %, +=, -=, *=, /=, %=, -(negative)</code>, inv, mulXn, modXn, divXn.</li>
-<li>fundamental: powModPoly, inner, derivation, integral, log, exp, sqrt, mulT,  evals, Lagrange, linearRecursion, prod, stirling number(stirling1row, stirling1col, stirling2row, stirling2col)</li>
-<li>mixed: sin, cos, asin, atan, compose, composeInv, toFallingPowForm, fromFallingPowForm, valToVal</li>
-<li>prefixPowSum: <script type="math/tex">1^i + 2^i + \cdots + (n - 1)^i,  0 < i < k</script>
-</li>
-<li>sumFraction: <script type="math/tex">\sum_{i = 0}^{n - 1} a_i / (1 - b_i x)</script>
-</li>
-</ul>
-<p><strong>As an application, we compute <script type="math/tex">n!</script> <script type="math/tex">O(\sqrt{n} \log^2 n)</script> and <script type="math/tex">O(\sqrt{n} \log n</script>(introduced by min_25) in <code>poly.hpp</code></strong></p>
-<h2 id="example">Example</h2>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using LL = long long;
-#include &quot;cpplib/math.hpp&quot;
-
-template&lt;typename T&gt;
-void debug(std::vector&lt;T&gt; a){
-  for (auto&amp; i : a) std::cout &lt;&lt; i &lt;&lt; ' ';
-  std::cout &lt;&lt; std::endl;
-}
-
-int main() {
-  std::cin.tie(nullptr)-&gt;sync_with_stdio(false);
-
-  std::vector&lt;int&gt; a{1, 2, 3, 4};
-  std::vector&lt;int&gt; b{1, 2, 3};
-  PolyS A1(a), B1(b);
-  auto c1 = (A1 * B1).a;
-  debug(c1);
-
-  using modM = MInt&lt;998244353&gt;;
-  PolyNTT A2(trans&lt;modM&gt;(a)), B2(trans&lt;modM&gt;(b));
-  auto c2 = (A2 * B2).a;
-  debug(c2);
-
-  // you must setMod before using it
-  ModInt::setMod(998244353);
-  PolyFFTDynamic A3(trans&lt;ModInt&gt;(a)), B3(trans&lt;ModInt&gt;(b));
-  auto c3 = (A3 * B3).a;
-  debug(c3);
-
-  ModLL::setMod(998244353);
-  PolyMFT A4(trans&lt;ModLL&gt;(a)), B4(trans&lt;ModLL&gt;(b));
-  auto c4 = (A4 * B4).a;
-  debug(c4);
-
-  return 0;
-}
-</code></pre></div>
+<h2 id="fastsqrt">fastSqrt</h2>
+<p><code>constexpr int fastSqrt(int v)</code></p></div>
             </div>
         </div>
 
@@ -269,12 +174,12 @@ int main() {
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>
-            var base_url = "../..",
+            var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../../js/base.js" defer></script>
+        <script src="../js/base.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-        <script src="../../search/main.js" defer></script>
+        <script src="../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
