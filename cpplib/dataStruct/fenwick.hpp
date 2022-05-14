@@ -178,3 +178,70 @@ class BitreePlus {
     return ++id;
   }
 };
+
+struct Bitree2M {
+  static inline int lowbit(int n) { return n & (-n); }
+  Bitree2M() {}
+  Bitree2M(int n, int m) : n_(n), m_(m), mp_(n + 1) {}
+  void add(int x, int y, int p) {
+    for (int i = x; i <= n_; i += lowbit(i)) {
+      auto &a = mp_[i];
+      for (int j = y; j <= m_; j += lowbit(j)) {
+        a[j] += p;
+      }
+    }
+  }
+  int sum(int x, int y) {
+    x = std::min(x, n_);
+    y = std::min(y, m_);
+    int ans = 0;
+    for (int i = x; i > 0; i -= lowbit(i)) {
+      auto &a = mp_[i];
+      if (a.empty()) continue;
+      for (int j = y; j > 0; j -= lowbit(j)) {
+        if (a.count(j)) {
+          ans += a[j];
+        }
+      }
+    }
+    return ans;
+  }
+  int sum(int x1, int y1, int x2, int y2) {
+    --x1; --y1;
+    return sum(x2, y2) - sum(x2, y1) - sum(x1, y2) + sum(x1, y1);
+  }
+  int n_, m_;
+  std::vector<std::map<int, int>> mp_;
+};
+
+struct Bitree2V {
+  static inline int lowbit(int n) { return n & (-n); }
+  Bitree2V() {}
+  Bitree2V(int n, int m) : n_(n), m_(m), mp_(n + 1, std::vector<int>(m + 1)) {}
+  void add(int x, int y, int p) {
+    for (int i = x; i <= n_; i += lowbit(i)) {
+      auto &a = mp_[i];
+      for (int j = y; j <= m_; j += lowbit(j)) {
+        a[j] += p;
+      }
+    }
+  }
+  int sum(int x, int y) {
+    x = std::min(x, n_);
+    y = std::min(y, m_);
+    int ans = 0;
+    for (int i = x; i > 0; i -= lowbit(i)) {
+      auto &a = mp_[i];
+      for (int j = y; j > 0; j -= lowbit(j)) {
+        ans += a[j];
+      }
+    }
+    return ans;
+  }
+  int sum(int x1, int y1, int x2, int y2) {
+    --x1; --y1;
+    return sum(x2, y2) - sum(x2, y1) - sum(x1, y2) + sum(x1, y1);
+  }
+  int n_, m_;
+  std::vector<std::vector<int>> mp_;
+};

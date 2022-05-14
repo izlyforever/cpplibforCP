@@ -24,7 +24,7 @@ and It can be used in `ECC`
 
 ### RingBuffer
 
-template class RingBuffer 
+template class RingBuffer
 ``` cpp
 template<typename T>
 class RingBuffer;
@@ -80,13 +80,20 @@ int main() {
 - Bitree: origin version(provide binary search)
 - BitreePlus: plus version(support segment add)
 
-## inverse Order Count 
+## 2D bit tree
+
+- Bitree2M: map version
+- Bitree2V: vector version
+
+
+## inverse Order Count
 
 ``` cpp
 LL inverseOrderCount(std::vector<int> a);
 ```
 
 use discrite and Bit tree, we can solve it in $O(n \log n)$, where $n$ is the size of $a$.
+
 
 
 ## SegmentTree
