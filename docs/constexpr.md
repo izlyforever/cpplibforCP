@@ -2,6 +2,13 @@
 
 some example for using constexpr function
 
+## unsigned less Than
+
+``` cpp
+template<typename T>
+bool uless(T x, T y)
+```
+
 ## Sieve
 
 `bool fast_is_prime(int n);`

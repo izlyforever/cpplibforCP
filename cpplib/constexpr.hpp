@@ -1,5 +1,12 @@
 #include <bits/stdc++.h>
 
+template<typename T>
+bool uless(T x, T y) {
+  static_assert(std::is_unsigned_v<T>, "T must be unsigned");
+  static constexpr T HalfT = T(1) << (std::numeric_limits<T>::digits - 1);
+  return T(x - y) > HalfT;
+}
+
 template<int N>
 struct Sieve {
   bool isP[N];
