@@ -32,6 +32,66 @@ void disjointInterval(std::vector<std::pair<int, int>>& a) {
   std::swap(a, b);
 }
 
+template<typename T>
+class Internal {
+  std::set<std::pair<T, T>> S;
+ public:
+  void clear() {
+    S.clear();
+  }
+  int size() const {
+    return S.size();
+  }
+  bool contain(T x) {
+    return contain(x, x + 1);
+  }
+  bool contain(T l, T r) {
+    if (l >= r) return false;
+    auto it = S.lower_bound({l + 1, l});
+    return it != S.begin() && std::prev(it)->second >= r;
+  }
+  bool intersect(T l, T r) {
+    if (l >= r) return false;
+    auto it = S.lower_bound({l + 1, l});
+    return (it != S.end() && it->first < r) || (it != S.begin() && std::prev(it)->second > l);
+  }
+  void add(T l, T r) {
+    if (l >= r) return;
+    auto it = S.lower_bound({l + 1, l});
+    if (it != S.begin()) {
+      auto pit = std::prev(it);
+      if (pit->second >= l) {
+        l = pit->first;
+        r = std::max(r, pit->second);
+        S.erase(pit);
+      }
+    }
+    while (it != S.end() && it->first <= r) {
+      r = std::max(r, it->second);
+      it = S.erase(it);
+    }
+    S.emplace(l, r);
+  }
+  void sub(T l, T r) {
+    if (l >= r) return;
+    auto it = S.lower_bound({l + 1, l});
+    if (it != S.begin()) {
+      auto pit = std::prev(it);
+      if (pit->second > l) {
+        int pl = pit->first;
+        int pr = pit->second;
+        S.erase(pit);
+        if (pl < l) S.insert(pl, l);
+        if (r > pr) S.insert(r, pr);
+      }
+    }
+    while (it != S.end() && it->first < r) {
+      if (it->second > r) S.insert(r, it->second);
+      it = S.erase(it);
+    }
+  }
+};
+
 template<typename T, typename enable = IntegerT<T>>
 class RingBuffer {
   int m_, id_;

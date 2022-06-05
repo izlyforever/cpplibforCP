@@ -72,6 +72,13 @@ int main() {
 // 5  8
 ```
 
+## Internal
+
+``` cpp
+template<typename T>
+class Internal;
+```
+
 ## DSU: Disjoint Set Union
 
 ## Bit tree
