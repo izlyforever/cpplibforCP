@@ -67,7 +67,7 @@ LL gcd(LL a, LL b)
 
 **Complexity**
 
-- $O(\log \text{lcm}(a, b))$
+- $O(\log \text{lcm}(a, b))$ guarantee by [Lamé's Theorem](https://mathworld.wolfram.com/LamesTheorem.html) or [detail here](https://math.libretexts.org/Bookshelves/Combinatorics_and_Discrete_Mathematics/Elementary_Number_Theory_(Raji)/01%3A_Introduction/1.07%3A_Lame's_Theorem)
 
 **Reference**
 
