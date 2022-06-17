@@ -16,3 +16,17 @@ C++17 (-O2) template for competitive programming algorithms, which contains nume
 - Add GTest
 - support CI/CD
 - Refine factor using `last spf`
+
+
+## Deploy
+
+``` shell
+mkdocs gh-deploy
+cloudbase hosting:deploy site cpplibforCP -e  blog-5g9vf63s2e355403
+```
+
+### Requirement(may need venv)
+
+- `pip install mkdocs`
+- `pip install mkdocs-bootswatch`
+- `pip install python-markdown-math`
